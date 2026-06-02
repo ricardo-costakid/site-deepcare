@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 195 60">
+  <line x1="16" y1="18" x2="36" y2="30" stroke="#5B8F7A" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="12" y1="26" x2="12" y2="44" stroke="#5B8F7A" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="34" y1="38" x2="16" y2="48" stroke="#5B8F7A" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="12" cy="12" r="10" fill="#3D6357"/>
+  <circle cx="12" cy="12" r="10" fill="none" stroke="#5B8F7A" stroke-width="1.5"/>
+  <circle cx="38" cy="28" r="7" fill="#243D36"/>
+  <circle cx="38" cy="28" r="7" fill="none" stroke="#5B8F7A" stroke-width="1.2" opacity="0.8"/>
+  <circle cx="12" cy="48" r="4.5" fill="#162520"/>
+  <circle cx="12" cy="48" r="4.5" fill="none" stroke="#5B8F7A" stroke-width="1" opacity="0.6"/>
+  <circle cx="24" cy="28" r="2.5" fill="#5B8F7A" opacity="0.45"/>
+  <text x="62" y="30" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6" fill="#ffffff">DeepCare</text>
+  <text x="62" y="50" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="13" font-weight="300" letter-spacing="0.5" fill="rgba(255,255,255,0.35)">Analytics</text>
+  <line x1="120" y1="41" x2="120" y2="53" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="126" y="50" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="13" font-weight="300" letter-spacing="0.5" fill="#5B8F7A">AI First</text>
+</svg>
