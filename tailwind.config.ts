@@ -1,18 +1,28 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
   ],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'brand-green': '#5B8F7A',
+        'brand-mid':   '#3D6357',
+        'brand-dark':  '#243D36',
+        'bg-dark':     '#0A0F0D',
+        'card-bg':     '#111814',
+        'card-hover':  '#161D1A',
+        'text-primary':   '#F5F5F3',
+        'text-secondary': '#9CA89F',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
       },
     },
   },
   plugins: [],
-};
-export default config;
+}
+
+export default config
