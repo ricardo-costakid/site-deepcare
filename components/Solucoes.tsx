@@ -124,7 +124,7 @@ export default function Solucoes() {
         </div>
 
         {/* Row 2: last 2 cards, centered */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 xl:w-2/3 xl:mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 max-w-2xl mx-auto w-full">
           {SOLUCOES.slice(3).map((s, i) => (
             <motion.div
               key={s.nome}
