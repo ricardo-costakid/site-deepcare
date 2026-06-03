@@ -5,6 +5,7 @@ import Solucoes from '@/components/Solucoes'
 import ComoFunciona from '@/components/ComoFunciona'
 import Premissa from '@/components/Premissa'
 import Mentoria from '@/components/Mentoria'
+import Comunidade from '@/components/Comunidade'
 import Sobre from '@/components/Sobre'
 import CTAFinal from '@/components/CTAFinal'
 import Footer from '@/components/Footer'
@@ -20,6 +21,7 @@ export default function Home() {
         <ComoFunciona />
         <Premissa />
         <Mentoria />
+        <Comunidade />
         <Sobre />
         <CTAFinal />
       </main>

@@ -2,25 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --green-main:     #5B8F7A;
-  --green-mid:      #3D6357;
-  --green-dark:     #243D36;
-  --bg-dark:        #0A0F0D;
-  --bg-card:        #111814;
-  --bg-card-hover:  #161D1A;
-  --text-primary:   #F5F5F3;
-  --text-secondary: #9CA89F;
-  --border-subtle:  rgba(91, 143, 122, 0.15);
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #0A0F0D;
-  color: #F5F5F3;
+  background-color: #ffffff;
+  color: #111111;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
