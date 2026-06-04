@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
+import { ShieldCheck, UserCheck, BarChart2 } from 'lucide-react'
 import { WA_URL } from '@/lib/constants'
 
 const SplineOrb = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
@@ -55,7 +56,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-[17px] text-text-secondary leading-relaxed max-w-[480px]">
-            Implementamos IA no seu negócio de forma rápida e com resultado mensurável.
+            IA implementada com ética, segurança e resultado mensurável — você no controle de cada etapa.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-1">
@@ -73,6 +74,21 @@ export default function Hero() {
             >
               Ver soluções →
             </a>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6">
+            <div className="flex items-center gap-2 text-sm text-[#555555]">
+              <ShieldCheck className="w-4 h-4 text-[#5B8F7A]" strokeWidth={1.5} />
+              <span>Dados protegidos</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-[#555555]">
+              <UserCheck className="w-4 h-4 text-[#5B8F7A]" strokeWidth={1.5} />
+              <span>Supervisão humana</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-[#555555]">
+              <BarChart2 className="w-4 h-4 text-[#5B8F7A]" strokeWidth={1.5} />
+              <span>Resultados auditáveis</span>
+            </div>
           </div>
         </motion.div>
 

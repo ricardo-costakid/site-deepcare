@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
@@ -34,6 +35,12 @@ function getQuestion(step: number, nome: string): string {
 }
 
 export default function ComunidadePage() {
+  const searchParams = useSearchParams()
+  const solucao = searchParams.get('solucao')
+  const primeiraMsg = solucao
+    ? `Oi! Vi que você tem interesse no ${solucao}. Eu sou o Ricardo, fundador da DeepCare. Qual é o seu nome?`
+    : `Oi! Eu sou o Ricardo, fundador da DeepCare. Qual é o seu nome?`
+
   const [messages, setMessages] = useState<Message[]>([])
   const [step, setStep] = useState(0)
   const [inputValue, setInputValue] = useState('')
@@ -54,9 +61,11 @@ export default function ComunidadePage() {
 
   // Mount: show first question
   useEffect(() => {
-    setMessages([{ id: nextId(), role: 'bot', text: getQuestion(0, '') }])
+    setMessages([{ id: nextId(), role: 'bot', text: primeiraMsg }])
     const t = setTimeout(() => setShowInput(true), 600)
     return () => clearTimeout(t)
+  // primeiraMsg is derived from URL params and stable after mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Auto-scroll on new content
@@ -108,7 +117,7 @@ export default function ComunidadePage() {
       fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newAnswers),
+        body: JSON.stringify({ ...newAnswers, solucao: solucao || 'Não especificada' }),
       }).catch(() => {})
 
       setTimeout(() => {
