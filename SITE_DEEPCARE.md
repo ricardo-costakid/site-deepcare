@@ -141,8 +141,38 @@ package.json
 
 ### ComoFunciona.tsx ✅
 - Fundo: #F8F9FA
-- 3 passos: 01 Diagnóstico | 02 Setup | 03 Mensalidade
-- Linha conectora desktop
+- Título: "Da conversa ao resultado — direto ao ponto."
+- Subtítulo: "Três etapas pensadas para encaixar na sua rotina."
+- Layout: flex-col com separador border-b border-[#E5E7EB] entre passos, py-16 em cada bloco
+- Zigue-zague: passo 01 e 03 → texto esquerda + gráfico direita | passo 02 → gráfico esquerda + texto direita
+- Número decorativo: 56px, text-[#C8CDD4], acima do título
+- Mobile: coluna gráfica hidden md:block, texto ocupa largura total
+- Animações: Framer Motion opacity 0→1, y 24→0, viewport once:true, stagger 0.1s entre texto e gráfico
+
+**PASSOS:**
+
+01 · Diagnóstico
+- Subtítulo verde: "Você nos conta onde quer escalar e onde os processos estão travando."
+- Descrição: "Reunião direta, sem formulário, sem apresentação de vendas. A gente ouve, analisa o fluxo real e identifica onde a IA entrega resultado — LUCRO a MAIS ou CUSTO a MENOS."
+- "LUCRO a MAIS" e "CUSTO a MENOS" em font-semibold text-[#5B8F7A]
+- GraphicCard: bg-[#111814], border-white/10, rounded-2xl
+  → Palavra fantasma "DIAGNÓSTICO" — fontSize 52px, font-black, text-white/10, whitespace-nowrap
+  → 3 linhas mono text-[#5B8F7A] opacity-80, divide-white/10:
+     "→ sem formulário" | "→ sem pitch de vendas" | "→ foco no seu resultado"
+
+02 · Setup
+- Subtítulo verde: "A solução entra no seu ambiente."
+- Descrição: "Criamos, configuramos e integramos com o que você já usa — WhatsApp, planilhas, sistema de gestão — e validamos tudo junto com você antes de colocar para rodar em produção. E você não precisa se preocupar, estaremos ao seu lado para garantir que tudo vai dar certo."
+- GraphicCard: mesmo estilo
+  → Palavra fantasma "SETUP"
+  → "→ whatsapp, planilha, erp" | "→ validado com você" | "→ zero burocracia"
+
+03 · Evolução contínua
+- Subtítulo verde: "A IA trabalha. Você acompanha. A gente evolui."
+- Descrição: "Suporte ativo, ajustes contínuos e evolução da solução conforme seu negócio cresce."
+- GraphicCard: mesmo estilo
+  → Palavra fantasma "EVOLUÇÃO"
+  → "→ suporte ativo" | "→ ajustes contínuos" | "→ cresce com você"
 
 ### Premissa.tsx ✅
 - Fundo: #111814 (escuro)
