@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 export default function Sobre() {
@@ -20,18 +19,20 @@ export default function Sobre() {
               Sobre a DeepCare
             </h2>
             <p className="text-[16px] text-text-secondary leading-relaxed">
-              A DeepCare Analytics é uma empresa AI First fundada por Ricardo Costa em São José do
-              Rio Preto – SP. Ricardo é economista, autodidata em IA e cursando MBA em Inteligência
-              Artificial para Negócios.
+              O mercado não espera. Empresas que não incorporam IA nos processos hoje vão operar em desvantagem amanhã.
             </p>
             <p className="text-[16px] text-text-secondary leading-relaxed">
-              A DeepCare não apenas entrega IA para os clientes — opera com IA internamente. Nossos
-              agentes trabalham enquanto dormimos. É assim que entregamos mais do que uma equipe
-              convencional.
+              A DeepCare nasceu para mudar isso.
+            </p>
+            <p className="text-[16px] text-text-secondary leading-relaxed">
+              Somos uma empresa AI First — inteligência artificial não é um recurso extra, é a base de tudo que construímos. Cada solução é projetada para gerar resultado mensurável: mais lucro, menos custo, mais controle.
+            </p>
+            <p className="text-[16px] text-text-secondary leading-relaxed">
+              Não vendemos tecnologia por tecnologia. Implementamos IA onde ela faz sentido — com ética, segurança e acompanhamento real.
             </p>
           </motion.div>
 
-          {/* AI First badge */}
+          {/* AI First card dark */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -39,16 +40,20 @@ export default function Sobre() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="flex md:justify-end"
           >
-            <div className="inline-flex items-center gap-4 px-7 py-6 bg-white border border-border-subtle rounded-[16px]">
-              <Image
-                src="/logo/deepcare-simbolo-dark.svg"
-                alt="DeepCare Analytics"
-                width={32}
-                height={32}
-              />
-              <div>
-                <p className="text-[16px] font-semibold text-text-primary leading-none">AI First</p>
-                <p className="text-[13px] text-text-secondary mt-1">Empresa de IA nativa</p>
+            <div className="w-full max-w-[400px] bg-[#111814] border border-white/10 rounded-2xl p-6 overflow-hidden">
+              <p
+                className="font-black leading-none mb-2 text-white/10 select-none"
+                style={{ fontSize: 52 }}
+              >
+                <span className="block">EMPRESA</span>
+                <span className="block text-right">AI FIRST</span>
+              </p>
+              <div className="flex flex-col divide-y divide-white/10">
+                {['→ IA no centro de tudo', '→ resultado mensurável', '→ ética e controle'].map((item) => (
+                  <span key={item} className="font-mono text-sm text-[#5B8F7A] py-2">
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
           </motion.div>

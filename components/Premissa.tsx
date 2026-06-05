@@ -16,7 +16,7 @@ export default function Premissa() {
           Nossa Premissa
         </p>
         <p className="text-[26px] font-normal text-white leading-relaxed mb-4">
-          Toda solução que entregamos precisa cumprir pelo menos um objetivo:
+          Nossa única régua de sucesso:
         </p>
         <p className="text-[38px] md:text-[44px] font-semibold text-white leading-snug tracking-[-0.02em]">
           Aumentar o lucro{' '}
@@ -24,7 +24,7 @@ export default function Premissa() {
           Reduzir os custos do cliente.
         </p>
         <p className="text-[16px] text-text-dark-muted mt-8">
-          Se não fizer nenhum dos dois, não faz sentido.
+          A entrega só faz sentido se gerar valor real para o seu negócio.
         </p>
       </motion.div>
     </section>
