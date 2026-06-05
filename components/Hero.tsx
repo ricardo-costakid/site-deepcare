@@ -90,6 +90,7 @@ export default function Hero() {
               <span>Resultados auditáveis</span>
             </div>
           </div>
+
         </motion.div>
 
         {/* Spline orb — right */}

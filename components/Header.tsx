@@ -4,18 +4,18 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutGrid, GraduationCap, Users, ChevronDown } from 'lucide-react'
+import { LayoutGrid, GraduationCap, Users, ChevronDown, HeartPulse } from 'lucide-react'
 import { WA_URL } from '@/lib/constants'
 
 const FEATURES_ITEMS = [
-  { label: 'Soluções',   href: '#solucoes',   icon: LayoutGrid,    isAnchor: true  },
-  { label: 'Mentoria',   href: '#mentoria',   icon: GraduationCap, isAnchor: true  },
+  { label: 'Soluções',   href: '/#solucoes',  icon: LayoutGrid,    isAnchor: true  },
+  { label: 'Mentoria',   href: '/#mentoria',  icon: GraduationCap, isAnchor: true  },
   { label: 'Comunidade', href: '/comunidade', icon: Users,          isAnchor: false },
 ]
 
 const NAV_LINKS = [
-  { label: 'Como funciona', href: '#como-funciona' },
-  { label: 'Sobre',         href: '#sobre' },
+  { label: 'Como funciona', href: '/#como-funciona' },
+  { label: 'Sobre',         href: '/#sobre' },
 ]
 
 export default function Header() {
@@ -37,7 +37,7 @@ export default function Header() {
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-6 py-4 h-16 flex items-center justify-between">
-        <a href="#inicio" className="flex-shrink-0">
+        <a href="/" className="flex-shrink-0">
           <Image
             src="/logo/deepcare-logo-clara.svg"
             alt="DeepCare Analytics"
@@ -121,14 +121,13 @@ export default function Header() {
           >
             Entrar
           </a>
-          <a
-            href={WA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[15px] px-7 py-[13px] bg-brand-green text-white rounded-full hover:bg-brand-mid transition-colors duration-200 leading-none"
+          <Link
+            href="/saude"
+            className="flex items-center gap-2 bg-[#5B8F7A] text-white border border-[#5B8F7A] text-sm font-medium rounded-full px-4 py-2 hover:bg-white hover:text-[#5B8F7A] transition-colors duration-200"
           >
-            Conhecer agora
-          </a>
+            <HeartPulse className="w-4 h-4" strokeWidth={1.5} />
+            Soluções para Saúde
+          </Link>
         </nav>
 
         {/* Mobile hamburger */}
