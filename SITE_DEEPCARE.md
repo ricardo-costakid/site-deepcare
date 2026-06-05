@@ -151,7 +151,13 @@ package.json
 - "ou" em verde #5B8F7A
 
 ### Mentoria.tsx ✅
-- Layout duas colunas: texto esquerda, "1:1" decorativo direita
+- Layout duas colunas: texto esquerda, Spline direita
+- Bloco decorativo "1:1" substituído por componente Spline
+- `SplineMentoria` via `dynamic(() => import('@splinetool/react-spline'), { ssr: false })`
+- URL Spline: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
+- `useRef splineContainerRef` → scroll fix via `useEffect` com retry; `querySelector('canvas')` dentro do container (sem conflito com canvas do Hero)
+- Container Spline: `hidden md:block`, `height: 600px`, `overflow: visible`, `position: relative`, `width: 100%`
+- Coluna esquerda com `pb-16` para alinhamento vertical com a orb
 - CTA ghost → WhatsApp
 
 ### Comunidade.tsx ✅ *(nova)*

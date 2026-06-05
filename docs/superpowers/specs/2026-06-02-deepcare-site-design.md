@@ -126,7 +126,23 @@ Fundo: `bg-green-dark/30` ou `bg-card-bg` com `border-y border-subtle`.
 Texto centralizado com destaque em bold.
 
 ### Mentoria (`#mentoria`)
-Layout simples: título + parágrafo + CTA.
+Layout duas colunas (`grid md:grid-cols-2 gap-16 items-center`) com padding `py-[140px]`.
+
+**Coluna esquerda (texto):**
+- Badge verde `MENTORIA` + `h2` + parágrafo + link CTA para WhatsApp
+- `pb-16` para empurrar o texto levemente acima do centro vertical da orb
+
+**Coluna direita (Spline):**
+- Componente Spline carregado via `dynamic(() => import('@splinetool/react-spline'), { ssr: false })` — mesmo padrão do Hero
+- URL da cena: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
+- Container: `hidden md:block`, `width: 100%`, `height: 600px`, `position: relative`, `overflow: visible`
+- `useRef splineContainerRef` aponta para o container; o scroll fix (`useEffect` com retry) faz `querySelector('canvas')` dentro do ref para isolar do canvas do Hero e repassar `wheel` ao `window`
+
+**Seções adicionais abaixo do hero:**
+1. `bg-[#F8F9FA]` — "O que são as mentorias" (2 colunas: texto + card com citação)
+2. `bg-white` — "Como funciona a mentoria" (grid 3 cards com ícones: Target, Lightbulb, Rocket)
+3. `bg-[#F8F9FA]` — "Para quem é" (2 colunas: texto + lista com CheckCircle)
+4. `bg-[#111814]` — CTA final escuro com botão WhatsApp
 
 ### Sobre (`#sobre`)
 Texto em duas colunas em md+ (bio à esquerda, badge AI First à direita).  
