@@ -270,6 +270,20 @@ package.json
 
 ---
 
+## app/saude/page.tsx
+
+### HeroVisual (coluna direita do Hero)
+- Componente principal: `HeroVisual`
+- Coluna direita contém **apenas a orb Spline** — cards estáticos removidos: "Faturamento do mês", "Projeção de caixa (60d)" e "Glosa identificada"
+- URL da cena: `https://prod.spline.design/LTT45xHeltPz1XC7/scene.splinecode`
+- Importação: `dynamic(() => import('@splinetool/react-spline'), { ssr: false })`
+- Scroll fix aplicado: `useRef + useEffect` com retry (até 20 tentativas × 300ms), `querySelector('canvas')` escopo do container, repassa `wheelEvent` ao `window` com multiplicador 2.0
+- Container da orb: `overflow: visible`, `background: transparent`, `height: 500px`, `marginTop: 80px` (centralização vertical sem corte no topo)
+- `overflow: visible` explícito na `motion.div` (`Reveal`) da coluna direita via `className="overflow-visible"`
+- `overflow: visible` explícito na própria `<section>` do Hero via `style={{ overflow: 'visible' }}`
+
+---
+
 ## Spline — Orb Compartilhada (Hero, Mentoria, Sobre)
 
 - URL: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`

@@ -1,6 +1,8 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import {
   CheckCircle,
@@ -182,38 +184,45 @@ function Capabilities({ items }: { items: string[] }) {
 
 /* ─────────────────────────  Visual mockups (JSX)  ────────────────────── */
 
-const HERO_BARS = [42, 64, 51, 78, 60, 88, 72]
+const SplineHero = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
 
 function HeroVisual() {
-  return (
-    <div className="grid grid-cols-2 gap-4">
-      {/* Faturamento — full width with animated bars */}
-      <div className="col-span-2 bg-[#0F1117] border border-white/5 rounded-xl p-6">
-        <p className="text-sm text-gray-500">Faturamento do mês</p>
-        <p className="text-3xl font-bold text-[#5B8F7A] mt-1">R$ 487.300</p>
-        <p className="text-xs text-gray-500 mt-1">+12,4% vs. meta</p>
-        <div className="flex items-end gap-2 h-20 mt-5">
-          {HERO_BARS.map((h, i) => (
-            <motion.div
-              key={i}
-              className="flex-1 bg-[#5B8F7A]/70 rounded-t-sm"
-              initial={{ height: 0 }}
-              whileInView={{ height: `${h}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-            />
-          ))}
-        </div>
-      </div>
+  const splineContainerRef = useRef<HTMLDivElement>(null)
 
-      <div className="bg-[#0F1117] border border-white/5 rounded-xl p-6">
-        <p className="text-sm text-gray-500">Projeção de caixa (60d)</p>
-        <p className="text-2xl font-bold text-[#5B8F7A] mt-1">R$ 1,24 mi</p>
-      </div>
-      <div className="bg-[#0F1117] border border-white/5 rounded-xl p-6">
-        <p className="text-sm text-gray-500">Glosa identificada</p>
-        <p className="text-2xl font-bold text-[#5B8F7A] mt-1">R$ 38.900</p>
-      </div>
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      window.scrollBy({ top: e.deltaY * 2.0, behavior: 'auto' })
+    }
+
+    let attempts = 0
+    const attach = () => {
+      const canvas = splineContainerRef.current?.querySelector('canvas')
+      if (canvas) {
+        canvas.addEventListener('wheel', handleWheel, { passive: true })
+      } else if (attempts < 20) {
+        attempts++
+        setTimeout(attach, 300)
+      }
+    }
+
+    attach()
+
+    return () => {
+      const canvas = splineContainerRef.current?.querySelector('canvas')
+      canvas?.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={splineContainerRef}
+      style={{ width: '100%', height: '500px', overflow: 'visible', background: 'transparent', marginTop: '80px' }}
+      aria-hidden="true"
+    >
+      <SplineHero
+        scene="https://prod.spline.design/LTT45xHeltPz1XC7/scene.splinecode"
+        style={{ width: '100%', height: '100%' }}
+      />
     </div>
   )
 }
@@ -371,7 +380,7 @@ export default function SaudePage() {
       <Header />
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#1A2620] py-32">
+        <section className="bg-[#1A2620] py-32" style={{ overflow: 'visible' }}>
           <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
             {/* Left */}
             <Reveal>
@@ -408,7 +417,7 @@ export default function SaudePage() {
             </Reveal>
 
             {/* Right */}
-            <Reveal>
+            <Reveal className="overflow-visible">
               <HeroVisual />
             </Reveal>
           </div>
