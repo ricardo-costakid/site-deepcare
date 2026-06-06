@@ -116,7 +116,7 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="https://www.deepcareanalytics.com/login"
+            href="https://app.deepcareanalytics.com/login"
             className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
             Entrar

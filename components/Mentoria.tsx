@@ -130,7 +130,7 @@ export default function Mentoria() {
             <motion.div {...fadeUp(0.15)}>
               <div className="bg-white border border-[#E5E7EB] rounded-2xl p-8">
                 <p className="text-xl font-medium text-[#111111] leading-relaxed">
-                  "Uma sessão pensada para o seu contexto. Você traz o problema, a gente constrói o caminho juntos."
+                  &ldquo;Uma sessão pensada para o seu contexto. Você traz o problema, a gente constrói o caminho juntos.&rdquo;
                 </p>
               </div>
             </motion.div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -34,7 +34,7 @@ function getQuestion(step: number, nome: string): string {
   }
 }
 
-export default function ComunidadePage() {
+function ComunidadePageContent() {
   const searchParams = useSearchParams()
   const solucao = searchParams.get('solucao')
   const primeiraMsg = solucao
@@ -269,5 +269,13 @@ export default function ComunidadePage() {
 
       </div>
     </div>
+  )
+}
+
+export default function ComunidadePage() {
+  return (
+    <Suspense>
+      <ComunidadePageContent />
+    </Suspense>
   )
 }
