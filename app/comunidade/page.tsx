@@ -152,7 +152,7 @@ export default function ComunidadePage() {
     <div className="flex h-screen overflow-hidden">
 
       {/* Left panel — desktop only */}
-      <div className="hidden md:flex md:w-[40%] flex-shrink-0 bg-[#111814] h-screen flex-col relative">
+      <div className="hidden md:flex md:w-[40%] flex-shrink-0 bg-[#1A2620] h-screen flex-col relative">
         <div className="flex flex-col flex-1 justify-center p-12">
           <Image
             src="/logo/deepcare-logo-dark.svg"

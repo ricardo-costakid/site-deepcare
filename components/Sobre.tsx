@@ -1,8 +1,38 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 
+const SplineSobre = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
+
 export default function Sobre() {
+  const sobreContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      window.scrollBy({ top: e.deltaY * 2.0, behavior: 'auto' })
+    }
+
+    let attempts = 0
+    const attach = () => {
+      const canvas = sobreContainerRef.current?.querySelector('canvas')
+      if (canvas) {
+        canvas.addEventListener('wheel', handleWheel, { passive: true })
+      } else if (attempts < 20) {
+        attempts++
+        setTimeout(attach, 300)
+      }
+    }
+
+    attach()
+
+    return () => {
+      const canvas = sobreContainerRef.current?.querySelector('canvas')
+      canvas?.removeEventListener('wheel', handleWheel)
+    }
+  }, [])
+
   return (
     <section id="sobre" className="py-[140px] bg-bg-alt">
       <div className="max-w-[1200px] mx-auto px-6">
@@ -32,31 +62,17 @@ export default function Sobre() {
             </p>
           </motion.div>
 
-          {/* AI First card dark */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="flex md:justify-end"
+          <div
+            ref={sobreContainerRef}
+            className="hidden md:block"
+            style={{ width: '100%', height: '600px', position: 'relative', overflow: 'visible' }}
+            aria-hidden="true"
           >
-            <div className="w-full max-w-[400px] bg-[#111814] border border-white/10 rounded-2xl p-6 overflow-hidden">
-              <p
-                className="font-black leading-none mb-2 text-white/10 select-none"
-                style={{ fontSize: 52 }}
-              >
-                <span className="block">EMPRESA</span>
-                <span className="block text-right">AI FIRST</span>
-              </p>
-              <div className="flex flex-col divide-y divide-white/10">
-                {['→ IA no centro de tudo', '→ resultado mensurável', '→ ética e controle'].map((item) => (
-                  <span key={item} className="font-mono text-sm text-[#5B8F7A] py-2">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+            <SplineSobre
+              scene="https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
 
         </div>
       </div>

@@ -12,7 +12,7 @@ const config: Config = {
         'brand-mid':    '#3D6357',
         'brand-light':  '#8BBFAE',
         'bg-alt':       '#F8F9FA',
-        'bg-dark':      '#111814',
+        'bg-dark':      '#1A2620',
         'text-primary': '#111111',
         'text-secondary': '#555555',
         'text-muted':   '#888888',

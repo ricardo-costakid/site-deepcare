@@ -11,7 +11,23 @@ const LINES = [
 
 export default function Comunidade() {
   return (
-    <section id="comunidade" className="py-24 bg-[#111814]">
+    <section id="comunidade" className="relative overflow-hidden py-24 bg-[#1A2620]">
+      {/* Ghost word */}
+      <span
+        className="absolute select-none font-black leading-none"
+        style={{
+          fontSize: 'clamp(72px, 9vw, 140px)',
+          color: 'rgba(255,255,255,0.04)',
+          letterSpacing: '-0.02em',
+          writingMode: 'horizontal-tb',
+          whiteSpace: 'nowrap',
+          left: '50%',
+          top: '2rem',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        COMUNIDADE
+      </span>
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid md:grid-cols-[55%_45%] gap-12 items-center">
 
@@ -51,22 +67,7 @@ export default function Comunidade() {
           </motion.div>
 
           {/* Right column — visual */}
-          <div className="relative hidden md:flex items-center justify-center min-h-[280px]" aria-hidden="true">
-            {/* Ghost word */}
-            <span
-              className="absolute select-none font-black leading-none"
-              style={{
-                fontSize: 'clamp(72px, 9vw, 140px)',
-                color: 'rgba(255,255,255,0.04)',
-                letterSpacing: '-0.02em',
-                writingMode: 'horizontal-tb',
-                whiteSpace: 'nowrap',
-                left: '50%',
-                transform: 'translateX(-50%)',
-              }}
-            >
-              COMUNIDADE
-            </span>
+          <div className="hidden md:flex items-center justify-center min-h-[280px]" aria-hidden="true">
 
             {/* Animated lines */}
             <div className="relative z-10 flex flex-col gap-4">

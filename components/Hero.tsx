@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { ShieldCheck, UserCheck, BarChart2 } from 'lucide-react'
-import { WA_URL } from '@/lib/constants'
 
 const SplineOrb = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
 
@@ -61,7 +60,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4 pt-1">
             <a
-              href={WA_URL}
+              href="https://wa.me/5517992449351?text=Ol%C3%A1!%20Quero%20conhecer%20uma%20demonstra%C3%A7%C3%A3o%20da%20DeepCare."
               target="_blank"
               rel="noopener noreferrer"
               className="text-[15px] px-7 py-[13px] bg-brand-green text-white rounded-full text-center hover:bg-brand-mid transition-colors duration-200 font-medium"

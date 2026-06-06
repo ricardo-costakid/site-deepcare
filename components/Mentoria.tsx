@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { Target, Lightbulb, Rocket, CheckCircle } from 'lucide-react'
-import { WA_URL } from '@/lib/constants'
 
 const SplineMentoria = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
 
@@ -88,11 +87,12 @@ export default function Mentoria() {
                 Tire dúvidas, revise projetos e saia com clareza sobre os próximos passos — presencial em São José do Rio Preto ou por videoconferência.
               </p>
               <a
-                href={WA_URL}
+                href="https://wa.me/5517992449351?text=Ol%C3%A1!%20Tenho%20interesse%20em%20agendar%20uma%20sess%C3%A3o%20de%20mentoria%20com%20a%20DeepCare."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-8 text-[#5B8F7A] font-medium hover:underline transition-all"
               >
+                <span className="bg-[#5B8F7A] text-white text-xs px-2 py-0.5 rounded-full mr-2">MENTORIA</span>
                 Quero agendar uma sessão →
               </a>
             </motion.div>
@@ -199,7 +199,7 @@ export default function Mentoria() {
       </div>
 
       {/* 5. CTA Final */}
-      <div className="bg-[#111814] py-24 border-t border-white/5">
+      <div className="bg-[#1A2620] py-24 border-t border-white/5">
         <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             {...fadeUp()}
@@ -212,7 +212,7 @@ export default function Mentoria() {
               Fale pelo WhatsApp e descubra qual formato de mentoria faz sentido para o momento da sua empresa.
             </p>
             <a
-              href={WA_URL}
+              href="https://wa.me/5517992449351?text=Ol%C3%A1!%20Tenho%20interesse%20em%20agendar%20uma%20sess%C3%A3o%20de%20mentoria%20com%20a%20DeepCare."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-8 bg-[#5B8F7A] text-white px-8 py-4 rounded-full font-medium hover:bg-[#3D6357] transition-colors"

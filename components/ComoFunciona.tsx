@@ -54,7 +54,7 @@ const PASSOS: Passo[] = [
 
 function GraphicCard({ fantasma, linhas }: { fantasma: string; linhas: string[] }) {
   return (
-    <div className="bg-[#111814] border border-white/10 rounded-2xl p-6 overflow-hidden">
+    <div className="bg-[#1A2620] border border-white/10 rounded-2xl p-6 overflow-hidden">
       <p
         className="font-black leading-none mb-4 text-white/10 select-none whitespace-nowrap"
         style={{ fontSize: 52 }}

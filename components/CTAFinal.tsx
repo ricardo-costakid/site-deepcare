@@ -1,11 +1,24 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { WA_URL } from '@/lib/constants'
 
 export default function CTAFinal() {
   return (
-    <section className="py-[120px] bg-bg-dark">
+    <section className="relative overflow-hidden py-[120px] bg-bg-dark">
+      <span
+        className="absolute select-none font-black leading-none"
+        style={{
+          fontSize: 'clamp(72px, 9vw, 140px)',
+          color: 'rgba(255,255,255,0.04)',
+          letterSpacing: '-0.02em',
+          writingMode: 'horizontal-tb',
+          whiteSpace: 'nowrap',
+          right: 0,
+          bottom: '1rem',
+        }}
+      >
+        TRANSFORMAÇÃO
+      </span>
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -21,7 +34,7 @@ export default function CTAFinal() {
             Agende uma conversa. Sem compromisso, sem jargão técnico.
           </p>
           <a
-            href={WA_URL}
+            href="https://wa.me/5517992449351?text=Ol%C3%A1!%20Quero%20saber%20como%20a%20DeepCare%20pode%20ajudar%20meu%20neg%C3%B3cio."
             target="_blank"
             rel="noopener noreferrer"
             className="text-[15px] px-7 py-[13px] bg-brand-green text-white rounded-full hover:bg-brand-mid transition-colors duration-200 font-medium mt-2"

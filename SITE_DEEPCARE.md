@@ -1,6 +1,6 @@
 # Site DeepCare Analytics — Estado Atual
-**Última atualização:** 03/06/2026 (sessão tarde)  
-**Versão:** 1.4  
+**Última atualização:** 06/06/2026  
+**Versão:** 1.5  
 **Deploy:** Vercel → deepcareanalytics.com  
 **Repositório:** C:\Projetos\Site-DeepCare  
 
@@ -23,8 +23,8 @@
 ```
 Fundo principal:     #FFFFFF
 Fundo alternado:     #F8F9FA
-Fundo escuro:        #111814 (Premissa, CTAFinal, Comunidade)
-Fundo cards escuros: #0F1117 (cards Soluções)
+Fundo escuro:        #1A2620 via token bg-bg-dark (Premissa, CTAFinal, Comunidade)
+Fundo cards escuros: #1A2620 (cards Soluções), hover #1F2E26
 Texto primário:      #111111
 Texto secundário:    #555555
 Verde principal:     #5B8F7A
@@ -58,7 +58,7 @@ components/
   CTAFinal.tsx            ✅
   Footer.tsx              ✅
 lib/
-  constants.ts            ✅ WA_URL = 'https://wa.me/5517981852807'
+  constants.ts            ✅ WA_URL = 'https://wa.me/5517992449351' (número corrigido; botões usam links diretos com texto pré-preenchido)
 public/
   logo/
     deepcare-logo-clara.svg       ← fundo branco (texto escuro)
@@ -103,7 +103,7 @@ package.json
 - Label: "INTELIGÊNCIA ARTIFICIAL PARA EMPRESAS"
 - Headline: "A plataforma das empresas que crescem com IA na prática."
 - Slogan: "IA implementada com ética, segurança e resultado mensurável — você no controle de cada etapa."
-- CTAs: "Quero uma demonstração" (verde) + "Ver soluções →" (ghost)
+- CTAs: "Quero uma demonstração" (verde, WA: "Olá! Quero conhecer uma demonstração da DeepCare.") + "Ver soluções →" (ghost)
 - **Trust signals** abaixo dos CTAs (`flex flex-wrap gap-x-6 gap-y-3 mt-6`):
   - ShieldCheck "Dados protegidos"
   - UserCheck "Supervisão humana"
@@ -120,9 +120,9 @@ package.json
 - Botão ghost: **"Quero uma solução personalizada →"** → `/comunidade`
   - Estilo: border #5B8F7A, texto #5B8F7A, hover bg #5B8F7A texto branco, rounded-xl
 - Grid: `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6` — 9 cards, grade 3×3 fechada
-- **Cards (estilo dark `#0F1117`):** `flex flex-col`, ícone e tagline em #5B8F7A, título branco, descrição text-gray-400
-  - Borda: border-white/5
-  - Hover: `bg-[#161B22]`, `border-[#5B8F7A]/50`, `shadow-[0_0_30px_rgba(91,143,122,0.15)]`, `scale(1.02)`
+- **Cards (estilo dark `#1A2620`):** `flex flex-col`, ícone e tagline em #5B8F7A, título branco, descrição text-gray-400
+  - Borda: border-white/8
+  - Hover: `bg-[#1F2E26]`, `border-[#5B8F7A]/50`, `shadow-[0_0_30px_rgba(91,143,122,0.15)]`, `scale(1.02)`
   - Transição: Framer Motion `type: spring, stiffness: 400, damping: 25`
   - **Ícone:** `absolute top-4 right-4`, `w-16 h-16`, `text-white/10`, `strokeWidth={1.5}`
   - Título e tagline com `pr-20` (recuo para não colidir com ícone absoluto)
@@ -155,7 +155,7 @@ package.json
 - Subtítulo verde: "Você nos conta onde quer escalar e onde os processos estão travando."
 - Descrição: "Reunião direta, sem formulário, sem apresentação de vendas. A gente ouve, analisa o fluxo real e identifica onde a IA entrega resultado — LUCRO a MAIS ou CUSTO a MENOS."
 - "LUCRO a MAIS" e "CUSTO a MENOS" em font-semibold text-[#5B8F7A]
-- GraphicCard: bg-[#111814], border-white/10, rounded-2xl
+- GraphicCard: bg-[#1A2620], border-white/10, rounded-2xl
   → Palavra fantasma "DIAGNÓSTICO" — fontSize 52px, font-black, text-white/10, whitespace-nowrap
   → 3 linhas mono text-[#5B8F7A] opacity-80, divide-white/10:
      "→ sem formulário" | "→ sem pitch de vendas" | "→ foco no seu resultado"
@@ -175,10 +175,12 @@ package.json
   → "→ suporte ativo" | "→ ajustes contínuos" | "→ cresce com você"
 
 ### Premissa.tsx ✅
-- Fundo: #111814 (escuro)
-- "Toda solução que entregamos precisa cumprir pelo menos um objetivo:"
-- "Aumentar o lucro **ou** Reduzir os custos do cliente."
-- "ou" em verde #5B8F7A
+- Fundo: bg-bg-dark (#1A2620), seção `relative overflow-hidden`
+- Label: "Nossa Premissa" (verde, 11px, tracking 2px)
+- Subtítulo: "Nossa régua de sucesso:"
+- Headline: "Aumentar o lucro, reduzir custos — **ou** os dois." — "ou" em #5B8F7A
+- Subtexto: "A entrega só faz sentido se gerar valor real para o seu negócio."
+- **Texto fantasma "RESULTADO":** `absolute top: 0, left: 0`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black, whiteSpace nowrap
 
 ### Mentoria.tsx ✅
 - Layout duas colunas: texto esquerda, Spline direita
@@ -188,35 +190,45 @@ package.json
 - `useRef splineContainerRef` → scroll fix via `useEffect` com retry; `querySelector('canvas')` dentro do container (sem conflito com canvas do Hero)
 - Container Spline: `hidden md:block`, `height: 600px`, `overflow: visible`, `position: relative`, `width: 100%`
 - Coluna esquerda com `pb-16` para alinhamento vertical com a orb
-- CTA ghost → WhatsApp
+- CTA hero: "Quero agendar uma sessão →" (ghost link, WA: "Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare.")
+  - Pílula verde "MENTORIA" (`bg-[#5B8F7A] text-white text-xs px-2 py-0.5 rounded-full mr-2`) antes do texto
+- CTA final: "Agendar uma sessão" (botão sólido verde, mesmo link WA)
 
 ### Comunidade.tsx ✅ *(nova)*
 - Seção inserida em `page.tsx` entre `<Mentoria />` e `<Sobre />`
-- Fundo: #111814, id="comunidade", py-24
+- Fundo: bg-[#1A2620], id="comunidade", py-24, `relative overflow-hidden`
 - Layout: duas colunas `grid-cols-[55%_45%]` no desktop
+- **Texto fantasma "COMUNIDADE":** filho direto da `<section>`, `absolute top: 2rem, left: 50%, translateX(-50%)`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black — aparece acima do badge
 - **Coluna esquerda:**
   - Badge pill: "COMUNIDADE" — tracking largo, cor #5B8F7A, bg rgba(91,143,122,0.12)
-  - Headline: "Onde gestores e profissionais resolvem problemas com IA — juntos."
-  - Subtítulo: "Aqui você conta seus desafios reais, troca experiências com quem está na mesma jornada e conecta com soluções que já funcionam na prática — ou criamos uma personalizada para você."
+  - Headline: "Resolvemos problemas de quem resolve problemas."
+  - Subtítulo: "Uma comunidade onde você conta seus maiores desafios — e juntos criamos e conectamos você à solução certa."
   - CTA: "Quero fazer parte →" → `/comunidade` (botão verde sólido, rounded-full)
 - **Coluna direita (desktop):**
-  - Palavra "COMUNIDADE" fantasma: `rgba(255,255,255,0.04)`, font-black, ~140px
   - 3 linhas mono em #5B8F7A opacity-60 com stagger Framer Motion (delay 0.15s):
     - `→ diagnóstico coletivo` | `→ soluções reais` | `→ resultado mensurável`
 
 ### Sobre.tsx ✅
 - Fundo: #F8F9FA
-- Badge AI First com símbolo da DeepCare
+- Copy: filosofia AI First — sem mencionar Ricardo pelo nome
+- Layout duas colunas: texto esquerda | Spline direita (mesma orb do Hero/Mentoria)
+- Orb Spline: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
+- Scroll fix replicado do Mentoria.tsx (`useRef + useEffect` com retry, `querySelector('canvas')` dentro do container)
+- Container Spline: `hidden md:block`, `height: 600px`, `overflow: visible`
 
 ### CTAFinal.tsx ✅
-- Fundo: #111814
+- Fundo: bg-bg-dark (#1A2620), seção `relative overflow-hidden`
+- **Texto fantasma "TRANSFORMAÇÃO":** `absolute right: 0, bottom: 1rem`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black
 - Card ~90% largura, border-radius 24px
-- Botão: "Fale com a DeepCare" → WhatsApp
+- Botão: "Fale com a DeepCare" → `https://wa.me/5517992449351?text=Olá! Quero saber como a DeepCare pode ajudar meu negócio.`
 
 ### Footer.tsx ✅
-- Logo: `deepcare-sidebar-dark.svg`
+- Logo: `deepcare-logo-clara.svg`, height 28px (texto escuro para fundo branco)
+- Layout 3 colunas: Logo+descrição | Navegação | Contato
+- Contato: contato@deepcareanalytics.com | (17) 99244-9351 | LinkedIn
+- LinkedIn: `linkedin.com/in/ricardo-costa-139780ba`
+- WhatsApp com mensagem: "Olá! Vim pelo site da DeepCare e quero mais informações."
 - © 2026 DeepCare Analytics · São José do Rio Preto – SP
-- deepcareanalytics.com
 
 ---
 
@@ -229,7 +241,7 @@ package.json
 ### app/comunidade/page.tsx
 - `'use client'`, altura 100vh, sem scroll externo
 - **Layout duas colunas (desktop):** painel escuro 40% | área chat 60%
-- **Painel esquerdo (`#111814`, desktop only):**
+- **Painel esquerdo (`#1A2620`, desktop only):**
   - Logo `deepcare-logo-dark.svg`
   - Separador `bg-white/10`
   - Headline: "Onde gestores e profissionais resolvem problemas com IA — juntos."
@@ -258,6 +270,45 @@ package.json
 
 ---
 
+## Spline — Orb Compartilhada (Hero, Mentoria, Sobre)
+
+- URL: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
+- Conta: ricardocostakid@gmail.com
+- Texto interno: "DeepCare Analytics" em duas linhas
+  - Fonte: Syne Regular, size 35
+  - Cor: #5B8F7A, opacidade 70
+  - Posição: X:0, Y:-199, Z:188.6
+- Partículas: Color A `5B8F7A`, Color B `8BBFAE`, fundo transparente (BG 0%)
+- Scroll fix: `useEffect` com retry (`querySelector('canvas')` no container), repassa `wheelEvent` ao `window` com multiplicador 2.0
+
+---
+
+## WhatsApp — Mensagens Pré-preenchidas
+
+Todos os botões usam links diretos (não mais `WA_URL`) com texto encodado. Número: `5517992449351` (corrigido de `5517981852807`).
+
+| Botão | Componente | Mensagem |
+|---|---|---|
+| "Quero uma demonstração" | Hero | Olá! Quero conhecer uma demonstração da DeepCare. |
+| "Quero agendar uma sessão" | Mentoria (hero) | Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare. |
+| "Agendar uma sessão" | Mentoria (CTA) | Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare. |
+| "Fale com a DeepCare" | CTAFinal | Olá! Quero saber como a DeepCare pode ajudar meu negócio. |
+| (17) 99244-9351 | Footer | Olá! Vim pelo site da DeepCare e quero mais informações. |
+
+---
+
+## Textos Fantasma
+
+Palavras decorativas em seções escuras — `rgba(255,255,255,0.04)`, font-black, `clamp(72px, 9vw, 140px)`, whiteSpace nowrap, select-none, `aria-hidden`:
+
+| Componente | Palavra | Posição |
+|---|---|---|
+| Premissa | RESULTADO | `top: 0, left: 0` — topo esquerdo, filho da `<section>` |
+| Comunidade | COMUNIDADE | `top: 2rem, left: 50%, translateX(-50%)` — acima do badge, filho da `<section>` |
+| CTAFinal | TRANSFORMAÇÃO | `right: 0, bottom: 1rem` — rodapé direito, filho da `<section>` |
+
+---
+
 ## Pendências — Próximas Implementações
 
 ### 1. Webhook N8N — substituir placeholder
@@ -276,7 +327,7 @@ Integração Evolution API para notificação WhatsApp ao Ricardo após cada lea
 ---
 
 ## Tagline Candidata
-"Resolvemos problemas de quem resolve problemas." ← avaliar uso no site
+"Resolvemos problemas de quem resolve problemas." ← headline da seção Comunidade ✅
 
 ---
 
@@ -292,7 +343,7 @@ Integração Evolution API para notificação WhatsApp ao Ricardo após cada lea
 | Roteamento clientes | app.deepcareanalytics.com/[cliente] | Simples, sem DNS por cliente |
 | Logo no header | deepcare-logo-clara.svg | Texto escuro para fundo branco |
 | Dropdown FM + wrapper | Div externa para posição, motion.div para animação | Evita conflito entre transform do FM e -translate-x-1/2 do Tailwind |
-| Cards soluções | Dark `#0F1117` (era #111814), hover `#161B22` | Profundidade maior; #111814 reservado para seções full-width |
+| Cards soluções | Dark `#1A2620`, hover `#1F2E26` | Unificação da paleta escura com token bg-bg-dark |
 | Card hover | Framer Motion spring (stiffness 400, damping 25) | Resposta mais viva que transition CSS pura |
 | Ícone card | Absoluto top-4 right-4, text-white/10 | Decorativo, não compete com conteúdo; pr-20 protege texto |
 | Rodapé card | "Saiba mais →" + "WhatsApp" com border-t | CTA duplo sem poluir o corpo do card |

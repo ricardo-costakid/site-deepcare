@@ -371,7 +371,7 @@ export default function SaudePage() {
       <Header />
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#111814] py-32">
+        <section className="bg-[#1A2620] py-32">
           <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
             {/* Left */}
             <Reveal>
@@ -441,7 +441,7 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  03 · Soluções  ─────────── */}
-        <section id="solucoes-saude" className="bg-[#111814] py-24">
+        <section id="solucoes-saude" className="bg-[#1A2620] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="text-center">
               <h2 className="text-3xl font-bold text-white">
@@ -508,7 +508,7 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  05 · CTA Final  ─────────── */}
-        <section className="bg-[#111814] py-24">
+        <section className="bg-[#1A2620] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="max-w-4xl mx-auto">
               <div className="bg-[#0F1117] border border-white/5 rounded-3xl p-16 text-center">

@@ -110,8 +110,8 @@ function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
     <motion.div
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-      className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#0F1117] p-6 min-h-[220px] cursor-default
-        hover:border-[#5B8F7A]/50 hover:shadow-[0_0_30px_rgba(91,143,122,0.15)] hover:bg-[#161B22]
+      className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#1A2620] p-6 min-h-[220px] cursor-default
+        hover:border-[#5B8F7A]/50 hover:shadow-[0_0_30px_rgba(91,143,122,0.15)] hover:bg-[#1F2E26]
         transition-colors duration-300"
     >
       <div className="absolute top-4 right-4 text-white/10">
@@ -131,7 +131,7 @@ function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
           Saiba mais →
         </a>
         <a
-          href={`https://wa.me/5517981852807?text=${encodeURIComponent(`Olá, tenho interesse na solução ${nome} da DeepCare.`)}`}
+          href={`https://wa.me/5517992449351?text=${encodeURIComponent(`Olá, tenho interesse na solução ${nome} da DeepCare.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#5B8F7A] transition-colors duration-200"
