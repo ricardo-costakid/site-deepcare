@@ -69,6 +69,11 @@ public/
     deepcare-simbolo-light.svg
   avatar/
     ricardo.jpeg                  ← usado na página /comunidade
+  images/
+    bid-login-preview.png         ← não utilizada (substituída pelo vídeo login-bid-demo.mp4)
+  videos/
+    login-bid-demo.mp4            ← BID Intro (bloco 02b · /saude)
+    overview-bid-demo.mp4         ← Overview (bloco 03 · /saude)
 tailwind.config.ts
 next.config.mjs
 package.json
@@ -273,6 +278,8 @@ package.json
 
 ## app/saude/page.tsx
 
+**Fundo da página:** `#F8F9FA` (light mode) — alterado de `#1A2620` (dark)
+
 ### HeroVisual (coluna direita do Hero)
 - Componente principal: `HeroVisual`
 - Coluna direita contém **apenas a orb Spline** — cards estáticos removidos: "Faturamento do mês", "Projeção de caixa (60d)" e "Glosa identificada"
@@ -282,6 +289,45 @@ package.json
 - Container da orb: `overflow: visible`, `background: transparent`, `height: 500px`, `marginTop: 80px` (centralização vertical sem corte no topo)
 - `overflow: visible` explícito na `motion.div` (`Reveal`) da coluna direita via `className="overflow-visible"`
 - `overflow: visible` explícito na própria `<section>` do Hero via `style={{ overflow: 'visible' }}`
+
+### 02b · BID Intro ✅ *(novo)*
+Layout: coluna única centralizada, `bg-[#F8F9FA] py-24`
+
+**1 · Header centralizado**
+- Tagline pill: "BID — BUSINESS INTELLIGENCE DEPARTMENT" — `text-xs tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5`
+- Título `h2`: "Tenha um Departamento de Inteligência inteiro na sua clínica."
+- Subtítulo verde: "Tudo que importa, em um lugar só." — `text-lg font-medium text-[#5B8F7A]`
+
+**2 · Vídeo**
+- Arquivo: `login-bid-demo.mp4`
+- Classes: `mt-8 w-full rounded-2xl aspect-video`, `autoPlay muted loop playsInline`
+
+**3 · Descrição, bullets e CTA** — `grid grid-cols-2 gap-12 mt-10`
+- Coluna esquerda: descrição completa do BID (plug and play, ERPs, módulos Financeiro / Caixa / DRE / Faturamento / Glosas / guias não faturadas, Lux em linguagem natural 24/7)
+- Coluna direita: 5 bullets com `→` + botão "Quero conhecer o BID →" → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
+  - Bullets: Plug and play | Financeiro, Caixa, DRE e Faturamento | Glosas e guias não faturadas | Lux 24/7 linguagem natural | KPIs com alerta ao gestor
+
+### 03 · Soluções ✅ *(atualizado)*
+Bloco de cabeçalho "Três soluções. Cada uma resolve um problema específico." **removido**.
+
+Container dos blocos: `flex flex-col gap-24` (sem `mt-16`).
+
+**Overview — coluna única** (mesmo padrão do BID Intro)
+
+**1 · Header centralizado**
+- Tagline pill: "OVERVIEW — ACOMPANHE SUA META DE FATURAMENTO"
+- Título `h3`: "Sua meta de faturamento, acompanhada em tempo real."
+
+**2 · Vídeo**
+- Arquivo: `overview-bid-demo.mp4`
+- Classes: `mt-8 w-full rounded-2xl aspect-video`, `autoPlay muted loop playsInline`
+
+**3 · Descrição, bullets e CTA** — `grid grid-cols-2 gap-12 mt-10`
+- Coluna esquerda: "Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver."
+- Coluna direita: 6 bullets com `→` + botão "Quero meu Departamento de Inteligência →" → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
+  - Bullets: Meta de faturamento com progresso em tempo real | Alerta automático: abaixo, acima ou direto no alvo | Projeção de fechamento do período | Glosa do período identificada e monitorada | Visão mensal, trimestral, semestral e anual | Disponível no mobile — acompanhe de onde estiver
+
+**Demais blocos** (LensTrack, Assets) — layout ProductBlock duas colunas, sem alteração.
 
 ---
 

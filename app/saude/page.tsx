@@ -109,12 +109,12 @@ const DIFERENCIAIS = [
 ]
 
 const BID_CAPS = [
-  'Faturamento realizado vs. meta em tempo real',
-  'Identificação de cobranças não realizadas',
-  'Projeção de caixa para os próximos 60 dias',
-  'Controle de repasse médico por profissional',
-  'Lux AI — análises em linguagem de negócios',
-  'Funciona com o sistema que a clínica já usa',
+  'Meta de faturamento com progresso em tempo real',
+  'Alerta automático: abaixo, acima ou direto no alvo',
+  'Projeção de fechamento do período',
+  'Glosa do período identificada e monitorada',
+  'Visão mensal, trimestral, semestral e anual',
+  'Disponível no mobile — acompanhe de onde estiver',
 ]
 
 const LENS_CAPS = [
@@ -319,15 +319,17 @@ function ProductBlock({
   description,
   capabilities,
   ctaLabel,
+  ctaHref,
   visual,
   reverse,
 }: {
   badge: string
   name: string
-  tagline: string
+  tagline?: string
   description: string
   capabilities: string[]
   ctaLabel: string
+  ctaHref?: string
   visual: React.ReactNode
   reverse?: boolean
 }) {
@@ -343,10 +345,10 @@ function ProductBlock({
       <div className={reverse ? 'md:order-2' : ''}>
         <Badge>{badge}</Badge>
         <h3 className="text-3xl font-bold text-[#111111] mt-4">{name}</h3>
-        <p className="text-lg text-[#5B8F7A] mt-1">{tagline}</p>
+        {tagline && <p className="text-lg text-[#5B8F7A] mt-1">{tagline}</p>}
         <p className="text-[#555555] leading-relaxed mt-4">{description}</p>
         <Capabilities items={capabilities} />
-        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className={`${btnGreen} mt-8`}>
+        <a href={ctaHref ?? WA_URL} target="_blank" rel="noopener noreferrer" className={`${btnGreen} mt-8`}>
           {ctaLabel}
         </a>
       </div>
@@ -434,29 +436,131 @@ export default function SaudePage() {
           </div>
         </section>
 
-        {/* ───────────  03 · Soluções  ─────────── */}
-        <section id="solucoes-saude" className="bg-[#F8F9FA] py-24">
+        {/* ───────────  02b · BID Intro  ─────────── */}
+        <section className="bg-[#F8F9FA] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
+
+            {/* 1 · Header centralizado */}
             <Reveal className="text-center">
-              <h2 className="text-3xl font-bold text-[#111111]">
-                Três soluções. Cada uma resolve um problema específico.
+              <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                BID — Business Intelligence Department
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                Tenha um Departamento de Inteligência inteiro na sua clínica.
               </h2>
-              <p className="text-[#555555] mt-3 max-w-2xl mx-auto">
-                Você não precisa contratar tudo de uma vez. Começa pelo que dói
-                mais — e expande quando fizer sentido.
+              <p className="text-lg font-medium text-[#5B8F7A] mt-3">
+                Tudo que importa, em um lugar só.
               </p>
             </Reveal>
 
-            <div className="mt-16 flex flex-col gap-24">
-              <ProductBlock
-                badge="Inteligência Financeira"
-                name="DeepCare BID"
-                tagline="O cérebro financeiro da sua clínica."
-                description="Do faturamento ao caixa, do repasse médico à projeção dos próximos 60 dias — tudo em um painel que fala a língua do gestor. Com o Lux AI, você pergunta em português e recebe análises de nível sênior."
-                capabilities={BID_CAPS}
-                ctaLabel="Quero conhecer o BID →"
-                visual={<BidVideo />}
+            {/* 2 · Vídeo */}
+            <Reveal>
+              <video
+                src="/videos/login-bid-demo.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="mt-8 w-full rounded-2xl aspect-video"
               />
+            </Reveal>
+
+            {/* 3 · Descrição, bullets e CTA */}
+            <Reveal className="grid grid-cols-2 gap-12 mt-10">
+              {/* Coluna esquerda: descrição */}
+              <p className="text-[#555555] leading-relaxed">
+                O BID é plug and play — não importa qual ERP você usa, ele conecta,
+                normaliza e entrega inteligência executiva completa: Financeiro, Fluxo
+                de Caixa, Análise de Resultado, Gestão Bancária, DRE Administrativa,
+                Faturamento, Análise de Glosas e identificação de guias não faturadas.
+                KPIs que monitoram e conversam com o gestor. E quando surgir uma dúvida,
+                o Lux responde — em linguagem natural, pelo celular ou pelo computador,
+                24 horas por dia, 7 dias por semana, com precisão de CFO e sem alucinação.
+              </p>
+              {/* Coluna direita: bullets + CTA */}
+              <div>
+                <ul className="flex flex-col gap-2.5">
+                  {[
+                    'Plug and play — funciona com qualquer ERP',
+                    'Financeiro, Caixa, DRE e Faturamento em um só painel',
+                    'Análise de glosas e guias não faturadas identificadas automaticamente',
+                    'Lux: converse em linguagem natural, no celular ou no desktop, 24/7',
+                    'KPIs que monitoram e alertam o gestor em tempo real',
+                  ].map((item) => (
+                    <li key={item} className="flex gap-2.5 text-[#555555]">
+                      <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={btnGreen}
+                  >
+                    Quero conhecer o BID →
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+
+          </div>
+        </section>
+
+        {/* ───────────  03 · Soluções  ─────────── */}
+        <section id="solucoes-saude" className="bg-[#F8F9FA] py-24">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex flex-col gap-24">
+              {/* Overview — coluna única */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    OVERVIEW — ACOMPANHE SUA META DE FATURAMENTO
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    Sua meta de faturamento, acompanhada em tempo real.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/overview-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <p className="text-[#555555] leading-relaxed">
+                    Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver.
+                  </p>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {BID_CAPS.map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
               <ProductBlock
                 badge="Oftalmologia"
                 name="LensTrack"
