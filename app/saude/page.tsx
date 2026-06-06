@@ -227,21 +227,6 @@ function HeroVisual() {
   )
 }
 
-function BidVideo() {
-  return (
-    <div className="w-full max-w-full aspect-video rounded-2xl overflow-hidden bg-black">
-      <video
-        src="/videos/overview-bid-demo.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="w-full h-full block object-contain"
-      ></video>
-    </div>
-  )
-}
-
 function LensTrackMockup() {
   const columns = [
     { title: 'Pedido', cards: [{ nome: 'Ana Martins', spec: 'Tórica · -2,75 / -1,25' }] },
