@@ -173,7 +173,7 @@ function Capabilities({ items }: { items: string[] }) {
   return (
     <ul className="mt-6 flex flex-col gap-2.5">
       {items.map((cap) => (
-        <li key={cap} className="flex gap-2.5 text-gray-300">
+        <li key={cap} className="flex gap-2.5 text-[#555555]">
           <span className="text-[#5B8F7A] flex-shrink-0">→</span>
           <span>{cap}</span>
         </li>
@@ -220,39 +220,24 @@ function HeroVisual() {
       aria-hidden="true"
     >
       <SplineHero
-        scene="https://prod.spline.design/LTT45xHeltPz1XC7/scene.splinecode"
+        scene="https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode"
         style={{ width: '100%', height: '100%' }}
       />
     </div>
   )
 }
 
-function BidMockup() {
-  const kpis = [
-    { label: 'Faturamento', value: 'R$ 487k' },
-    { label: 'A receber', value: 'R$ 213k' },
-    { label: 'Repasse médico', value: 'R$ 96k' },
-  ]
+function BidVideo() {
   return (
-    <div className="bg-[#0F1117] border border-white/5 rounded-xl p-6 space-y-4">
-      <div className="grid grid-cols-3 gap-3">
-        {kpis.map((k) => (
-          <div key={k.label} className="rounded-lg bg-white/[0.03] border border-white/5 p-3">
-            <p className="text-[11px] text-gray-500">{k.label}</p>
-            <p className="text-base font-semibold text-[#5B8F7A] mt-1">{k.value}</p>
-          </div>
-        ))}
-      </div>
-      <div className="rounded-lg bg-white/[0.03] border border-white/5 p-4">
-        <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-2">Lux AI</p>
-        <p className="text-sm text-gray-300">
-          “Qual a projeção de caixa para junho?”
-        </p>
-        <p className="text-sm text-[#5B8F7A] mt-2 leading-relaxed">
-          Caixa projetado em R$ 1,24 mi · margem saudável. Atenção a 3 cobranças
-          não realizadas (R$ 38,9k) — recuperáveis ainda este mês.
-        </p>
-      </div>
+    <div className="w-full max-w-full aspect-video rounded-2xl overflow-hidden bg-black">
+      <video
+        src="/videos/overview-bid-demo.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-full h-full block object-contain"
+      ></video>
     </div>
   )
 }
@@ -352,14 +337,14 @@ function ProductBlock({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      className="grid md:grid-cols-2 gap-12 items-center"
+      className="grid md:grid-cols-[30%_70%] gap-12 items-center"
     >
       {/* Text */}
       <div className={reverse ? 'md:order-2' : ''}>
         <Badge>{badge}</Badge>
-        <h3 className="text-3xl font-bold text-white mt-4">{name}</h3>
-        <p className="text-lg text-[#8BBFAE] mt-1">{tagline}</p>
-        <p className="text-gray-400 leading-relaxed mt-4">{description}</p>
+        <h3 className="text-3xl font-bold text-[#111111] mt-4">{name}</h3>
+        <p className="text-lg text-[#5B8F7A] mt-1">{tagline}</p>
+        <p className="text-[#555555] leading-relaxed mt-4">{description}</p>
         <Capabilities items={capabilities} />
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className={`${btnGreen} mt-8`}>
           {ctaLabel}
@@ -380,15 +365,15 @@ export default function SaudePage() {
       <Header />
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#1A2620] py-32" style={{ overflow: 'visible' }}>
+        <section className="bg-[#F8F9FA] py-32" style={{ overflow: 'visible' }}>
           <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
             {/* Left */}
             <Reveal>
               <Badge>Setor de Saúde</Badge>
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mt-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-[#111111] leading-tight mt-4">
                 Inteligência de negócios para clínicas que querem crescer com clareza.
               </h1>
-              <p className="text-lg text-gray-400 mt-4 max-w-lg leading-relaxed">
+              <p className="text-lg text-[#555555] mt-4 max-w-lg leading-relaxed">
                 A DeepCare nasceu no setor de saúde. Nossas soluções foram
                 desenvolvidas a partir de problemas reais de gestão — financeiro,
                 operacional e controle de ativos — que clínicas enfrentam todos os dias.
@@ -400,7 +385,7 @@ export default function SaudePage() {
                 </a>
                 <a
                   href="#solucoes-saude"
-                  className="inline-flex items-center justify-center text-[15px] px-7 py-[13px] text-white/90 rounded-full hover:bg-white/5 transition-colors duration-200 font-medium"
+                  className="inline-flex items-center justify-center text-[15px] px-7 py-[13px] text-[#555555] rounded-full hover:bg-black/5 transition-colors duration-200 font-medium"
                 >
                   Ver soluções ↓
                 </a>
@@ -408,7 +393,7 @@ export default function SaudePage() {
 
               <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
                 {TRUST.map(({ icon: Icon, text }) => (
-                  <div key={text} className="flex items-center gap-2 text-sm text-gray-400">
+                  <div key={text} className="flex items-center gap-2 text-sm text-[#555555]">
                     <Icon className="w-4 h-4 text-[#5B8F7A] flex-shrink-0" strokeWidth={1.5} />
                     <span>{text}</span>
                   </div>
@@ -450,13 +435,13 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  03 · Soluções  ─────────── */}
-        <section id="solucoes-saude" className="bg-[#1A2620] py-24">
+        <section id="solucoes-saude" className="bg-[#F8F9FA] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="text-center">
-              <h2 className="text-3xl font-bold text-white">
+              <h2 className="text-3xl font-bold text-[#111111]">
                 Três soluções. Cada uma resolve um problema específico.
               </h2>
-              <p className="text-gray-400 mt-3 max-w-2xl mx-auto">
+              <p className="text-[#555555] mt-3 max-w-2xl mx-auto">
                 Você não precisa contratar tudo de uma vez. Começa pelo que dói
                 mais — e expande quando fizer sentido.
               </p>
@@ -470,7 +455,7 @@ export default function SaudePage() {
                 description="Do faturamento ao caixa, do repasse médico à projeção dos próximos 60 dias — tudo em um painel que fala a língua do gestor. Com o Lux AI, você pergunta em português e recebe análises de nível sênior."
                 capabilities={BID_CAPS}
                 ctaLabel="Quero conhecer o BID →"
-                visual={<BidMockup />}
+                visual={<BidVideo />}
               />
               <ProductBlock
                 badge="Oftalmologia"
@@ -517,14 +502,14 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  05 · CTA Final  ─────────── */}
-        <section className="bg-[#1A2620] py-24">
+        <section className="bg-[#F8F9FA] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="max-w-4xl mx-auto">
-              <div className="bg-[#0F1117] border border-white/5 rounded-3xl p-16 text-center">
-                <h2 className="text-4xl font-bold text-white">
+              <div className="bg-white border border-[#E5E7EB] rounded-3xl p-16 text-center">
+                <h2 className="text-4xl font-bold text-[#111111]">
                   Sua clínica merece clareza para crescer.
                 </h2>
-                <p className="text-gray-400 mt-4 text-lg">
+                <p className="text-[#555555] mt-4 text-lg">
                   Fale com a DeepCare e descubra por onde começar.
                 </p>
                 <div className="mt-8">
@@ -535,7 +520,7 @@ export default function SaudePage() {
                 <div className="mt-4">
                   <Link
                     href="/"
-                    className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                    className="text-sm text-[#555555] hover:text-[#111111] transition-colors"
                   >
                     ← Voltar ao site
                   </Link>
