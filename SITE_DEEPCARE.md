@@ -347,10 +347,16 @@ Em `app/comunidade/page.tsx`, trocar `WEBHOOK_N8N_PLACEHOLDER` pela URL real do 
 Integração Evolution API para notificação WhatsApp ao Ricardo após cada lead.
 **Status:** aguardando configuração no Railway.
 
-### 3. app.deepcareanalytics.com — subdomínio para o painel de clientes
-- Criar domínio `app.deepcareanalytics.com` no projeto **deepcare-v2** na Vercel
-- Apontar DNS na Hostinger para o CNAME gerado pela Vercel
-- **Bloqueante:** o link "Entrar" do header aponta para `https://app.deepcareanalytics.com/login` — sem esse subdomínio configurado o login não funciona para usuários do site
+---
+
+## Infraestrutura Configurada
+
+| Serviço | URL | Status |
+|---|---|---|
+| Site principal | deepcareanalytics.com | ✅ Vercel (projeto site-deepcare) |
+| Painel de clientes | app.deepcareanalytics.com | ✅ Vercel (projeto deepcare-v2) |
+
+Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/login ✅
 
 ---
 
