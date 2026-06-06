@@ -81,8 +81,9 @@ package.json
 ### Header.tsx ✅
 - Logo: `deepcare-logo-clara.svg`, height 32px
 - Nav: **Features** (dropdown) | Como funciona | Sobre
-- Link: **Entrar** → https://www.deepcareanalytics.com/login
-- CTA: **Conhecer agora** → WhatsApp (WA_URL)
+- Link: **Entrar** → https://app.deepcareanalytics.com/login
+- CTA desktop: **Soluções para Saúde** → `/saude` (botão verde sólido, ícone HeartPulse, rounded-full)
+- CTA mobile drawer: **Conhecer agora** → WhatsApp (WA_URL)
 - Comportamento: sticky, backdrop-blur ao scrollar
 - **Dropdown Features (desktop):** hover abre painel centralizado com Framer Motion
   - Animação: fade + translateY(−8px → 0), AnimatePresence
@@ -323,6 +324,20 @@ Palavras decorativas em seções escuras — `rgba(255,255,255,0.04)`, font-blac
 
 ---
 
+## Deploy ✅
+
+| Campo | Valor |
+|---|---|
+| Site no ar | www.deepcareanalytics.com |
+| Plataforma | Vercel — DeepCare's projects / Pro |
+| Repositório | github.com/ricardo-costakid/site-deepcare |
+| DNS | Hostinger (nameservers próprios) |
+| deepcareanalytics.com | → redireciona 307 para www (Valid Configuration) |
+| www.deepcareanalytics.com | → Production (Valid Configuration) |
+| Variável de ambiente | `WEBHOOK_N8N_URL` (valor placeholder) |
+
+---
+
 ## Pendências — Próximas Implementações
 
 ### 1. Webhook N8N — substituir placeholder
@@ -332,11 +347,10 @@ Em `app/comunidade/page.tsx`, trocar `WEBHOOK_N8N_PLACEHOLDER` pela URL real do 
 Integração Evolution API para notificação WhatsApp ao Ricardo após cada lead.
 **Status:** aguardando configuração no Railway.
 
-### 3. Deploy
-- Criar repositório GitHub
-- Importar no Vercel
-- Configurar domínio deepcareanalytics.com
-- Configurar app.deepcareanalytics.com para o painel de clientes
+### 3. app.deepcareanalytics.com — subdomínio para o painel de clientes
+- Criar domínio `app.deepcareanalytics.com` no projeto **deepcare-v2** na Vercel
+- Apontar DNS na Hostinger para o CNAME gerado pela Vercel
+- **Bloqueante:** o link "Entrar" do header aponta para `https://app.deepcareanalytics.com/login` — sem esse subdomínio configurado o login não funciona para usuários do site
 
 ---
 
