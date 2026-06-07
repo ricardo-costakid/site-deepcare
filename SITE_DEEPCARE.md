@@ -657,6 +657,12 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 9. **CTAFinal.tsx** — `py-[120px]` → `py-20`
 10. **app/saude/page.tsx Hero** — `pt-24` → `pt-10` na section; `pt-8` → `pt-2` no Reveal
 
+### Fixes mobile — 2026-06-07 (sessão tarde)
+
+1. **Header.tsx** — drawer mobile movido para createPortal no document.body; resolve conflito de stacking context com Framer Motion quando página está scrollada
+2. **Solucoes.tsx** — whileHover desativado em dispositivos touch via matchMedia('(hover: none)'); indicador "deslize para ver mais" adicionado no mobile (text-sm, cor #DA7756, fixo); pb-10 mobile adicionado na section
+3. **ComoFunciona.tsx** — subtítulo "Três etapas pensadas..." pintado com #DA7756; pt-10 mobile na section; mb-6 mobile no header da seção
+
 ### Webhook N8N — Leads /comunidade ✅ (07-06)
 
 - Webhook: https://n8n-production-23c9.up.railway.app/webhook/leads-comunidade
