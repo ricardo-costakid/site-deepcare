@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
-const WEBHOOK_URL = 'WEBHOOK_N8N_PLACEHOLDER'
+const WEBHOOK_URL = 'https://n8n-production-23c9.up.railway.app/webhook/leads-comunidade'
 
 type Message = {
   id: number
