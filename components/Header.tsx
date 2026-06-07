@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -23,10 +24,13 @@ export default function Header() {
   const pathname = usePathname()
   const logoHref = pathname === '/saude' ? '/saude' : '/'
 
+  const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [featuresOpen, setFeaturesOpen] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -39,7 +43,121 @@ export default function Header() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  const drawerPortal = (
+    <AnimatePresence>
+      {menuOpen && (
+        <>
+          {/* Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          {/* Panel */}
+          <motion.div
+            initial={{ x: 288 }}
+            animate={{ x: 0 }}
+            exit={{ x: 288 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="fixed top-0 right-0 h-full w-72 bg-white z-50 md:hidden px-6 py-6 flex flex-col gap-4 overflow-y-auto shadow-xl"
+          >
+            {/* Close button */}
+            <button
+              className="self-end text-text-secondary hover:text-text-primary transition-colors mb-2"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Fechar menu"
+            >
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Features accordion */}
+            <div>
+              <button
+                className="flex items-center justify-between w-full text-text-secondary hover:text-text-primary transition-colors py-1"
+                onClick={() => setFeaturesOpen(!featuresOpen)}
+              >
+                <span>Features</span>
+                <motion.span
+                  animate={{ rotate: featuresOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-flex"
+                >
+                  <ChevronDown size={16} />
+                </motion.span>
+              </button>
+
+              <AnimatePresence>
+                {featuresOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col gap-1 pl-4 pt-2">
+                      {FEATURES_ITEMS.map(({ label, href, icon: Icon, isAnchor }) =>
+                        isAnchor ? (
+                          <a
+                            key={href}
+                            href={href}
+                            className="flex items-center gap-3 py-2 text-sm text-text-secondary hover:text-[#5B8F7A] transition-colors"
+                            onClick={() => { setMenuOpen(false); setFeaturesOpen(false) }}
+                          >
+                            <Icon size={14} className="opacity-60" />
+                            {label}
+                          </a>
+                        ) : (
+                          <Link
+                            key={href}
+                            href={href}
+                            className="flex items-center gap-3 py-2 text-sm text-text-secondary hover:text-[#5B8F7A] transition-colors"
+                            onClick={() => { setMenuOpen(false); setFeaturesOpen(false) }}
+                          >
+                            <Icon size={14} className="opacity-60" />
+                            {label}
+                          </Link>
+                        )
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {NAV_LINKS.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-text-secondary hover:text-text-primary transition-colors py-1"
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              href={WA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[15px] px-7 py-[13px] bg-brand-green text-white rounded-full text-center hover:bg-brand-mid transition-colors"
+            >
+              Conhecer agora
+            </a>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+
   return (
+    <>
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
         scrolled ? 'backdrop-blur-[12px] shadow-[0_1px_0_#E5E7EB]' : ''
@@ -162,117 +280,8 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile drawer — overlay + panel */}
-      <AnimatePresence>
-        {menuOpen && (
-          <>
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
-              onClick={() => setMenuOpen(false)}
-            />
-
-            {/* Panel */}
-            <motion.div
-              initial={{ x: 288 }}
-              animate={{ x: 0 }}
-              exit={{ x: 288 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="fixed top-0 right-0 h-full w-72 bg-white z-50 md:hidden px-6 py-6 flex flex-col gap-4 overflow-y-auto shadow-xl"
-            >
-              {/* Close button */}
-              <button
-                className="self-end text-text-secondary hover:text-text-primary transition-colors mb-2"
-                onClick={() => setMenuOpen(false)}
-                aria-label="Fechar menu"
-              >
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-
-              {/* Features accordion */}
-              <div>
-                <button
-                  className="flex items-center justify-between w-full text-text-secondary hover:text-text-primary transition-colors py-1"
-                  onClick={() => setFeaturesOpen(!featuresOpen)}
-                >
-                  <span>Features</span>
-                  <motion.span
-                    animate={{ rotate: featuresOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="inline-flex"
-                  >
-                    <ChevronDown size={16} />
-                  </motion.span>
-                </button>
-
-                <AnimatePresence>
-                  {featuresOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="flex flex-col gap-1 pl-4 pt-2">
-                        {FEATURES_ITEMS.map(({ label, href, icon: Icon, isAnchor }) =>
-                          isAnchor ? (
-                            <a
-                              key={href}
-                              href={href}
-                              className="flex items-center gap-3 py-2 text-sm text-text-secondary hover:text-[#5B8F7A] transition-colors"
-                              onClick={() => { setMenuOpen(false); setFeaturesOpen(false) }}
-                            >
-                              <Icon size={14} className="opacity-60" />
-                              {label}
-                            </a>
-                          ) : (
-                            <Link
-                              key={href}
-                              href={href}
-                              className="flex items-center gap-3 py-2 text-sm text-text-secondary hover:text-[#5B8F7A] transition-colors"
-                              onClick={() => { setMenuOpen(false); setFeaturesOpen(false) }}
-                            >
-                              <Icon size={14} className="opacity-60" />
-                              {label}
-                            </Link>
-                          )
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {NAV_LINKS.map(({ label, href }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className="text-text-secondary hover:text-text-primary transition-colors py-1"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </a>
-              ))}
-              <a
-                href={WA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[15px] px-7 py-[13px] bg-brand-green text-white rounded-full text-center hover:bg-brand-mid transition-colors"
-              >
-                Conhecer agora
-              </a>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </header>
+    {mounted && createPortal(drawerPortal, document.body)}
+    </>
   )
 }

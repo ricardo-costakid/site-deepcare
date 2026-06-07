@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ShoppingCart, ScanLine, CreditCard, Landmark } from 'lucide-react'
@@ -106,9 +107,14 @@ const SOLUCOES: Solucao[] = [
 ]
 
 function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
+  const [isTouch, setIsTouch] = useState(false)
+  useEffect(() => {
+    setIsTouch(window.matchMedia('(hover: none)').matches)
+  }, [])
+
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
+      whileHover={isTouch ? undefined : { scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#1A2620] p-6 min-h-[220px] cursor-default
         hover:border-[#5B8F7A]/50 hover:shadow-[0_0_30px_rgba(91,143,122,0.15)] hover:bg-[#1F2E26]
