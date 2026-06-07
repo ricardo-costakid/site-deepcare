@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ShoppingCart, ScanLine, CreditCard, Landmark } from 'lucide-react'
 
 interface Solucao {
@@ -159,17 +159,6 @@ function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
 }
 
 export default function Solucoes() {
-  const [hasScrolled, setHasScrolled] = useState(false)
-  const carouselRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = carouselRef.current
-    if (!el) return
-    const handleScroll = () => { if (el.scrollLeft > 10) setHasScrolled(true) }
-    el.addEventListener('scroll', handleScroll)
-    return () => el.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <section id="solucoes" className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-6">
@@ -195,7 +184,7 @@ export default function Solucoes() {
         </motion.div>
 
         {/* All 9 cards — carousel on mobile, grid on md+ */}
-        <div ref={carouselRef} className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0">
           {SOLUCOES.map((s, i) => (
             <motion.div
               key={s.nome}
@@ -210,22 +199,12 @@ export default function Solucoes() {
           ))}
         </div>
 
-        <AnimatePresence>
-          {!hasScrolled && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex md:hidden items-center justify-center gap-2 mt-3 text-sm text-[#DA7756]"
-            >
-              deslize para ver mais
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="flex md:hidden items-center justify-center gap-2 mt-3 text-sm text-[#DA7756]">
+          deslize para ver mais
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
     </section>
   )
