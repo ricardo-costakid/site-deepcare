@@ -35,9 +35,9 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center pt-16 bg-white overflow-visible"
+      className="relative min-h-screen flex items-start pt-16 bg-white overflow-visible"
     >
-      <div className="max-w-[1200px] mx-auto px-6 pt-10 pb-20 w-full flex flex-col md:flex-row items-center gap-12">
+      <div className="max-w-[1200px] mx-auto px-6 pt-6 pb-20 w-full flex flex-col md:flex-row items-center gap-12">
 
         {/* Text — left */}
         <motion.div
@@ -46,7 +46,7 @@ export default function Hero() {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="w-full md:w-1/2 flex flex-col gap-7"
         >
-          <span className="text-[11px] font-medium tracking-[1.5px] text-brand-green uppercase">
+          <span className="inline-flex w-fit items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
             Inteligência Artificial para empresas
           </span>
 

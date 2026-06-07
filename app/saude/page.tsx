@@ -5,14 +5,15 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import {
+  AlertTriangle,
   CheckCircle,
   ShieldCheck,
   BarChart2,
   Headphones,
-  TrendingDown,
+  Receipt,
   EyeOff,
-  PackageX,
-  ClipboardList,
+  ScanLine,
+  Workflow,
   Plug,
   Users,
   LineChart,
@@ -64,24 +65,24 @@ const TRUST = [
 
 const PROBLEMAS = [
   {
-    icon: TrendingDown,
-    title: 'Faturamento que some',
-    text: 'Atendimentos realizados que nunca chegaram a ser cobrados. O dinheiro estava lá — e foi perdido por falta de controle.',
+    icon: Receipt,
+    title: 'Faturamento sem clareza',
+    text: 'De tudo que foi produzido, quanto foi faturado? O que aconteceu com o que não foi faturado? De tudo que foi faturado, quanto foi recebido? O que ainda não entrou — está a receber ou foi glosado? E o que foi glosado: por quê foi glosado e foi recursado? Perguntas que toda clínica deveria conseguir responder.',
   },
   {
     icon: EyeOff,
     title: 'Caixa sem visibilidade',
-    text: 'O gestor não sabe quanto vai entrar nos próximos 30 dias nem quando o caixa vai apertar. Decisão no escuro.',
+    text: 'Qual a capacidade do caixa hoje? Quanto vai entrar nos próximos dias? Quando as saídas vão superar as entradas? Sem essas respostas, decisões importantes podem ser tomadas no escuro — e o problema só aparece quando já é tarde.',
   },
   {
-    icon: PackageX,
-    title: 'Equipamentos sem controle',
-    text: 'Aparelho emprestado sem retorno, manutenção vencida, auditoria chegando sem histórico organizado.',
+    icon: ScanLine,
+    title: 'Inventário de equipamentos',
+    text: 'Clínica sem inventário real dos seus equipamentos. Manutenção vencida sem alerta. Auditoria da vigilância sanitária chegando sem histórico organizado. Cada um desses problemas custa dinheiro e tempo.',
   },
   {
-    icon: ClipboardList,
-    title: 'Operação no braço',
-    text: 'Ligar para fornecedor, atualizar planilha, avisar paciente manualmente. Tempo da equipe indo embora todo dia.',
+    icon: Workflow,
+    title: 'Processos manuais',
+    text: 'Ligar para fornecedor, atualizar planilha, avisar paciente manualmente. Tarefas repetitivas que consomem o tempo da equipe todo dia — tempo que poderia estar em atendimento.',
   },
 ]
 
@@ -89,22 +90,22 @@ const DIFERENCIAIS = [
   {
     icon: Plug,
     title: 'Sem trocar o que você já tem',
-    text: 'Nossas soluções se adaptam ao sistema atual da clínica. Sem migração, sem interrupção da operação.',
+    text: 'O BID conecta direto ao ERP que a clínica já usa — sem migração, sem interrupção da operação. Plug and play com qualquer ERP do mercado. A clínica continua operando normalmente enquanto a inteligência entra em funcionamento.',
   },
   {
     icon: ShieldCheck,
     title: 'Segurança e privacidade',
-    text: 'Os dados de cada clínica são isolados e protegidos. Conformidade com a LGPD desde a fundação.',
+    text: 'Isolamento de dados por Row Level Security — o mesmo padrão de segurança usado por bancos e operadoras de saúde. Hospedados na AWS. Acesso por perfil com autenticação segura. Contrato de proteção de dados incluso — conformidade LGPD garantida desde o primeiro dia.',
   },
   {
     icon: Users,
     title: 'Implementação acompanhada',
-    text: 'Você não recebe um software e fica sozinho. A DeepCare acompanha cada etapa da implementação.',
+    text: 'Você não recebe um software, recebe inteligência. A DeepCare acompanha cada etapa com você — setup completo e validação dos dados com o gestor. Suporte ativo durante todo o processo e após a entrega. A solução só vai para produção quando estiver validada e funcionando.',
   },
   {
     icon: LineChart,
     title: 'Resultado que se mede',
-    text: 'Cada solução tem indicadores claros. Você sabe exatamente o que melhorou — e quanto.',
+    text: 'Cada solução entregue tem indicadores claros desde o primeiro dia. Faturamento recuperado, caixa projetado, glosas identificadas, tempo de equipe liberado. Você sabe exatamente o que melhorou, quanto melhorou — e o que ainda pode melhorar.',
   },
 ]
 
@@ -160,11 +161,19 @@ function FeatureCard({
   return (
     <motion.div
       variants={fadeUp}
-      className="bg-white border border-[#E5E7EB] rounded-2xl p-8"
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#1A2620] p-6 cursor-default
+        hover:border-[#5B8F7A]/50 hover:shadow-[0_0_30px_rgba(91,143,122,0.15)] hover:bg-[#1F2E26]
+        transition-colors duration-300"
     >
-      <Icon className="w-10 h-10 text-[#5B8F7A] mb-4" strokeWidth={1.5} />
-      <h3 className="text-lg font-semibold text-[#111111] mb-2">{title}</h3>
-      <p className="text-[#555555] leading-relaxed">{text}</p>
+      <div className="absolute top-4 right-4 text-white/10">
+        <Icon className="w-16 h-16" strokeWidth={1.5} />
+      </div>
+      <div className="pr-20">
+        <h3 className="text-lg font-semibold text-white leading-snug">{title}</h3>
+      </div>
+      <p className="text-gray-400 text-sm leading-relaxed">{text}</p>
     </motion.div>
   )
 }
@@ -216,12 +225,12 @@ function HeroVisual() {
   return (
     <div
       ref={splineContainerRef}
-      style={{ width: '100%', height: '500px', overflow: 'visible', background: 'transparent', marginTop: '80px' }}
+      style={{ width: '100%', height: '600px', marginTop: '80px' }}
       aria-hidden="true"
     >
       <SplineHero
         scene="https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode"
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '600px' }}
       />
     </div>
   )
@@ -352,27 +361,22 @@ export default function SaudePage() {
       <Header />
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#F8F9FA] py-32" style={{ overflow: 'visible' }}>
-          <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <section className="bg-[#F8F9FA] pt-24 pb-32" style={{ overflow: 'visible' }}>
+          <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center" style={{ overflow: 'visible' }}>
             {/* Left */}
-            <Reveal>
+            <Reveal className="self-start pt-8">
               <Badge>Setor de Saúde</Badge>
               <h1 className="text-4xl md:text-5xl font-bold text-[#111111] leading-tight mt-4">
-                Inteligência de negócios para clínicas que querem crescer com clareza.
+                Inteligência de negócios para clínicas crescerem com direção e clareza.
               </h1>
               <p className="text-lg text-[#555555] mt-4 max-w-lg leading-relaxed">
-                A DeepCare nasceu no setor de saúde. Nossas soluções foram
-                desenvolvidas a partir de problemas reais de gestão — financeiro,
-                operacional e controle de ativos — que clínicas enfrentam todos os dias.
+                O BID foi construído por profissionais com mais de 20 anos no setor de saúde, a partir de problemas reais de gestão clínica — faturamento invisível, caixa imprevisível e decisões tomadas sem dados. Tudo isso em um único painel, plug and play com o ERP que você já usa.
               </p>
 
               <div className="mt-8 flex gap-4 flex-wrap">
-                <a href={WA_URL} target="_blank" rel="noopener noreferrer" className={btnGreen}>
-                  Quero uma demonstração
-                </a>
                 <a
-                  href="#solucoes-saude"
-                  className="inline-flex items-center justify-center text-[15px] px-7 py-[13px] text-[#555555] rounded-full hover:bg-black/5 transition-colors duration-200 font-medium"
+                  href="#bid-intro"
+                  className="inline-flex items-center justify-center text-[15px] px-7 py-[13px] text-[#D97757] rounded-full hover:bg-black/5 transition-colors duration-200 font-medium"
                 >
                   Ver soluções ↓
                 </a>
@@ -389,9 +393,9 @@ export default function SaudePage() {
             </Reveal>
 
             {/* Right */}
-            <Reveal className="overflow-visible">
+            <div className="flex items-center justify-center">
               <HeroVisual />
-            </Reveal>
+            </div>
           </div>
         </section>
 
@@ -400,10 +404,10 @@ export default function SaudePage() {
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="text-center">
               <h2 className="text-3xl font-bold text-[#111111]">
-                O que gestores de clínica enfrentam todo dia
+                Sua clínica produz. Mas quanto disso vira resultado?
               </h2>
               <p className="text-[#555555] mt-3 max-w-2xl mx-auto">
-                Problemas que parecem normais — mas têm solução.
+                Problemas que gestores de clínica enfrentam todo dia.
               </p>
             </Reveal>
 
@@ -422,7 +426,7 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  02b · BID Intro  ─────────── */}
-        <section className="bg-[#F8F9FA] py-24">
+        <section id="bid-intro" className="bg-[#F8F9FA] py-24">
           <div className="max-w-[1200px] mx-auto px-6">
 
             {/* 1 · Header centralizado */}
@@ -453,16 +457,18 @@ export default function SaudePage() {
             {/* 3 · Descrição, bullets e CTA */}
             <Reveal className="grid grid-cols-2 gap-12 mt-10">
               {/* Coluna esquerda: descrição */}
-              <p className="text-[#555555] leading-relaxed">
-                O BID é plug and play — não importa qual ERP você usa, ele conecta,
-                normaliza e entrega inteligência executiva completa: Financeiro, Fluxo
-                de Caixa, Análise de Resultado, Gestão Bancária, DRE Administrativa,
-                Faturamento, Análise de Glosas e identificação de guias não faturadas.
-                KPIs que monitoram e conversam com o gestor. E quando surgir uma dúvida,
-                o Lux responde — em linguagem natural, pelo celular ou pelo computador,
-                24 horas por dia, 7 dias por semana, com precisão de CFO e sem alucinação.
-              </p>
-              {/* Coluna direita: bullets + CTA */}
+              <div>
+                <p className="text-[#555555] leading-relaxed">
+                  O BID é plug and play — não importa qual ERP você usa, ele conecta,
+                  normaliza e entrega inteligência executiva completa: Financeiro, Fluxo
+                  de Caixa, Análise de Resultado, Gestão Bancária, DRE Administrativa,
+                  Faturamento, Análise de Glosas e identificação de guias não faturadas.
+                  KPIs que monitoram e conversam com o gestor. E quando surgir uma dúvida,
+                  o Lux responde — em linguagem natural, pelo celular ou pelo computador,
+                  24 horas por dia, 7 dias por semana, com precisão de CFO e sem alucinação.
+                </p>
+              </div>
+              {/* Coluna direita: bullets */}
               <div>
                 <ul className="flex flex-col gap-2.5">
                   {[
@@ -478,16 +484,6 @@ export default function SaudePage() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8">
-                  <a
-                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={btnGreen}
-                  >
-                    Quero conhecer o BID →
-                  </a>
-                </div>
               </div>
             </Reveal>
 
@@ -521,9 +517,15 @@ export default function SaudePage() {
                 </Reveal>
 
                 <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <p className="text-[#555555] leading-relaxed">
-                    Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver.
-                  </p>
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
                       {BID_CAPS.map((item) => (
@@ -546,25 +548,319 @@ export default function SaudePage() {
                   </div>
                 </Reveal>
               </div>
-              <ProductBlock
-                badge="Oftalmologia"
-                name="LensTrack"
-                tagline="Gestão inteligente de lentes de contato."
-                description="Do pedido ao paciente, tudo automatizado. O fornecedor recebe a especificação técnica via WhatsApp, o paciente é avisado em cada etapa — sem uma ligação manual sequer."
-                capabilities={LENS_CAPS}
-                ctaLabel="Quero conhecer o LensTrack →"
-                visual={<LensTrackMockup />}
-                reverse
-              />
-              <ProductBlock
-                badge="Gestão de Equipamentos"
-                name="DeepCare Assets"
-                tagline="Seus equipamentos sob controle total."
-                description="Calibração vencida, aparelho emprestado sem retorno, auditoria de convênio chegando sem histórico. O Assets resolve os três — com bloqueio automático, alertas no login e contato com o paciente em um clique."
-                capabilities={ASSETS_CAPS}
-                ctaLabel="Quero conhecer o Assets →"
-                visual={<AssetsMockup />}
-              />
+
+              {/* Dashboard Financeiro */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    DASHBOARD FINANCEIRO — RESULTADO REAL DA SUA OPERAÇÃO
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    O resultado financeiro da sua clínica, sem precisar abrir planilha.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/dash-financeiro-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      No Dashboard Financeiro, o gestor vê em tempo real o que entrou, o que saiu e onde está o dinheiro — com DRE simplificado, breakeven do mês e análise de receitas e despesas por categoria. Ao clicar em qualquer card, é possível aprofundar no detalhe de cada lançamento. O gráfico de Balanço Diário de Liquidez aponta desequilíbrios no fluxo de caixa antes que virem problema. Plug and play com qualquer ERP.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {[
+                        'DRE simplificado em tempo real',
+                        'Breakeven: quanto falta para cobrir os custos do mês',
+                        'Receitas e despesas separadas por categoria',
+                        'Evolução mensal do resultado — sem planilha',
+                        'Balanço Diário de Liquidez com alerta de desequilíbrio',
+                        'Visão por período: mês, trimestre, semestre e ano',
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Gestão de Caixa */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    GESTÃO DE CAIXA — PROJEÇÃO FUTURA
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    Saiba quando o caixa vai entrar em déficit — antes que aconteça.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/gcaixa-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      Na Gestão de Caixa, o BID projeta o fluxo futuro com base no disponível em caixa, bancos e cartões, somado às contas a receber de convênios e particulares, e descontando os compromissos de pagamento já lançados. O gestor vê o ponto exato de tensão no fluxo antes que ele vire problema, identifica receitas futuras que podem ser antecipadas e acompanha a capacidade de cobertura do caixa para os compromissos à frente. Plug and play com qualquer ERP.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {[
+                        'Projeção futura com base no disponível, a pagar e a receber',
+                        'Caixa, bancos e cartões consolidados',
+                        'Convênios e recebíveis futuros mapeados',
+                        'Ponto de déficit identificado antes do aperto',
+                        'Capacidade de cobertura do caixa analisada',
+                        'Receitas antecipáveis sinalizadas',
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Faturamento */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    FATURAMENTO — JORNADA DO FATURAMENTO
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    Cada etapa do seu faturamento, visível em tempo real.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/faturamento-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      Na tela de Faturamento, o BID responde as perguntas que toda clínica tem dificuldade em responder: de tudo que foi produzido, quanto foi faturado? O que aconteceu com o que não foi faturado? De tudo que foi faturado, quanto foi recebido? O que ainda não entrou — está a receber ou foi glosado? E o que foi glosado: por quê foi glosado e foi recursado? O BID mapeia exatamente as guias não faturadas e monitora quanto tempo cada uma está parada sem faturar — para que o gestor saiba o que está acontecendo em cada etapa. No detalhamento, o ranking de produção médica mostra como o faturamento se distribui entre a parte do médico e da clínica — deixando a relação completamente transparente. Plug and play com qualquer ERP.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {[
+                        'Faturado, Recebido, Glosado e A Receber em tempo real',
+                        'Guias não faturadas mapeadas e rastreadas',
+                        'Glosas detalhadas: motivo e status de recurso',
+                        'Ranking de produção médica com split clínica/médico',
+                        'Composição por convênio, médico e procedimento',
+                        'Visão por período: mês, trimestre, semestre e ano',
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Intel. Faturamento */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    INTEL. FATURAMENTO — AUDITORIA DE PROTOCOLOS CLÍNICOS
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    Descubra o dinheiro que sua clínica deixou na mesa.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/intel-faturamento-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      Após definir o protocolo de exames por faixa etária, o BID vasculha toda a base de dados em busca de pacientes que passaram pela clínica e não realizaram os exames indicados. O resultado aparece em valor financeiro exato: quanto a clínica deixou de faturar e, mais importante, quantos pacientes deixaram de receber o diagnóstico correto. Ao clicar em qualquer exame, o BID abre a lista nominal dos pacientes — com convênio, data da consulta e valor — pronta para auditoria e recuperação ativa. Plug and play com qualquer ERP.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {[
+                        'Protocolos clínicos configuráveis por faixa etária',
+                        'Auditoria automática: quem não realizou o exame indicado',
+                        'Dinheiro na mesa calculado em valor financeiro real',
+                        'Lista nominal de pacientes por exame — exportável',
+                        'Gap de oportunidade por convênio e por médico',
+                        'Recuperação de receita com rastreabilidade clínica',
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Lux IA */}
+              <div>
+                <Reveal className="text-center">
+                  <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
+                    LUX IA — SEU ANALISTA SÊNIOR, ONDE VOCÊ ESTIVER
+                  </span>
+                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                    Converse sobre sua clínica. O Lux responde com os seus dados.
+                  </h3>
+                </Reveal>
+
+                <Reveal>
+                  <video
+                    src="/videos/Lux-bid-demo.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="mt-8 w-full rounded-2xl aspect-video"
+                  />
+                </Reveal>
+
+                <Reveal className="grid grid-cols-2 gap-12 mt-10">
+                  <div>
+                    <p className="text-[#555555] leading-relaxed">
+                      O Lux é o analista sênior da clínica — com perfil de BI, Analytics, Data Science e Machine Learning. Converse em linguagem natural e o Lux busca, calcula e responde com os dados reais do negócio, sem alucinação. Prepara análises de desempenho, decomposição de despesas, comparativos entre períodos, materiais para reunião com diretoria e estratégias de negociação com fornecedores — tudo pronto para salvar em PDF ou imprimir. E quanto mais dados a clínica acumula, maior fica sua capacidade analítica: o Lux aprende com o histórico do negócio, descobre padrões em receita e despesa que passariam despercebidos e ajuda o gestor a tomar decisões mais seguras e embasadas. Disponível no celular e no computador, 24 horas por dia, 7 dias por semana.
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                      Dados fictícios para fins ilustrativos
+                    </span>
+                  </div>
+                  <div>
+                    <ul className="flex flex-col gap-2.5">
+                      {[
+                        'Respostas em linguagem natural com dados reais da clínica',
+                        'BI Sênior, Analytics, Data Science e Machine Learning',
+                        'Análise de faturamento, despesas, margem e caixa',
+                        'Materiais para reunião prontos para PDF ou impressão',
+                        'Suporte a negociação com fornecedores baseado em dados',
+                        'Zero alucinação — o Lux só afirma o que os dados confirmam',
+                        'Quanto mais dados, mais inteligente — aprende com o histórico',
+                        'Disponível no mobile — onde você estiver',
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2.5 text-[#555555]">
+                          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <a
+                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={btnGreen}
+                      >
+                        Quero meu Departamento de Inteligência →
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
             </div>
           </div>
         </section>

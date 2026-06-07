@@ -1,6 +1,6 @@
 # Site DeepCare Analytics — Estado Atual
 **Última atualização:** 06/06/2026  
-**Versão:** 1.5  
+**Versão:** 1.6  
 **Deploy:** Vercel → deepcareanalytics.com  
 **Repositório:** C:\Projetos\Site-DeepCare  
 
@@ -24,7 +24,7 @@
 Fundo principal:     #FFFFFF
 Fundo alternado:     #F8F9FA
 Fundo escuro:        #1A2620 via token bg-bg-dark (Premissa, CTAFinal, Comunidade)
-Fundo cards escuros: #1A2620 (cards Soluções), hover #1F2E26
+Fundo cards escuros: #1A2620 (cards Soluções, cards FeatureCard), hover #1F2E26
 Texto primário:      #111111
 Texto secundário:    #555555
 Verde principal:     #5B8F7A
@@ -45,6 +45,8 @@ app/
   comunidade/
     layout.tsx            ✅ Isolado — sem header/footer, metadata próprio
     page.tsx              ✅ Formulário conversacional 5 etapas
+  saude/
+    page.tsx              ✅ Página setorial /saude — ver detalhes abaixo
 components/
   Header.tsx              ✅ Ver detalhes abaixo
   Hero.tsx                ✅ Ver detalhes abaixo
@@ -74,6 +76,11 @@ public/
   videos/
     login-bid-demo.mp4            ← BID Intro (bloco 02b · /saude)
     overview-bid-demo.mp4         ← Overview (bloco 03 · /saude)
+    dash-financeiro-bid-demo.mp4  ← Dashboard Financeiro (bloco 03 · /saude)
+    gcaixa-bid-demo.mp4           ← Gestão de Caixa (bloco 03 · /saude)
+    faturamento-bid-demo.mp4      ← Faturamento (bloco 03 · /saude)
+    intel-faturamento-bid-demo.mp4← Intel. Faturamento (bloco 03 · /saude)
+    Lux-bid-demo.mp4              ← Lux IA (bloco 03 · /saude)
 tailwind.config.ts
 next.config.mjs
 package.json
@@ -101,15 +108,17 @@ package.json
 
 ### Hero.tsx ✅
 - Layout: duas colunas — texto esquerda (~50%), Spline direita (~50%)
+- Section: `relative min-h-screen flex items-start pt-16 bg-white overflow-visible`
+- Inner div: `max-w-[1200px] mx-auto px-6 pt-6 pb-20 w-full flex flex-col md:flex-row items-center gap-12`
 - Spline: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
   - Partículas verdes: Color A `5B8F7A`, Color B `8BBFAE`
   - Fundo transparente (BG 0%)
   - Texto "Move your mouse." removido
 - Scroll fix: useEffect com retry para repassar wheel event ao window (multiplicador 2.0)
-- Label: "INTELIGÊNCIA ARTIFICIAL PARA EMPRESAS"
+- Pílula: "INTELIGÊNCIA ARTIFICIAL PARA EMPRESAS" — `tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5`
 - Headline: "A plataforma das empresas que crescem com IA na prática."
 - Slogan: "IA implementada com ética, segurança e resultado mensurável — você no controle de cada etapa."
-- CTAs: "Quero uma demonstração" (verde, WA: "Olá! Quero conhecer uma demonstração da DeepCare.") + "Ver soluções →" (ghost)
+- CTAs: "Quero uma demonstração" (verde, WA: "Olá! Quero conhecer uma demonstração da DeepCare.") + "Ver soluções →" (ghost, `text-brand-green`)
 - **Trust signals** abaixo dos CTAs (`flex flex-wrap gap-x-6 gap-y-3 mt-6`):
   - ShieldCheck "Dados protegidos"
   - UserCheck "Supervisão humana"
@@ -276,62 +285,215 @@ package.json
 
 ---
 
-## app/saude/page.tsx
+## app/saude/page.tsx ✅
 
-**Fundo da página:** `#F8F9FA` (light mode) — alterado de `#1A2620` (dark)
+**Fundo da página:** `#F8F9FA` (light mode)
 
-### HeroVisual (coluna direita do Hero)
-- Componente principal: `HeroVisual`
-- Coluna direita contém **apenas a orb Spline** — cards estáticos removidos: "Faturamento do mês", "Projeção de caixa (60d)" e "Glosa identificada"
-- URL da cena: `https://prod.spline.design/LTT45xHeltPz1XC7/scene.splinecode`
-- Importação: `dynamic(() => import('@splinetool/react-spline'), { ssr: false })`
-- Scroll fix aplicado: `useRef + useEffect` com retry (até 20 tentativas × 300ms), `querySelector('canvas')` escopo do container, repassa `wheelEvent` ao `window` com multiplicador 2.0
-- Container da orb: `overflow: visible`, `background: transparent`, `height: 500px`, `marginTop: 80px` (centralização vertical sem corte no topo)
-- `overflow: visible` explícito na `motion.div` (`Reveal`) da coluna direita via `className="overflow-visible"`
-- `overflow: visible` explícito na própria `<section>` do Hero via `style={{ overflow: 'visible' }}`
+### Primitivos compartilhados (locais ao arquivo)
 
-### 02b · BID Intro ✅ *(novo)*
-Layout: coluna única centralizada, `bg-[#F8F9FA] py-24`
+**`FeatureCard`** — card escuro reutilizado em Problemas e Por que a DeepCare:
+- bg: `#1A2620`, hover: `#1F2E26`
+- Borda: `border-white/8`, hover: `border-[#5B8F7A]/50`
+- Hover shadow: `shadow-[0_0_30px_rgba(91,143,122,0.15)]`, scale 1.02 (Framer Motion spring)
+- Ícone fantasma: `absolute top-4 right-4`, `w-16 h-16`, `text-white/10`, `strokeWidth={1.5}`
+- Título: `text-lg font-semibold text-white`, `pr-20`
+- Texto: `text-gray-400 text-sm leading-relaxed`
+
+**Pílula "Dados fictícios"** — presente em todos os blocos de vídeo **exceto** BID Intro:
+```jsx
+<span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+  Dados fictícios para fins ilustrativos
+</span>
+```
+
+### 01 · Hero ✅
+
+- Section: `bg-[#F8F9FA] pt-24 pb-32`, `overflow: visible`
+- Grid: `md:grid-cols-2 gap-16 items-center`
+- **Coluna esquerda** (`Reveal`, `self-start pt-8`):
+  - Pílula badge: "Setor de Saúde"
+  - Headline `h1`: "Inteligência de negócios para clínicas crescerem com direção e clareza."
+  - Subtítulo: "O BID foi construído por profissionais com mais de 20 anos no setor de saúde, a partir de problemas reais de gestão clínica — faturamento invisível, caixa imprevisível e decisões tomadas sem dados. Tudo isso em um único painel, plug and play com o ERP que você já usa."
+  - Botão: **"Ver soluções ↓"** — `href="#bid-intro"`, ghost sem borda, `text-[#D97757]`, hover `bg-black/5` — **único botão** (sem "Quero uma demonstração")
+  - Trust signals (`flex flex-wrap gap-x-6 gap-y-3 mt-8`): 4 items com ícones `text-[#5B8F7A] w-4 h-4`:
+    - CheckCircle "Funciona com o sistema que você já usa"
+    - ShieldCheck "Dados protegidos e isolados por clínica"
+    - BarChart2 "Resultado mensurável desde o primeiro mês"
+    - Headphones "Suporte direto com quem construiu a solução"
+- **Coluna direita:** `HeroVisual` — orb Spline (`https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`), `height: 600px`, `marginTop: 80px`, scroll fix com retry 20× 300ms
+
+### 02 · Problemas ✅
+
+- Section: `id="problemas-saude"`, `bg-[#F8F9FA] py-24`
+- Título `h2`: "Sua clínica produz. Mas quanto disso vira resultado?"
+- Subtítulo: "Problemas que gestores de clínica enfrentam todo dia."
+- Grid: `md:grid-cols-2 gap-6 mt-12` — 4 `FeatureCard` escuros com ícone fantasma
+
+| # | Ícone | Título | Texto |
+|---|-------|--------|-------|
+| 1 | Receipt | Faturamento sem clareza | "De tudo que foi produzido, quanto foi faturado? O que aconteceu com o que não foi faturado? De tudo que foi faturado, quanto foi recebido? O que ainda não entrou — está a receber ou foi glosado? E o que foi glosado: por quê foi glosado e foi recursado? Perguntas que toda clínica deveria conseguir responder." |
+| 2 | EyeOff | Caixa sem visibilidade | "Qual a capacidade do caixa hoje? Quanto vai entrar nos próximos dias? Quando as saídas vão superar as entradas? Sem essas respostas, decisões importantes podem ser tomadas no escuro — e o problema só aparece quando já é tarde." |
+| 3 | ScanLine | Inventário de equipamentos | "Clínica sem inventário real dos seus equipamentos. Manutenção vencida sem alerta. Auditoria da vigilância sanitária chegando sem histórico organizado. Cada um desses problemas custa dinheiro e tempo." |
+| 4 | Workflow | Processos manuais | "Ligar para fornecedor, atualizar planilha, avisar paciente manualmente. Tarefas repetitivas que consomem o tempo da equipe todo dia — tempo que poderia estar em atendimento." |
+
+### 02b · BID Intro ✅
+
+- Section: `id="bid-intro"`, `bg-[#F8F9FA] py-24`
+- Layout: coluna única centralizada
 
 **1 · Header centralizado**
-- Tagline pill: "BID — BUSINESS INTELLIGENCE DEPARTMENT" — `text-xs tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5`
+- Tagline pill: "BID — BUSINESS INTELLIGENCE DEPARTMENT"
 - Título `h2`: "Tenha um Departamento de Inteligência inteiro na sua clínica."
 - Subtítulo verde: "Tudo que importa, em um lugar só." — `text-lg font-medium text-[#5B8F7A]`
 
 **2 · Vídeo**
 - Arquivo: `login-bid-demo.mp4`
 - Classes: `mt-8 w-full rounded-2xl aspect-video`, `autoPlay muted loop playsInline`
+- **Sem pílula "Dados fictícios"**
 
-**3 · Descrição, bullets e CTA** — `grid grid-cols-2 gap-12 mt-10`
-- Coluna esquerda: descrição completa do BID (plug and play, ERPs, módulos Financeiro / Caixa / DRE / Faturamento / Glosas / guias não faturadas, Lux em linguagem natural 24/7)
-- Coluna direita: 5 bullets com `→` + botão "Quero conhecer o BID →" → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
-  - Bullets: Plug and play | Financeiro, Caixa, DRE e Faturamento | Glosas e guias não faturadas | Lux 24/7 linguagem natural | KPIs com alerta ao gestor
+**3 · Grid 2 colunas** (`grid grid-cols-2 gap-12 mt-10`)
+- Esquerda: descrição completa (plug and play, ERPs, módulos Financeiro / Caixa / DRE / Faturamento / Glosas / guias não faturadas, Lux 24/7)
+- Direita: 5 bullets com `→`:
+  - Plug and play — funciona com qualquer ERP
+  - Financeiro, Caixa, DRE e Faturamento em um só painel
+  - Análise de glosas e guias não faturadas identificadas automaticamente
+  - Lux: converse em linguagem natural, no celular ou no desktop, 24/7
+  - KPIs que monitoram e alertam o gestor em tempo real
 
-### 03 · Soluções ✅ *(atualizado)*
-Bloco de cabeçalho "Três soluções. Cada uma resolve um problema específico." **removido**.
+### 03 · Soluções ✅
 
-Container dos blocos: `flex flex-col gap-24` (sem `mt-16`).
-
-**Overview — coluna única** (mesmo padrão do BID Intro)
-
-**1 · Header centralizado**
-- Tagline pill: "OVERVIEW — ACOMPANHE SUA META DE FATURAMENTO"
-- Título `h3`: "Sua meta de faturamento, acompanhada em tempo real."
-
-**2 · Vídeo**
-- Arquivo: `overview-bid-demo.mp4`
-- Classes: `mt-8 w-full rounded-2xl aspect-video`, `autoPlay muted loop playsInline`
-
-**3 · Descrição, bullets e CTA** — `grid grid-cols-2 gap-12 mt-10`
-- Coluna esquerda: "Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver."
-- Coluna direita: 6 bullets com `→` + botão "Quero meu Departamento de Inteligência →" → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
-  - Bullets: Meta de faturamento com progresso em tempo real | Alerta automático: abaixo, acima ou direto no alvo | Projeção de fechamento do período | Glosa do período identificada e monitorada | Visão mensal, trimestral, semestral e anual | Disponível no mobile — acompanhe de onde estiver
-
-**Demais blocos** (LensTrack, Assets) — layout ProductBlock duas colunas, sem alteração.
+- Section: `id="solucoes-saude"`, `bg-[#F8F9FA] py-24`
+- Container: `flex flex-col gap-24`
+- Cada bloco: coluna única, mesmo padrão do BID Intro (header centralizado → vídeo → grid 2 colunas)
+- **LensTrack e DeepCare Assets removidos**
+- Pílula "Dados fictícios" em todos os blocos (coluna esquerda, abaixo da descrição)
+- CTA de todos os blocos: **"Quero meu Departamento de Inteligência →"** → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
 
 ---
 
-## Spline — Orb Compartilhada (Hero, Mentoria, Sobre)
+#### Overview
+
+- Tagline pill: "OVERVIEW — ACOMPANHE SUA META DE FATURAMENTO"
+- Título `h3`: "Sua meta de faturamento, acompanhada em tempo real."
+- Vídeo: `overview-bid-demo.mp4`
+- Descrição: "Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver."
+- Bullets (6):
+  - Meta de faturamento com progresso em tempo real
+  - Alerta automático: abaixo, acima ou direto no alvo
+  - Projeção de fechamento do período
+  - Glosa do período identificada e monitorada
+  - Visão mensal, trimestral, semestral e anual
+  - Disponível no mobile — acompanhe de onde estiver
+
+---
+
+#### Dashboard Financeiro
+
+- Tagline pill: "DASHBOARD FINANCEIRO — RESULTADO REAL DA SUA OPERAÇÃO"
+- Título `h3`: "O resultado financeiro da sua clínica, sem precisar abrir planilha."
+- Vídeo: `dash-financeiro-bid-demo.mp4`
+- Descrição: "No Dashboard Financeiro, o gestor vê em tempo real o que entrou, o que saiu e onde está o dinheiro — com DRE simplificado, breakeven do mês e análise de receitas e despesas por categoria. Ao clicar em qualquer card, é possível aprofundar no detalhe de cada lançamento. O gráfico de Balanço Diário de Liquidez aponta desequilíbrios no fluxo de caixa antes que virem problema. Plug and play com qualquer ERP."
+- Bullets (6):
+  - DRE simplificado em tempo real
+  - Breakeven: quanto falta para cobrir os custos do mês
+  - Receitas e despesas separadas por categoria
+  - Evolução mensal do resultado — sem planilha
+  - Balanço Diário de Liquidez com alerta de desequilíbrio
+  - Visão por período: mês, trimestre, semestre e ano
+
+---
+
+#### Gestão de Caixa
+
+- Tagline pill: "GESTÃO DE CAIXA — PROJEÇÃO FUTURA"
+- Título `h3`: "Saiba quando o caixa vai entrar em déficit — antes que aconteça."
+- Vídeo: `gcaixa-bid-demo.mp4`
+- Descrição: "Na Gestão de Caixa, o BID projeta o fluxo futuro com base no disponível em caixa, bancos e cartões, somado às contas a receber de convênios e particulares, e descontando os compromissos de pagamento já lançados. O gestor vê o ponto exato de tensão no fluxo antes que ele vire problema, identifica receitas futuras que podem ser antecipadas e acompanha a capacidade de cobertura do caixa para os compromissos à frente. Plug and play com qualquer ERP."
+- Bullets (6):
+  - Projeção futura com base no disponível, a pagar e a receber
+  - Caixa, bancos e cartões consolidados
+  - Convênios e recebíveis futuros mapeados
+  - Ponto de déficit identificado antes do aperto
+  - Capacidade de cobertura do caixa analisada
+  - Receitas antecipáveis sinalizadas
+
+---
+
+#### Faturamento
+
+- Tagline pill: "FATURAMENTO — JORNADA DO FATURAMENTO"
+- Título `h3`: "Cada etapa do seu faturamento, visível em tempo real."
+- Vídeo: `faturamento-bid-demo.mp4`
+- Descrição: "Na tela de Faturamento, o BID responde as perguntas que toda clínica tem dificuldade em responder: de tudo que foi produzido, quanto foi faturado? O que aconteceu com o que não foi faturado? De tudo que foi faturado, quanto foi recebido? O que ainda não entrou — está a receber ou foi glosado? E o que foi glosado: por quê foi glosado e foi recursado? O BID mapeia exatamente as guias não faturadas e monitora quanto tempo cada uma está parada sem faturar — para que o gestor saiba o que está acontecendo em cada etapa. No detalhamento, o ranking de produção médica mostra como o faturamento se distribui entre a parte do médico e da clínica — deixando a relação completamente transparente. Plug and play com qualquer ERP."
+- Bullets (6):
+  - Faturado, Recebido, Glosado e A Receber em tempo real
+  - Guias não faturadas mapeadas e rastreadas
+  - Glosas detalhadas: motivo e status de recurso
+  - Ranking de produção médica com split clínica/médico
+  - Composição por convênio, médico e procedimento
+  - Visão por período: mês, trimestre, semestre e ano
+
+---
+
+#### Intel. Faturamento
+
+- Tagline pill: "INTEL. FATURAMENTO — AUDITORIA DE PROTOCOLOS CLÍNICOS"
+- Título `h3`: "Descubra o dinheiro que sua clínica deixou na mesa."
+- Vídeo: `intel-faturamento-bid-demo.mp4`
+- Descrição: "Após definir o protocolo de exames por faixa etária, o BID vasculha toda a base de dados em busca de pacientes que passaram pela clínica e não realizaram os exames indicados. O resultado aparece em valor financeiro exato: quanto a clínica deixou de faturar e, mais importante, quantos pacientes deixaram de receber o diagnóstico correto. Ao clicar em qualquer exame, o BID abre a lista nominal dos pacientes — com convênio, data da consulta e valor — pronta para auditoria e recuperação ativa. Plug and play com qualquer ERP."
+- Bullets (6):
+  - Protocolos clínicos configuráveis por faixa etária
+  - Auditoria automática: quem não realizou o exame indicado
+  - Dinheiro na mesa calculado em valor financeiro real
+  - Lista nominal de pacientes por exame — exportável
+  - Gap de oportunidade por convênio e por médico
+  - Recuperação de receita com rastreabilidade clínica
+
+---
+
+#### Lux IA
+
+- Tagline pill: "LUX IA — SEU ANALISTA SÊNIOR, ONDE VOCÊ ESTIVER"
+- Título `h3`: "Converse sobre sua clínica. O Lux responde com os seus dados."
+- Vídeo: `Lux-bid-demo.mp4`
+- Descrição: "O Lux é o analista sênior da clínica — com perfil de BI, Analytics, Data Science e Machine Learning. Converse em linguagem natural e o Lux busca, calcula e responde com os dados reais do negócio, sem alucinação. Prepara análises de desempenho, decomposição de despesas, comparativos entre períodos, materiais para reunião com diretoria e estratégias de negociação com fornecedores — tudo pronto para salvar em PDF ou imprimir. E quanto mais dados a clínica acumula, maior fica sua capacidade analítica: o Lux aprende com o histórico do negócio, descobre padrões em receita e despesa que passariam despercebidos e ajuda o gestor a tomar decisões mais seguras e embasadas. Disponível no celular e no computador, 24 horas por dia, 7 dias por semana."
+- Bullets (8):
+  - Respostas em linguagem natural com dados reais da clínica
+  - BI Sênior, Analytics, Data Science e Machine Learning
+  - Análise de faturamento, despesas, margem e caixa
+  - Materiais para reunião prontos para PDF ou impressão
+  - Suporte a negociação com fornecedores baseado em dados
+  - Zero alucinação — o Lux só afirma o que os dados confirmam
+  - Quanto mais dados, mais inteligente — aprende com o histórico
+  - Disponível no mobile — onde você estiver
+
+---
+
+### 04 · Por que a DeepCare ✅
+
+- Section: `bg-[#F8F9FA] py-24`
+- Título `h2`: "Por que a DeepCare"
+- Grid: `md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto` — 4 `FeatureCard` escuros
+
+| # | Ícone | Título | Texto |
+|---|-------|--------|-------|
+| 1 | Plug | Sem trocar o que você já tem | "O BID conecta direto ao ERP que a clínica já usa — sem migração, sem interrupção da operação. Plug and play com qualquer ERP do mercado. A clínica continua operando normalmente enquanto a inteligência entra em funcionamento." |
+| 2 | ShieldCheck | Segurança e privacidade | "Isolamento de dados por Row Level Security — o mesmo padrão de segurança usado por bancos e operadoras de saúde. Hospedados na AWS. Acesso por perfil com autenticação segura. Contrato de proteção de dados incluso — conformidade LGPD garantida desde o primeiro dia." |
+| 3 | Users | Implementação acompanhada | "Você não recebe um software, recebe inteligência. A DeepCare acompanha cada etapa com você — setup completo e validação dos dados com o gestor. Suporte ativo durante todo o processo e após a entrega. A solução só vai para produção quando estiver validada e funcionando." |
+| 4 | LineChart | Resultado que se mede | "Cada solução entregue tem indicadores claros desde o primeiro dia. Faturamento recuperado, caixa projetado, glosas identificadas, tempo de equipe liberado. Você sabe exatamente o que melhorou, quanto melhorou — e o que ainda pode melhorar." |
+
+### 05 · CTA Final ✅
+
+- Card branco centralizado, `border border-[#E5E7EB] rounded-3xl p-16 text-center`
+- Título: "Sua clínica merece clareza para crescer."
+- Subtítulo: "Fale com a DeepCare e descubra por onde começar."
+- Botão verde: "Falar com a DeepCare" → `WA_URL`
+- Link ghost: "← Voltar ao site" → `/`
+
+---
+
+## Spline — Orb Compartilhada (Hero, Mentoria, Sobre, /saude Hero)
 
 - URL: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
 - Conta: ricardocostakid@gmail.com
@@ -346,7 +508,7 @@ Container dos blocos: `flex flex-col gap-24` (sem `mt-16`).
 
 ## WhatsApp — Mensagens Pré-preenchidas
 
-Todos os botões usam links diretos (não mais `WA_URL`) com texto encodado. Número: `5517992449351` (corrigido de `5517981852807`).
+Todos os botões usam links diretos (não mais `WA_URL`) com texto encodado. Número: `5517992449351`.
 
 | Botão | Componente | Mensagem |
 |---|---|---|
@@ -355,6 +517,8 @@ Todos os botões usam links diretos (não mais `WA_URL`) com texto encodado. Nú
 | "Agendar uma sessão" | Mentoria (CTA) | Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare. |
 | "Fale com a DeepCare" | CTAFinal | Olá! Quero saber como a DeepCare pode ajudar meu negócio. |
 | (17) 99244-9351 | Footer | Olá! Vim pelo site da DeepCare e quero mais informações. |
+| "Quero meu Departamento de Inteligência →" | /saude — todos os blocos de vídeo | Olá! Quero conhecer o BID da DeepCare. |
+| "Falar com a DeepCare" | /saude — CTA Final | WA_URL (sem texto pré-preenchido customizado) |
 
 ---
 
@@ -430,3 +594,5 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 | Parâmetro solucao | useSearchParams em /comunidade | Personaliza primeira mensagem do chat conforme origem (card ou direto) |
 | globals.css | CSS custom de cards removido (card-glow-wrapper, card-glow-inner, card-border-glow, border-spin) | Substituído por solução Framer Motion + Tailwind pura |
 | Webhook leads | N8N (placeholder) | Flexível, sem backend próprio |
+| /saude blocos vídeo | Coluna única (header → vídeo → grid 2 cols) | Vídeos fullwidth são mais impactantes que layout ProductBlock 30/70 |
+| Pílula dados fictícios | Presente em todos os blocos exceto BID Intro | BID Intro mostra tela de login sem dados reais; demais blocos contêm KPIs ilustrativos |
