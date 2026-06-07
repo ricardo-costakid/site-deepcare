@@ -1,6 +1,6 @@
 # Site DeepCare Analytics — Estado Atual
-**Última atualização:** 07/06/2026  
-**Versão:** 1.8  
+**Última atualização:** 06/06/2026  
+**Versão:** 1.6  
 **Deploy:** Vercel → deepcareanalytics.com  
 **Repositório:** C:\Projetos\Site-DeepCare  
 
@@ -30,7 +30,6 @@ Texto secundário:    #555555
 Verde principal:     #5B8F7A
 Verde médio:         #3D6357
 Verde claro:         #8BBFAE
-Laranja CTA:         #DA7756 (CTAs secundários/ghost a partir de 06-07)
 Borda sutil:         #E5E7EB
 ```
 
@@ -106,22 +105,12 @@ package.json
   - Hover item: bg-[#F8F9FA], texto #5B8F7A
 - **Dropdown Features (mobile):** acordeão no drawer com AnimatePresence (height 0→auto)
 - ChevronDown rotaciona 180° quando aberto
-- **Drawer mobile (06-06):**
-
-| Elemento | Classes / comportamento |
-|---|---|
-| Overlay | `fixed inset-0 bg-black/50 z-40 md:hidden` — cobre a tela toda |
-| Painel | `fixed top-0 right-0 h-full w-72 bg-white z-50 md:hidden shadow-xl` |
-| Animação | Framer Motion `x: 288 → 0` (entra da direita) via `AnimatePresence` |
-| Fechar | Clique no overlay **ou** no botão X dentro do painel |
-| Body scroll | `document.body.style.overflow = 'hidden'` ao abrir; restaurado ao fechar via `useEffect([menuOpen])` |
 
 ### Hero.tsx ✅
 - Layout: duas colunas — texto esquerda (~50%), Spline direita (~50%)
-- Section: `relative flex items-start pt-16 bg-white overflow-visible` — `min-h-screen` removido (06-07)
-- Inner div: `max-w-[1200px] mx-auto px-6 pt-6 pb-10 w-full flex flex-col md:flex-row items-center gap-12` — `pb-20` → `pb-10` (06-07)
+- Section: `relative min-h-screen flex items-start pt-16 bg-white overflow-visible`
+- Inner div: `max-w-[1200px] mx-auto px-6 pt-6 pb-20 w-full flex flex-col md:flex-row items-center gap-12`
 - Spline: `https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`
-  - Container do orb: `hidden md:flex md:w-1/2` — oculto no mobile (06-06)
   - Partículas verdes: Color A `5B8F7A`, Color B `8BBFAE`
   - Fundo transparente (BG 0%)
   - Texto "Move your mouse." removido
@@ -129,7 +118,7 @@ package.json
 - Pílula: "INTELIGÊNCIA ARTIFICIAL PARA EMPRESAS" — `tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5`
 - Headline: "A plataforma das empresas que crescem com IA na prática."
 - Slogan: "IA implementada com ética, segurança e resultado mensurável — você no controle de cada etapa."
-- CTAs: "Quero uma demonstração" (verde, WA: "Olá! Quero conhecer uma demonstração da DeepCare.") + "Ver soluções →" (`text-[#DA7756] hover:text-[#c4664a]`) (06-07)
+- CTAs: "Quero uma demonstração" (verde, WA: "Olá! Quero conhecer uma demonstração da DeepCare.") + "Ver soluções →" (ghost, `text-brand-green`)
 - **Trust signals** abaixo dos CTAs (`flex flex-wrap gap-x-6 gap-y-3 mt-6`):
   - ShieldCheck "Dados protegidos"
   - UserCheck "Supervisão humana"
@@ -138,24 +127,14 @@ package.json
 
 ### Credibilidade.tsx ✅
 - Fundo: #F8F9FA
-- Texto: "Saúde, advocacia, varejo, educação… IA que gera resultado em qualquer setor." (06-07)
-- Linhas decorativas (`h-px`) removidas; `bg-border-subtle` removido (06-07)
+- Texto: "IA implementada em clínicas, escritórios de advocacia e empresas do interior paulista."
 
 ### Solucoes.tsx ✅
-- Padding: `py-20` (06-07)
 - Título: "Nossas Soluções"
 - Subtítulo: "Explore soluções plug & play..."
-- Link simples: **"Quero uma solução personalizada →"** → `/comunidade` — `text-[#DA7756] hover:underline`, sem borda, sem fundo (06-07)
-- **Mobile (06-06):** carrossel horizontal com scroll snapping
-
-```
-mobile:  flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide
-desktop: md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0
-```
-
-Cada card wrapper: `snap-start shrink-0 w-[80vw] md:w-auto`  
-Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none` + `::-webkit-scrollbar { display: none }`).
-
+- Botão ghost: **"Quero uma solução personalizada →"** → `/comunidade`
+  - Estilo: border #5B8F7A, texto #5B8F7A, hover bg #5B8F7A texto branco, rounded-xl
+- Grid: `grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6` — 9 cards, grade 3×3 fechada
 - **Cards (estilo dark `#1A2620`):** `flex flex-col`, ícone e tagline em #5B8F7A, título branco, descrição text-gray-400
   - Borda: border-white/8
   - Hover: `bg-[#1F2E26]`, `border-[#5B8F7A]/50`, `shadow-[0_0_30px_rgba(91,143,122,0.15)]`, `scale(1.02)`
@@ -176,7 +155,6 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
   9. **ERP Financeiro com Open Finance** — Contas a pagar, receber e fluxo de caixa integrados
 
 ### ComoFunciona.tsx ✅
-- Padding: `py-20` (06-07)
 - Fundo: #F8F9FA
 - Título: "Da conversa ao resultado — direto ao ponto."
 - Subtítulo: "Três etapas pensadas para encaixar na sua rotina."
@@ -212,16 +190,14 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
   → "→ suporte ativo" | "→ ajustes contínuos" | "→ cresce com você"
 
 ### Premissa.tsx ✅
-- Padding: `py-20` (06-07)
 - Fundo: bg-bg-dark (#1A2620), seção `relative overflow-hidden`
 - Label: "Nossa Premissa" (verde, 11px, tracking 2px)
-- Subtítulo: "Régua de sucesso:" (06-07; era "Nossa régua de sucesso:")
+- Subtítulo: "Nossa régua de sucesso:"
 - Headline: "Aumentar o lucro, reduzir custos — **ou** os dois." — "ou" em #5B8F7A
 - Subtexto: "A entrega só faz sentido se gerar valor real para o seu negócio."
-- **Texto fantasma "RESULTADO":** `absolute top: 0, left: 0`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(40px, 9vw, 140px)`, font-black, whiteSpace nowrap (06-06: min reduzido de 72px para 40px)
+- **Texto fantasma "RESULTADO":** `absolute top: 0, left: 0`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black, whiteSpace nowrap
 
 ### Mentoria.tsx ✅
-- Padding inner div: `py-20` (06-07)
 - Layout duas colunas: texto esquerda, Spline direita
 - Bloco decorativo "1:1" substituído por componente Spline
 - `SplineMentoria` via `dynamic(() => import('@splinetool/react-spline'), { ssr: false })`
@@ -229,15 +205,15 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 - `useRef splineContainerRef` → scroll fix via `useEffect` com retry; `querySelector('canvas')` dentro do container (sem conflito com canvas do Hero)
 - Container Spline: `hidden md:block`, `height: 600px`, `overflow: visible`, `position: relative`, `width: 100%`
 - Coluna esquerda com `pb-16` para alinhamento vertical com a orb
-- CTA hero: "Quero agendar uma sessão →" — `text-[#DA7756]`, link simples (WA: "Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare.") (06-07)
+- CTA hero: "Quero agendar uma sessão →" (ghost link, WA: "Olá! Tenho interesse em agendar uma sessão de mentoria com a DeepCare.")
   - Pílula verde "MENTORIA" (`bg-[#5B8F7A] text-white text-xs px-2 py-0.5 rounded-full mr-2`) antes do texto
 - CTA final: "Agendar uma sessão" (botão sólido verde, mesmo link WA)
 
 ### Comunidade.tsx ✅ *(nova)*
 - Seção inserida em `page.tsx` entre `<Mentoria />` e `<Sobre />`
-- Fundo: bg-[#1A2620], id="comunidade", `py-12 md:py-20`, `relative overflow-hidden` (06-07: md:py-24 → md:py-20)
+- Fundo: bg-[#1A2620], id="comunidade", py-24, `relative overflow-hidden`
 - Layout: duas colunas `grid-cols-[55%_45%]` no desktop
-- **Texto fantasma "COMUNIDADE":** filho direto da `<section>`, `absolute top: 1rem, left: 50%, translateX(-50%)`, `rgba(255,255,255,0.04)`, `clamp(40px, 9vw, 140px)`, font-black — aparece acima do badge (06-07: top 2rem→1rem; 06-06: min 72px→40px)
+- **Texto fantasma "COMUNIDADE":** filho direto da `<section>`, `absolute top: 2rem, left: 50%, translateX(-50%)`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black — aparece acima do badge
 - **Coluna esquerda:**
   - Badge pill: "COMUNIDADE" — tracking largo, cor #5B8F7A, bg rgba(91,143,122,0.12)
   - Headline: "Resolvemos problemas de quem resolve problemas."
@@ -248,7 +224,6 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
     - `→ diagnóstico coletivo` | `→ soluções reais` | `→ resultado mensurável`
 
 ### Sobre.tsx ✅
-- Padding: `py-20` (06-07)
 - Fundo: #F8F9FA
 - Copy: filosofia AI First — sem mencionar Ricardo pelo nome
 - Layout duas colunas: texto esquerda | Spline direita (mesma orb do Hero/Mentoria)
@@ -257,9 +232,8 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 - Container Spline: `hidden md:block`, `height: 600px`, `overflow: visible`
 
 ### CTAFinal.tsx ✅
-- Padding: `py-20` (06-07)
 - Fundo: bg-bg-dark (#1A2620), seção `relative overflow-hidden`
-- **Texto fantasma "TRANSFORMAÇÃO":** `absolute right: 0, bottom: 1rem`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(40px, 9vw, 140px)`, font-black (06-06: min 72px→40px)
+- **Texto fantasma "TRANSFORMAÇÃO":** `absolute right: 0, bottom: 1rem`, filho direto da `<section>`, `rgba(255,255,255,0.04)`, `clamp(72px, 9vw, 140px)`, font-black
 - Card ~90% largura, border-radius 24px
 - Botão: "Fale com a DeepCare" → `https://wa.me/5517992449351?text=Olá! Quero saber como a DeepCare pode ajudar meu negócio.`
 
@@ -343,9 +317,9 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 ### 01 · Hero ✅
 
-- Section: `bg-[#F8F9FA] pt-10 pb-32 overflow-visible` — `pt-24` → `pt-10` (06-07)
+- Section: `bg-[#F8F9FA] pt-24 pb-32`, `overflow: visible`
 - Grid: `md:grid-cols-2 gap-16 items-center`
-- **Coluna esquerda** (`Reveal`, `self-start pt-2`): — `pt-8` → `pt-2` (06-07)
+- **Coluna esquerda** (`Reveal`, `self-start pt-8`):
   - Pílula badge: "Setor de Saúde"
   - Headline `h1`: "Inteligência de negócios para clínicas crescerem com direção e clareza."
   - Subtítulo: "O BID foi construído por profissionais com mais de 20 anos no setor de saúde, a partir de problemas reais de gestão clínica — faturamento invisível, caixa imprevisível e decisões tomadas sem dados. Tudo isso em um único painel, plug and play com o ERP que você já usa."
@@ -558,12 +532,12 @@ Todos os botões usam links diretos (não mais `WA_URL`) com texto encodado. Nú
 
 ## Textos Fantasma
 
-Palavras decorativas em seções escuras — `rgba(255,255,255,0.04)`, font-black, `clamp(40px, 9vw, 140px)` (06-06: min reduzido de 72px para 40px), whiteSpace nowrap, select-none, `aria-hidden`:
+Palavras decorativas em seções escuras — `rgba(255,255,255,0.04)`, font-black, `clamp(72px, 9vw, 140px)`, whiteSpace nowrap, select-none, `aria-hidden`:
 
 | Componente | Palavra | Posição |
 |---|---|---|
 | Premissa | RESULTADO | `top: 0, left: 0` — topo esquerdo, filho da `<section>` |
-| Comunidade | COMUNIDADE | `top: 1rem, left: 50%, translateX(-50%)` — acima do badge, filho da `<section>` (06-07: top 2rem→1rem) |
+| Comunidade | COMUNIDADE | `top: 2rem, left: 50%, translateX(-50%)` — acima do badge, filho da `<section>` |
 | CTAFinal | TRANSFORMAÇÃO | `right: 0, bottom: 1rem` — rodapé direito, filho da `<section>` |
 
 ---
@@ -630,41 +604,3 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 | Webhook leads | N8N (placeholder) | Flexível, sem backend próprio |
 | /saude blocos vídeo | Coluna única (header → vídeo → grid 2 cols) | Vídeos fullwidth são mais impactantes que layout ProductBlock 30/70 |
 | Pílula dados fictícios | Presente em todos os blocos exceto BID Intro | BID Intro mostra tela de login sem dados reais; demais blocos contêm KPIs ilustrativos |
-| CTAs secundários (ghost) | `text-[#DA7756]` sem borda/fundo (06-07) | Laranja #DA7756 cria contraste sem peso visual de botão; verde reservado para CTAs primários |
-
----
-
-## Changelog de Sessões
-
-### Correções mobile — 2026-06-06
-
-1. **Hero.tsx** — container do orb: `hidden md:flex md:w-1/2`; orb Spline só carrega a partir de `md`
-2. **Premissa · Comunidade · CTAFinal** — `overflow-hidden` na `<section>` raiz; clamp mínimo de textos fantasma: `72px` → `40px`
-3. **Header.tsx** — drawer mobile refatorado com overlay + painel fixed, Framer Motion `x: 288→0`, body scroll lock via `useEffect`
-4. **Solucoes.tsx** — mobile vira carrossel `snap-x snap-mandatory`, card wrapper `snap-start shrink-0 w-[80vw]`
-5. **Comunidade · Mentoria** — `py-24` → `py-12 md:py-24`
-
-### Ajustes de espaçamento e polish — 2026-06-07
-
-1. **Hero.tsx** — `min-h-screen` removido; `pb-20` → `pb-10`; "Ver soluções →" `text-[#DA7756] hover:text-[#c4664a]`
-2. **Credibilidade.tsx** — texto: "Saúde, advocacia, varejo, educação… IA que gera resultado em qualquer setor."; linhas `h-px` e `bg-border-subtle` removidos
-3. **Solucoes.tsx** — `py-[140px]` → `py-20`; botão "Quero uma solução personalizada →" → link simples `text-[#DA7756] hover:underline`
-4. **ComoFunciona.tsx** — `py-[140px]` → `py-20`
-5. **Premissa.tsx** — `py-[140px]` → `py-20`; "Nossa régua de sucesso:" → "Régua de sucesso:"
-6. **Mentoria.tsx** — `py-[140px]` → `py-20`; "Quero agendar uma sessão →" `text-[#DA7756]`
-7. **Comunidade.tsx** — `md:py-24` → `md:py-20`; texto fantasma `top: 2rem` → `top: 1rem`
-8. **Sobre.tsx** — `py-[140px]` → `py-20`
-9. **CTAFinal.tsx** — `py-[120px]` → `py-20`
-10. **app/saude/page.tsx Hero** — `pt-24` → `pt-10` na section; `pt-8` → `pt-2` no Reveal
-
-### Webhook N8N — Leads /comunidade ✅ (07-06)
-
-- Webhook: https://n8n-production-23c9.up.railway.app/webhook/leads-comunidade
-- Workflow: Webhook → HTTP Request (notifica Ricardo) → HTTP Request (responde lead)
-- Evolution API: v1.8.2 (atendai/evolution-api:v1.8.2)
-- Instância: deepcare-ricardo — número 5517992449351 — CONECTADA
-- N8N: https://n8n-production-23c9.up.railway.app (Railway, projeto cheerful-embrace)
-- WEBHOOK_N8N_PLACEHOLDER substituído em app/comunidade/page.tsx ✅
-- Notificação Ricardo: nome, whatsapp, empresa, desafio, extra, solução
-- Resposta automática ao lead: mensagem personalizada com nome
-- Número do lead precisa de DDI 55 prefixado (implementado no N8N)
