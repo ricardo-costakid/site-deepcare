@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -19,6 +20,9 @@ const NAV_LINKS = [
 ]
 
 export default function Header() {
+  const pathname = usePathname()
+  const logoHref = pathname === '/saude' ? '/saude' : '/'
+
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -37,7 +41,7 @@ export default function Header() {
       }`}
     >
       <div className="max-w-[1200px] mx-auto px-6 py-4 h-16 flex items-center justify-between">
-        <a href="/" className="flex-shrink-0">
+        <a href={logoHref} className="flex-shrink-0">
           <Image
             src="/logo/deepcare-logo-clara.svg"
             alt="DeepCare Analytics"

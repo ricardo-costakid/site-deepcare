@@ -91,7 +91,7 @@ package.json
 ## Componentes — Estado Detalhado
 
 ### Header.tsx ✅
-- Logo: `deepcare-logo-clara.svg`, height 32px
+- Logo: `deepcare-logo-clara.svg`, height 32px — **href dinâmico**: `usePathname()` do `next/navigation`; `pathname === '/saude' ? '/saude' : '/'`
 - Nav: **Features** (dropdown) | Como funciona | Sobre
 - Link: **Entrar** → https://app.deepcareanalytics.com/login
 - CTA desktop: **Soluções para Saúde** → `/saude` (botão verde sólido, ícone HeartPulse, rounded-full)
@@ -289,6 +289,14 @@ package.json
 
 **Fundo da página:** `#F8F9FA` (light mode)
 
+### Breadcrumb ✅
+
+- Inserido entre `<Header />` e `<main>`, sticky abaixo do header
+- `sticky top-[60px] z-40` — cola logo abaixo do Header ao scrollar
+- Fundo: `#F8F9FA`, border-bottom: `1px solid #E5E7EB`, altura: `h-9`
+- Container interno: `max-w-[1200px] mx-auto px-6 w-full` (alinhado com seções da página)
+- Conteúdo: `← DeepCare` (`<Link href="/">`, cor `#5B8F7A`) · `/` (span, `#CCCCCC`) · `Soluções para Saúde` (span, `#555555`)
+
 ### Primitivos compartilhados (locais ao arquivo)
 
 **`FeatureCard`** — card escuro reutilizado em Problemas e Por que a DeepCare:
@@ -315,7 +323,7 @@ package.json
   - Pílula badge: "Setor de Saúde"
   - Headline `h1`: "Inteligência de negócios para clínicas crescerem com direção e clareza."
   - Subtítulo: "O BID foi construído por profissionais com mais de 20 anos no setor de saúde, a partir de problemas reais de gestão clínica — faturamento invisível, caixa imprevisível e decisões tomadas sem dados. Tudo isso em um único painel, plug and play com o ERP que você já usa."
-  - Botão: **"Ver soluções ↓"** — `href="#bid-intro"`, ghost sem borda, `text-[#D97757]`, hover `bg-black/5` — **único botão** (sem "Quero uma demonstração")
+  - Botão: **"Ver soluções para saúde ↓"** — `href="#bid-intro"`, pílula sólida: bg `#DA7756`, texto branco, `font-weight 500`, `padding 10px 20px`, `border-radius 9999px` — **único botão** (sem "Quero uma demonstração")
   - Trust signals (`flex flex-wrap gap-x-6 gap-y-3 mt-8`): 4 items com ícones `text-[#5B8F7A] w-4 h-4`:
     - CheckCircle "Funciona com o sistema que você já usa"
     - ShieldCheck "Dados protegidos e isolados por clínica"

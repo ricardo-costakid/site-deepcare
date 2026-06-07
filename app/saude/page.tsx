@@ -211,6 +211,13 @@ export default function SaudePage() {
   return (
     <>
       <Header />
+      <div className="bg-[#F8F9FA] border-b border-[#E5E7EB] h-9 flex items-center text-sm mt-16 sticky top-[60px] z-40">
+        <div className="max-w-[1200px] mx-auto px-6 w-full flex items-center gap-2">
+          <Link href="/" className="text-[#5B8F7A] no-underline hover:underline">← DeepCare</Link>
+          <span style={{ color: '#CCCCCC' }}>/</span>
+          <span style={{ color: '#555555' }}>Soluções para Saúde</span>
+        </div>
+      </div>
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
         <section className="bg-[#F8F9FA] pt-24 pb-32" style={{ overflow: 'visible' }}>
@@ -228,9 +235,10 @@ export default function SaudePage() {
               <div className="mt-8 flex gap-4 flex-wrap">
                 <a
                   href="#bid-intro"
-                  className="inline-flex items-center justify-center text-[15px] px-7 py-[13px] text-[#D97757] rounded-full hover:bg-black/5 transition-colors duration-200 font-medium"
+                  className="inline-flex items-center"
+                  style={{ background: '#DA7756', color: '#ffffff', padding: '10px 20px', borderRadius: '9999px', fontWeight: 500, fontSize: '15px' }}
                 >
-                  Ver soluções ↓
+                  Ver soluções para saúde ↓
                 </a>
               </div>
 
