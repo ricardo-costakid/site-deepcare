@@ -177,8 +177,8 @@ export default function Solucoes() {
           </Link>
         </motion.div>
 
-        {/* All 9 cards — 3×3 on xl */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* All 9 cards — carousel on mobile, grid on md+ */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0">
           {SOLUCOES.map((s, i) => (
             <motion.div
               key={s.nome}
@@ -186,7 +186,7 @@ export default function Solucoes() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="flex"
+              className="flex snap-start shrink-0 w-[80vw] md:w-auto"
             >
               <SolucaoCard {...s} />
             </motion.div>

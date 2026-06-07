@@ -93,7 +93,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Spline orb — right */}
-        <div className="w-full md:w-1/2 flex items-center justify-center">
+        <div className="hidden md:flex md:w-1/2 items-center justify-center">
           <div style={{ width: '100%', height: '600px' }}>
             <SplineOrb
               scene="https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode"

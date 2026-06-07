@@ -11,12 +11,12 @@ const LINES = [
 
 export default function Comunidade() {
   return (
-    <section id="comunidade" className="relative overflow-hidden py-24 bg-[#1A2620]">
+    <section id="comunidade" className="relative overflow-hidden py-12 md:py-24 bg-[#1A2620]">
       {/* Ghost word */}
       <span
         className="absolute select-none font-black leading-none"
         style={{
-          fontSize: 'clamp(72px, 9vw, 140px)',
+          fontSize: 'clamp(40px, 9vw, 140px)',
           color: 'rgba(255,255,255,0.04)',
           letterSpacing: '-0.02em',
           writingMode: 'horizontal-tb',

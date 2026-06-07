@@ -199,7 +199,7 @@ export default function Mentoria() {
       </div>
 
       {/* 5. CTA Final */}
-      <div className="bg-[#1A2620] py-24 border-t border-white/5">
+      <div className="bg-[#1A2620] py-12 md:py-24 border-t border-white/5">
         <div className="max-w-[1200px] mx-auto px-6">
           <motion.div
             {...fadeUp()}

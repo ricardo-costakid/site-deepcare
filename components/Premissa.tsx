@@ -8,7 +8,7 @@ export default function Premissa() {
       <span
         className="absolute select-none font-black leading-none"
         style={{
-          fontSize: 'clamp(72px, 9vw, 140px)',
+          fontSize: 'clamp(40px, 9vw, 140px)',
           color: 'rgba(255,255,255,0.04)',
           letterSpacing: '-0.02em',
           writingMode: 'horizontal-tb',
