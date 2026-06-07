@@ -82,3 +82,56 @@ Componentes com `py-24` substituídos por `py-12 md:py-24`:
 - `Mentoria.tsx` — bloco CTA final escuro (`bg-[#1A2620]`)
 
 Os demais componentes (Credibilidade, ComoFunciona, Premissa, Sobre, CTAFinal) usam valores arbitrários (`py-[140px]`, `py-[120px]`) que não se enquadram no padrão `py-24/py-32` e não foram alterados.
+
+---
+
+## Ajustes de espaçamento e polish — 2026-06-07
+
+### 1. Hero.tsx
+
+- `min-h-screen` removido da `<section>` raiz.
+- `pb-20` reduzido para `pb-10` no div interno.
+- Botão "Ver soluções →" estilizado com `text-[#DA7756]` e `hover:text-[#c4664a]`.
+
+### 2. Credibilidade.tsx
+
+- Texto alterado para: _"Saúde, advocacia, varejo, educação… IA que gera resultado em qualquer setor."_
+- Linhas decorativas (`h-px`) removidas.
+- `bg-border-subtle` removido.
+
+### 3. Solucoes.tsx
+
+- `py-[140px]` → `py-20`.
+- Botão "Quero uma solução personalizada →" convertido em link simples: `text-[#DA7756]`, sem borda, sem fundo, com `hover:underline`.
+
+### 4. ComoFunciona.tsx
+
+- `py-[140px]` → `py-20`.
+
+### 5. Premissa.tsx
+
+- `py-[140px]` → `py-20`.
+- Texto "Nossa régua de sucesso:" → "Régua de sucesso:".
+
+### 6. Mentoria.tsx
+
+- `py-[140px]` → `py-20` no div interno.
+- Link "Quero agendar uma sessão →" estilizado com `text-[#DA7756]`.
+
+### 7. Comunidade.tsx
+
+- `py-12 md:py-24` → `py-12 md:py-20`.
+- Texto fantasma posicionado com `top: 1rem`.
+
+### 8. Sobre.tsx
+
+- `py-[140px]` → `py-20`.
+
+### 9. CTAFinal.tsx
+
+- `py-[120px]` → `py-20`.
+
+### 10. app/saude/page.tsx — Hero da página Saúde
+
+- `<section>` do Hero: `pt-24` → `pt-10`.
+- `<Reveal>` interno: `pt-8` → `pt-2`.

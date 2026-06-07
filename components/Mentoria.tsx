@@ -72,7 +72,7 @@ export default function Mentoria() {
     <section id="mentoria" className="bg-white">
 
       {/* 1. Hero */}
-      <div className="py-[140px]">
+      <div className="py-20">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
 
@@ -90,7 +90,7 @@ export default function Mentoria() {
                 href="https://wa.me/5517992449351?text=Ol%C3%A1!%20Tenho%20interesse%20em%20agendar%20uma%20sess%C3%A3o%20de%20mentoria%20com%20a%20DeepCare."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-8 text-[#5B8F7A] font-medium hover:underline transition-all"
+                className="inline-block mt-8 text-[#DA7756] font-medium hover:underline transition-all"
               >
                 <span className="bg-[#5B8F7A] text-white text-xs px-2 py-0.5 rounded-full mr-2">MENTORIA</span>
                 Quero agendar uma sessão →

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Premissa() {
   return (
-    <section className="relative py-[140px] bg-bg-dark overflow-hidden">
+    <section className="relative py-20 bg-bg-dark overflow-hidden">
       <span
         className="absolute select-none font-black leading-none"
         style={{
@@ -30,7 +30,7 @@ export default function Premissa() {
           Nossa Premissa
         </p>
         <p className="text-[26px] font-normal text-white leading-relaxed mb-4">
-          Nossa régua de sucesso:
+          Régua de sucesso:
         </p>
         <p className="text-[38px] md:text-[44px] font-semibold text-white leading-snug tracking-[-0.02em]">
           Aumentar o lucro, reduzir custos —{' '}

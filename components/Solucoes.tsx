@@ -154,7 +154,7 @@ function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
 
 export default function Solucoes() {
   return (
-    <section id="solucoes" className="py-[140px] bg-white">
+    <section id="solucoes" className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -171,7 +171,7 @@ export default function Solucoes() {
           </p>
           <Link
             href="/comunidade"
-            className="inline-block mt-6 text-sm border border-[#5B8F7A] text-[#5B8F7A] rounded-xl px-5 py-2 hover:bg-[#5B8F7A] hover:text-white transition-colors duration-200"
+            className="inline-block mt-6 text-sm text-[#DA7756] hover:underline transition-colors duration-200"
           >
             Quero uma solução personalizada →
           </Link>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function CTAFinal() {
   return (
-    <section className="relative overflow-hidden py-[120px] bg-bg-dark">
+    <section className="relative overflow-hidden py-20 bg-bg-dark">
       <span
         className="absolute select-none font-black leading-none"
         style={{

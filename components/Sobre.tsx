@@ -34,7 +34,7 @@ export default function Sobre() {
   }, [])
 
   return (
-    <section id="sobre" className="py-[140px] bg-bg-alt">
+    <section id="sobre" className="py-20 bg-bg-alt">
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-start">
 

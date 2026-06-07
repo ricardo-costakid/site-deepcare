@@ -35,9 +35,9 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-start pt-16 bg-white overflow-visible"
+      className="relative flex items-start pt-16 bg-white overflow-visible"
     >
-      <div className="max-w-[1200px] mx-auto px-6 pt-6 pb-20 w-full flex flex-col md:flex-row items-center gap-12">
+      <div className="max-w-[1200px] mx-auto px-6 pt-6 pb-10 w-full flex flex-col md:flex-row items-center gap-12">
 
         {/* Text — left */}
         <motion.div
@@ -69,7 +69,7 @@ export default function Hero() {
             </a>
             <a
               href="#solucoes"
-              className="text-[15px] px-7 py-[13px] text-brand-green rounded-full text-center hover:bg-brand-green/5 transition-colors duration-200 font-medium"
+              className="text-[15px] px-7 py-[13px] text-[#DA7756] rounded-full text-center hover:text-[#c4664a] transition-colors duration-200 font-medium"
             >
               Ver soluções →
             </a>

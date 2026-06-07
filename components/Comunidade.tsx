@@ -11,7 +11,7 @@ const LINES = [
 
 export default function Comunidade() {
   return (
-    <section id="comunidade" className="relative overflow-hidden py-12 md:py-24 bg-[#1A2620]">
+    <section id="comunidade" className="relative overflow-hidden py-12 md:py-20 bg-[#1A2620]">
       {/* Ghost word */}
       <span
         className="absolute select-none font-black leading-none"
@@ -22,7 +22,7 @@ export default function Comunidade() {
           writingMode: 'horizontal-tb',
           whiteSpace: 'nowrap',
           left: '50%',
-          top: '2rem',
+          top: 0,
           transform: 'translateX(-50%)',
         }}
       >

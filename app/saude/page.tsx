@@ -220,10 +220,10 @@ export default function SaudePage() {
       </div>
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#F8F9FA] pt-24 pb-32" style={{ overflow: 'visible' }}>
+        <section className="bg-[#F8F9FA] pt-10 pb-32" style={{ overflow: 'visible' }}>
           <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center" style={{ overflow: 'visible' }}>
             {/* Left */}
-            <Reveal className="self-start pt-8">
+            <Reveal className="self-start pt-2">
               <Badge>Setor de Saúde</Badge>
               <h1 className="text-4xl md:text-5xl font-bold text-[#111111] leading-tight mt-4">
                 Inteligência de negócios para clínicas crescerem com direção e clareza.

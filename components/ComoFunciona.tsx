@@ -74,7 +74,7 @@ function GraphicCard({ fantasma, linhas }: { fantasma: string; linhas: string[] 
 
 export default function ComoFunciona() {
   return (
-    <section id="como-funciona" className="py-[140px] bg-bg-alt">
+    <section id="como-funciona" className="py-20 bg-bg-alt">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
