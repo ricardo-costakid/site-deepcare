@@ -160,19 +160,6 @@ function FeatureCard({
   )
 }
 
-function Capabilities({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-6 flex flex-col gap-2.5">
-      {items.map((cap) => (
-        <li key={cap} className="flex gap-2.5 text-[#555555]">
-          <span className="text-[#5B8F7A] flex-shrink-0">→</span>
-          <span>{cap}</span>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 /* ─────────────────────────  Visual mockups (JSX)  ────────────────────── */
 
 const SplineHero = dynamic(() => import('@splinetool/react-spline'), { ssr: false })
