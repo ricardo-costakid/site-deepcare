@@ -160,7 +160,7 @@ function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
 
 export default function Solucoes() {
   return (
-    <section id="solucoes" className="py-20 bg-white">
+    <section id="solucoes" className="py-20 pb-10 md:pb-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

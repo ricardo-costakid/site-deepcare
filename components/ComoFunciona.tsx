@@ -74,19 +74,19 @@ function GraphicCard({ fantasma, linhas }: { fantasma: string; linhas: string[] 
 
 export default function ComoFunciona() {
   return (
-    <section id="como-funciona" className="py-20 bg-bg-alt">
+    <section id="como-funciona" className="pt-10 pb-20 md:pt-20 bg-bg-alt">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-20"
+          className="text-center mb-6 md:mb-20"
         >
           <h2 className="text-[28px] md:text-[40px] font-medium text-text-primary tracking-[-0.015em]">
             Da conversa ao resultado — direto ao ponto.
           </h2>
-          <p className="text-[17px] text-text-secondary mt-3">
+          <p className="text-[17px] text-[#DA7756] mt-3">
             Três etapas pensadas para encaixar na sua rotina.
           </p>
         </motion.div>
