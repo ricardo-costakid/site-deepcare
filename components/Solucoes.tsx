@@ -214,10 +214,10 @@ export default function Solucoes() {
           {!hasScrolled && (
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: [0.4, 1, 0.4] }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="flex md:hidden items-center justify-center gap-2 mt-3 text-xs text-gray-400"
+              transition={{ duration: 0.3 }}
+              className="flex md:hidden items-center justify-center gap-2 mt-3 text-sm text-[#DA7756]"
             >
               deslize para ver mais
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
