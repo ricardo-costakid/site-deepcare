@@ -106,6 +106,16 @@ const SOLUCOES: Solucao[] = [
   },
 ]
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
 function SolucaoCard({ nome, tagline, descricao, icon }: Solucao) {
   const [isTouch, setIsTouch] = useState(false)
   useEffect(() => {
@@ -184,20 +194,23 @@ export default function Solucoes() {
         </motion.div>
 
         {/* All 9 cards — carousel on mobile, grid on md+ */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0">
-          {SOLUCOES.map((s, i) => (
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-6 md:pb-0"
+        >
+          {SOLUCOES.map((s) => (
             <motion.div
               key={s.nome}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              variants={fadeUp}
               className="flex snap-start shrink-0 w-[80vw] md:w-auto"
             >
               <SolucaoCard {...s} />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="flex md:hidden items-center justify-center gap-2 mt-3 text-sm text-[#DA7756]">
           deslize para ver mais
