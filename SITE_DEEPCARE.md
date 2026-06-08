@@ -343,7 +343,7 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 ### 01 · Hero ✅
 
-- Section: `bg-[#F8F9FA] pt-10 pb-32 overflow-visible` — `pt-24` → `pt-10` (06-07)
+- Section: `bg-[#F8F9FA] pt-10 pb-8 md:pb-32 overflow-visible` — `pt-24` → `pt-10` (06-07); `pb-32` → `pb-8 md:pb-32` (mobile fix 07/06)
 - Grid: `md:grid-cols-2 gap-16 items-center`
 - **Coluna esquerda** (`Reveal`, `self-start pt-2`): — `pt-8` → `pt-2` (06-07)
   - Pílula badge: "Setor de Saúde"
@@ -355,14 +355,15 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
     - ShieldCheck "Dados protegidos e isolados por clínica"
     - BarChart2 "Resultado mensurável desde o primeiro mês"
     - Headphones "Suporte direto com quem construiu a solução"
-- **Coluna direita:** `HeroVisual` — orb Spline (`https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`), `height: 600px`, `marginTop: 80px`, scroll fix com retry 20× 300ms
+- **Coluna direita:** `hidden md:flex items-center justify-center` — orb Spline (`https://prod.spline.design/rFiuXhWUUgG552jL/scene.splinecode`), `height: 600px`, `marginTop: 80px`, scroll fix com retry 20× 300ms; **oculto no mobile** (mobile fix 07/06)
 
 ### 02 · Problemas ✅
 
-- Section: `id="problemas-saude"`, `bg-[#F8F9FA] py-24`
+- Section: `id="problemas-saude"`, `bg-[#F8F9FA] pt-8 pb-4 md:py-24`
 - Título `h2`: "Sua clínica produz. Mas quanto disso vira resultado?"
 - Subtítulo: "Problemas que gestores de clínica enfrentam todo dia."
-- Grid: `md:grid-cols-2 gap-6 mt-12` — 4 `FeatureCard` escuros com ícone fantasma
+- **Desktop:** grid `md:grid-cols-2 md:gap-6` — 4 `FeatureCard` escuros com ícone fantasma
+- **Mobile:** carrossel `flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide`; card wrapper `snap-start shrink-0 w-[80vw] h-[320px] overflow-hidden md:w-auto md:h-auto md:overflow-visible`; `FeatureCard` com `h-full`; hint "deslize para ver mais" após o carrossel (`flex md:hidden`, cor `#DA7756`, ícone `ChevronRight`)
 
 | # | Ícone | Título | Texto |
 |---|-------|--------|-------|
@@ -378,7 +379,7 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 **1 · Header centralizado**
 - Tagline pill: "BID — BUSINESS INTELLIGENCE DEPARTMENT"
-- Título `h2`: "Tenha um Departamento de Inteligência inteiro na sua clínica."
+- Título `h2`: "Tenha um Departamento de Inteligência inteiro na sua clínica." — `text-2xl md:text-4xl` (mobile fix 07/06)
 - Subtítulo verde: "Tudo que importa, em um lugar só." — `text-lg font-medium text-[#5B8F7A]`
 
 **2 · Vídeo**
@@ -386,8 +387,8 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 - Classes: `mt-8 w-full rounded-2xl aspect-video`, `autoPlay muted loop playsInline`
 - **Sem pílula "Dados fictícios"**
 
-**3 · Grid 2 colunas** (`grid grid-cols-2 gap-12 mt-10`)
-- Esquerda: descrição completa (plug and play, ERPs, módulos Financeiro / Caixa / DRE / Faturamento / Glosas / guias não faturadas, Lux 24/7)
+**3 · Grid** (`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10`)
+- Esquerda (`hidden md:block`): descrição completa (plug and play, ERPs, módulos Financeiro / Caixa / DRE / Faturamento / Glosas / guias não faturadas, Lux 24/7) — **oculta no mobile**
 - Direita: 5 bullets com `→`:
   - Plug and play — funciona com qualquer ERP
   - Financeiro, Caixa, DRE e Faturamento em um só painel
@@ -397,12 +398,16 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 ### 03 · Soluções ✅
 
-- Section: `id="solucoes-saude"`, `bg-[#F8F9FA] py-24`
-- Container: `flex flex-col gap-24`
-- Cada bloco: coluna única, mesmo padrão do BID Intro (header centralizado → vídeo → grid 2 colunas)
+- Section: `id="solucoes-saude"`, `bg-[#F8F9FA] py-8 md:py-24`
+- Container: `flex flex-col gap-8 md:gap-24`
+- Cada bloco: header centralizado → vídeo → grid → pílula → CTA
+- **Grid por bloco:** `grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10`
+  - Coluna esquerda (`hidden md:block`): descrição longa — **oculta no mobile**
+  - Coluna direita: bullets com `→`
+- **Pílula "Dados fictícios"** movida para **fora do grid**, logo abaixo (`mt-4`)
+- **CTA "Quero meu Departamento de Inteligência →"** movido para **fora do grid**, abaixo da pílula (`mt-4`); classes mobile: `w-full md:w-auto text-center md:text-left`; link → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
+- **Títulos h3:** `text-2xl md:text-4xl font-bold` (mobile fix 07/06)
 - **LensTrack e DeepCare Assets removidos**
-- Pílula "Dados fictícios" em todos os blocos (coluna esquerda, abaixo da descrição)
-- CTA de todos os blocos: **"Quero meu Departamento de Inteligência →"** → `https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare.`
 
 ---
 
@@ -506,9 +511,10 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 ### 04 · Por que a DeepCare ✅
 
-- Section: `bg-[#F8F9FA] py-24`
+- Section: `bg-[#F8F9FA] py-8 md:py-24`
 - Título `h2`: "Por que a DeepCare"
-- Grid: `md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto` — 4 `FeatureCard` escuros
+- **Desktop:** grid `md:grid-cols-2 md:gap-6 mt-12 md:max-w-4xl md:mx-auto` — 4 `FeatureCard` escuros
+- **Mobile:** carrossel `flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide`; card wrapper `snap-start shrink-0 w-[80vw] h-[320px] overflow-hidden md:w-auto md:h-auto md:overflow-visible`; `FeatureCard` com `h-full`; hint "deslize para ver mais" após o carrossel (`flex md:hidden`, cor `#DA7756`, ícone `ChevronRight`)
 
 | # | Ícone | Título | Texto |
 |---|-------|--------|-------|
@@ -519,8 +525,9 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
 
 ### 05 · CTA Final ✅
 
+- Section: `bg-[#F8F9FA] py-8 md:py-24`
 - Card branco centralizado, `border border-[#E5E7EB] rounded-3xl p-16 text-center`
-- Título: "Sua clínica merece clareza para crescer."
+- Título `h2`: "Sua clínica merece clareza para crescer." — `text-2xl md:text-4xl` (mobile fix 07/06)
 - Subtítulo: "Fale com a DeepCare e descubra por onde começar."
 - Botão verde: "Falar com a DeepCare" → `WA_URL`
 - Link ghost: "← Voltar ao site" → `/`
@@ -662,6 +669,17 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 1. **Header.tsx** — drawer mobile movido para createPortal no document.body; resolve conflito de stacking context com Framer Motion quando página está scrollada
 2. **Solucoes.tsx** — whileHover desativado em dispositivos touch via matchMedia('(hover: none)'); indicador "deslize para ver mais" adicionado no mobile (text-sm, cor #DA7756, fixo); pb-10 mobile adicionado na section
 3. **ComoFunciona.tsx** — subtítulo "Três etapas pensadas..." pintado com #DA7756; pt-10 mobile na section; mb-6 mobile no header da seção
+
+### Mobile fixes — /saude (07/06/2026)
+
+1. **Header.tsx** — item "Soluções para Saúde" adicionado no acordeão mobile (Features dropdown); ícone `HeartPulse`, `href="/saude"`, cor `text-[#5B8F7A]`, fecha o drawer ao clicar
+2. **Hero** — orb Spline: `hidden md:flex` no container da coluna direita; `pb-32` → `pb-8 md:pb-32`
+3. **Problemas** — carrossel mobile: `flex overflow-x-auto snap-x snap-mandatory scrollbar-hide`; card wrapper `snap-start shrink-0 w-[80vw] h-[320px] md:h-auto overflow-hidden md:overflow-visible`; hint "deslize para ver mais" após o carrossel (cor `#DA7756`); `py-24` → `pt-8 pb-4 md:py-24`
+4. **Blocos de vídeo** — grid `grid-cols-1 md:grid-cols-2`; descrição longa `hidden md:block`; pílula "Dados fictícios" e CTA movidos para fora do grid; CTA `w-full md:w-auto text-center md:text-left`; gap entre blocos `gap-8 md:gap-24`
+5. **Soluções** — `py-24` → `py-8 md:py-24`
+6. **Por que a DeepCare** — carrossel mobile (mesmo padrão Problemas); `py-24` → `py-8 md:py-24`
+7. **CTA Final** — `py-24` → `py-8 md:py-24`; h2 `text-2xl md:text-4xl`
+8. **Títulos h2/h3** — todos os blocos de vídeo: `text-2xl md:text-4xl` para evitar quebra em 4+ linhas no mobile
 
 ### Webhook N8N — Leads /comunidade ✅ (07-06)
 

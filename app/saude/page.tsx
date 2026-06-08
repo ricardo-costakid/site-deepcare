@@ -17,6 +17,7 @@ import {
   Plug,
   Users,
   LineChart,
+  ChevronRight,
 } from 'lucide-react'
 import { WA_URL } from '@/lib/constants'
 import Header from '@/components/Header'
@@ -145,7 +146,7 @@ function FeatureCard({
       variants={fadeUp}
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-      className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#1A2620] p-6 cursor-default
+      className="relative flex flex-col gap-4 rounded-2xl border border-white/8 bg-[#1A2620] p-6 cursor-default h-full
         hover:border-[#5B8F7A]/50 hover:shadow-[0_0_30px_rgba(91,143,122,0.15)] hover:bg-[#1F2E26]
         transition-colors duration-300"
     >
@@ -220,7 +221,7 @@ export default function SaudePage() {
       </div>
       <main>
         {/* ───────────  01 · Hero  ─────────── */}
-        <section className="bg-[#F8F9FA] pt-10 pb-32" style={{ overflow: 'visible' }}>
+        <section className="bg-[#F8F9FA] pt-10 pb-8 md:pb-32" style={{ overflow: 'visible' }}>
           <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-16 items-center" style={{ overflow: 'visible' }}>
             {/* Left */}
             <Reveal className="self-start pt-2">
@@ -252,15 +253,15 @@ export default function SaudePage() {
               </div>
             </Reveal>
 
-            {/* Right */}
-            <div className="flex items-center justify-center">
+            {/* Right — hidden on mobile */}
+            <div className="hidden md:flex items-center justify-center">
               <HeroVisual />
             </div>
           </div>
         </section>
 
         {/* ───────────  02 · Problema  ─────────── */}
-        <section id="problemas-saude" className="bg-[#F8F9FA] py-24">
+        <section id="problemas-saude" className="bg-[#F8F9FA] pt-8 pb-4 md:py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="text-center">
               <h2 className="text-3xl font-bold text-[#111111]">
@@ -276,12 +277,18 @@ export default function SaudePage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12"
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 md:gap-6 md:pb-0 mt-12"
             >
               {PROBLEMAS.map((p) => (
-                <FeatureCard key={p.title} {...p} />
+                <div key={p.title} className="snap-start shrink-0 w-[80vw] h-[320px] overflow-hidden md:w-auto md:h-auto md:overflow-visible">
+                  <FeatureCard {...p} />
+                </div>
               ))}
             </motion.div>
+            <div className="flex md:hidden justify-center items-center gap-1 mt-3 text-sm text-[#DA7756]">
+              deslize para ver mais
+              <ChevronRight className="w-4 h-4 text-[#DA7756]" />
+            </div>
           </div>
         </section>
 
@@ -294,7 +301,7 @@ export default function SaudePage() {
               <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                 BID — Business Intelligence Department
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+              <h2 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                 Tenha um Departamento de Inteligência inteiro na sua clínica.
               </h2>
               <p className="text-lg font-medium text-[#5B8F7A] mt-3">
@@ -314,10 +321,10 @@ export default function SaudePage() {
               />
             </Reveal>
 
-            {/* 3 · Descrição, bullets e CTA */}
-            <Reveal className="grid grid-cols-2 gap-12 mt-10">
-              {/* Coluna esquerda: descrição */}
-              <div>
+            {/* 3 · Descrição e bullets */}
+            <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+              {/* Coluna esquerda: descrição — oculta no mobile */}
+              <div className="hidden md:block">
                 <p className="text-[#555555] leading-relaxed">
                   O BID é plug and play — não importa qual ERP você usa, ele conecta,
                   normaliza e entrega inteligência executiva completa: Financeiro, Fluxo
@@ -351,16 +358,16 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  03 · Soluções  ─────────── */}
-        <section id="solucoes-saude" className="bg-[#F8F9FA] py-24">
+        <section id="solucoes-saude" className="bg-[#F8F9FA] py-8 md:py-24">
           <div className="max-w-[1200px] mx-auto px-6">
-            <div className="flex flex-col gap-24">
+            <div className="flex flex-col gap-8 md:gap-24">
               {/* Overview — coluna única */}
               <div>
                 <Reveal className="text-center">
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     OVERVIEW — ACOMPANHE SUA META DE FATURAMENTO
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     Sua meta de faturamento, acompanhada em tempo real.
                   </h3>
                 </Reveal>
@@ -376,15 +383,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       Na Overview, o gestor define a meta e o BID monitora o andamento — com alertas em percentual se está abaixo, acima ou direto no alvo. Faturamento realizado, projeção de fechamento e progresso acumulado visíveis em um só painel, por mês, trimestre, semestre ou ano. Plug and play com qualquer ERP. Disponível no celular, onde você estiver.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -395,18 +398,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
               {/* Dashboard Financeiro */}
@@ -415,7 +422,7 @@ export default function SaudePage() {
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     DASHBOARD FINANCEIRO — RESULTADO REAL DA SUA OPERAÇÃO
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     O resultado financeiro da sua clínica, sem precisar abrir planilha.
                   </h3>
                 </Reveal>
@@ -431,15 +438,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       No Dashboard Financeiro, o gestor vê em tempo real o que entrou, o que saiu e onde está o dinheiro — com DRE simplificado, breakeven do mês e análise de receitas e despesas por categoria. Ao clicar em qualquer card, é possível aprofundar no detalhe de cada lançamento. O gráfico de Balanço Diário de Liquidez aponta desequilíbrios no fluxo de caixa antes que virem problema. Plug and play com qualquer ERP.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -457,18 +460,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
               {/* Gestão de Caixa */}
@@ -477,7 +484,7 @@ export default function SaudePage() {
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     GESTÃO DE CAIXA — PROJEÇÃO FUTURA
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     Saiba quando o caixa vai entrar em déficit — antes que aconteça.
                   </h3>
                 </Reveal>
@@ -493,15 +500,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       Na Gestão de Caixa, o BID projeta o fluxo futuro com base no disponível em caixa, bancos e cartões, somado às contas a receber de convênios e particulares, e descontando os compromissos de pagamento já lançados. O gestor vê o ponto exato de tensão no fluxo antes que ele vire problema, identifica receitas futuras que podem ser antecipadas e acompanha a capacidade de cobertura do caixa para os compromissos à frente. Plug and play com qualquer ERP.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -519,18 +522,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
               {/* Faturamento */}
@@ -539,7 +546,7 @@ export default function SaudePage() {
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     FATURAMENTO — JORNADA DO FATURAMENTO
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     Cada etapa do seu faturamento, visível em tempo real.
                   </h3>
                 </Reveal>
@@ -555,15 +562,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       Na tela de Faturamento, o BID responde as perguntas que toda clínica tem dificuldade em responder: de tudo que foi produzido, quanto foi faturado? O que aconteceu com o que não foi faturado? De tudo que foi faturado, quanto foi recebido? O que ainda não entrou — está a receber ou foi glosado? E o que foi glosado: por quê foi glosado e foi recursado? O BID mapeia exatamente as guias não faturadas e monitora quanto tempo cada uma está parada sem faturar — para que o gestor saiba o que está acontecendo em cada etapa. No detalhamento, o ranking de produção médica mostra como o faturamento se distribui entre a parte do médico e da clínica — deixando a relação completamente transparente. Plug and play com qualquer ERP.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -581,18 +584,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
               {/* Intel. Faturamento */}
@@ -601,7 +608,7 @@ export default function SaudePage() {
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     INTEL. FATURAMENTO — AUDITORIA DE PROTOCOLOS CLÍNICOS
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     Descubra o dinheiro que sua clínica deixou na mesa.
                   </h3>
                 </Reveal>
@@ -617,15 +624,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       Após definir o protocolo de exames por faixa etária, o BID vasculha toda a base de dados em busca de pacientes que passaram pela clínica e não realizaram os exames indicados. O resultado aparece em valor financeiro exato: quanto a clínica deixou de faturar e, mais importante, quantos pacientes deixaram de receber o diagnóstico correto. Ao clicar em qualquer exame, o BID abre a lista nominal dos pacientes — com convênio, data da consulta e valor — pronta para auditoria e recuperação ativa. Plug and play com qualquer ERP.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -643,18 +646,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
               {/* Lux IA */}
@@ -663,7 +670,7 @@ export default function SaudePage() {
                   <span className="inline-flex items-center text-xs font-medium tracking-[2px] uppercase text-[#5B8F7A] bg-[#5B8F7A]/[0.12] border border-[#5B8F7A]/20 rounded-full px-4 py-1.5">
                     LUX IA — SEU ANALISTA SÊNIOR, ONDE VOCÊ ESTIVER
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
+                  <h3 className="text-2xl md:text-4xl font-bold text-[#111111] leading-tight mt-5">
                     Converse sobre sua clínica. O Lux responde com os seus dados.
                   </h3>
                 </Reveal>
@@ -679,15 +686,11 @@ export default function SaudePage() {
                   />
                 </Reveal>
 
-                <Reveal className="grid grid-cols-2 gap-12 mt-10">
-                  <div>
+                <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mt-6 md:mt-10">
+                  <div className="hidden md:block">
                     <p className="text-[#555555] leading-relaxed">
                       O Lux é o analista sênior da clínica — com perfil de BI, Analytics, Data Science e Machine Learning. Converse em linguagem natural e o Lux busca, calcula e responde com os dados reais do negócio, sem alucinação. Prepara análises de desempenho, decomposição de despesas, comparativos entre períodos, materiais para reunião com diretoria e estratégias de negociação com fornecedores — tudo pronto para salvar em PDF ou imprimir. E quanto mais dados a clínica acumula, maior fica sua capacidade analítica: o Lux aprende com o histórico do negócio, descobre padrões em receita e despesa que passariam despercebidos e ajuda o gestor a tomar decisões mais seguras e embasadas. Disponível no celular e no computador, 24 horas por dia, 7 dias por semana.
                     </p>
-                    <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
-                      <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-                      Dados fictícios para fins ilustrativos
-                    </span>
                   </div>
                   <div>
                     <ul className="flex flex-col gap-2.5">
@@ -707,18 +710,22 @@ export default function SaudePage() {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8">
-                      <a
-                        href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={btnGreen}
-                      >
-                        Quero meu Departamento de Inteligência →
-                      </a>
-                    </div>
                   </div>
                 </Reveal>
+                <span className="inline-flex items-center gap-1.5 bg-orange-50 text-orange-500 border border-orange-200 rounded-full px-3 py-1.5 text-xs mt-4">
+                  <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                  Dados fictícios para fins ilustrativos
+                </span>
+                <div className="mt-4">
+                  <a
+                    href="https://wa.me/5517992449351?text=Olá! Quero conhecer o BID da DeepCare."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${btnGreen} w-full md:w-auto text-center md:text-left`}
+                  >
+                    Quero meu Departamento de Inteligência →
+                  </a>
+                </div>
               </div>
 
             </div>
@@ -726,7 +733,7 @@ export default function SaudePage() {
         </section>
 
         {/* ───────────  04 · Por que a DeepCare  ─────────── */}
-        <section className="bg-[#F8F9FA] py-24">
+        <section className="bg-[#F8F9FA] py-8 md:py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="text-center">
               <h2 className="text-3xl font-bold text-[#111111]">Por que a DeepCare</h2>
@@ -737,21 +744,27 @@ export default function SaudePage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto"
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scrollbar-hide md:grid md:grid-cols-2 md:gap-6 md:pb-0 mt-12 md:max-w-4xl md:mx-auto"
             >
               {DIFERENCIAIS.map((d) => (
-                <FeatureCard key={d.title} {...d} />
+                <div key={d.title} className="snap-start shrink-0 w-[80vw] h-[320px] overflow-hidden md:w-auto md:h-auto md:overflow-visible">
+                  <FeatureCard {...d} />
+                </div>
               ))}
             </motion.div>
+            <div className="flex md:hidden justify-center items-center gap-1 mt-3 text-sm text-[#DA7756]">
+              deslize para ver mais
+              <ChevronRight className="w-4 h-4 text-[#DA7756]" />
+            </div>
           </div>
         </section>
 
         {/* ───────────  05 · CTA Final  ─────────── */}
-        <section className="bg-[#F8F9FA] py-24">
+        <section className="bg-[#F8F9FA] py-8 md:py-24">
           <div className="max-w-[1200px] mx-auto px-6">
             <Reveal className="max-w-4xl mx-auto">
               <div className="bg-white border border-[#E5E7EB] rounded-3xl p-16 text-center">
-                <h2 className="text-4xl font-bold text-[#111111]">
+                <h2 className="text-2xl md:text-4xl font-bold text-[#111111]">
                   Sua clínica merece clareza para crescer.
                 </h2>
                 <p className="text-[#555555] mt-4 text-lg">

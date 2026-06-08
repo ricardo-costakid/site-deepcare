@@ -12,7 +12,8 @@ import { WA_URL } from '@/lib/constants'
 const FEATURES_ITEMS = [
   { label: 'Soluções',   href: '/#solucoes',  icon: LayoutGrid,    isAnchor: true  },
   { label: 'Mentoria',   href: '/#mentoria',  icon: GraduationCap, isAnchor: true  },
-  { label: 'Comunidade', href: '/comunidade', icon: Users,          isAnchor: false },
+  { label: 'Comunidade',          href: '/comunidade', icon: Users,       isAnchor: false },
+  { label: 'Soluções para Saúde', href: '/saude',       icon: HeartPulse,  isAnchor: false },
 ]
 
 const NAV_LINKS = [
@@ -118,7 +119,7 @@ export default function Header() {
                           <Link
                             key={href}
                             href={href}
-                            className="flex items-center gap-3 py-2 text-sm text-text-secondary hover:text-[#5B8F7A] transition-colors"
+                            className={`flex items-center gap-3 py-2 text-sm hover:text-[#5B8F7A] transition-colors ${href === '/saude' ? 'text-[#5B8F7A]' : 'text-text-secondary'}`}
                             onClick={() => { setMenuOpen(false); setFeaturesOpen(false) }}
                           >
                             <Icon size={14} className="opacity-60" />
