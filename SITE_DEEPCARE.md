@@ -670,6 +670,10 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 2. **Solucoes.tsx** — whileHover desativado em dispositivos touch via matchMedia('(hover: none)'); indicador "deslize para ver mais" adicionado no mobile (text-sm, cor #DA7756, fixo); pb-10 mobile adicionado na section
 3. **ComoFunciona.tsx** — subtítulo "Três etapas pensadas..." pintado com #DA7756; pt-10 mobile na section; mb-6 mobile no header da seção
 
+### Correções mobile — página principal — 2026-06-07 (sessão 2)
+
+1. **Solucoes.tsx** — carrossel mobile: animação de entrada movida do wrapper individual de cada card para o container pai, usando `variants stagger` (`staggerChildren: 0.1`) com `whileInView` uma única vez (`viewport once: true, amount: 0.2`). Elimina o efeito de flutuação ao deslizar o carrossel no mobile. `fadeUp` e `stagger` declarados no topo do componente.
+
 ### Mobile fixes — /saude (07/06/2026)
 
 1. **Header.tsx** — item "Soluções para Saúde" adicionado no acordeão mobile (Features dropdown); ícone `HeartPulse`, `href="/saude"`, cor `text-[#5B8F7A]`, fecha o drawer ao clicar
