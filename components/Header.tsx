@@ -243,12 +243,12 @@ export default function Header() {
               {label}
             </a>
           ))}
-          <a
-            href="https://app.deepcareanalytics.com/login"
+          <Link
+            href="/entrar"
             className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
             Entrar
-          </a>
+          </Link>
           <Link
             href="/saude"
             className="flex items-center gap-2 bg-[#5B8F7A] text-white border border-[#5B8F7A] text-sm font-medium rounded-full px-4 py-2 hover:bg-white hover:text-[#5B8F7A] transition-colors duration-200"
