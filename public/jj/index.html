@@ -305,16 +305,15 @@
       max-width: 860px;
     }
     #dor h2 .dor-line1 {
-      font-size: 2.8rem;
+      font-size: clamp(22px, 5vw, 2.8rem);
       font-weight: 600;
       color: #fff;
     }
     #dor h2 em {
       font-style: normal;
-      font-size: 3.8rem;
+      font-size: clamp(28px, 7vw, 3.8rem);
       font-weight: 800;
       color: #8BBFAE;
-      white-space: nowrap;
     }
 
     #dor .dor-lead {
@@ -418,6 +417,9 @@
       .pain-grid { grid-template-columns: 1fr; }
 
       #dor h2 br { display: none; }
+
+      #dor .dor-lead { margin-bottom: 40px; }
+      .pain-card { padding: 24px 20px 20px; }
     }
 
     @media (min-width: 661px) and (max-width: 899px) {
@@ -444,16 +446,15 @@
       margin-bottom: 20px;
     }
     #problema h2 .prob-line1 {
-      font-size: 2.8rem;
+      font-size: clamp(22px, 5vw, 2.8rem);
       font-weight: 600;
       color: #1A2620;
     }
     #problema h2 em {
       font-style: normal;
-      font-size: 3.8rem;
+      font-size: clamp(28px, 7vw, 3.8rem);
       font-weight: 800;
       color: var(--jj-red);
-      white-space: nowrap;
     }
 
     #problema .problema-lead {
@@ -518,6 +519,8 @@
     }
     @media (max-width: 480px) {
       .problem-grid { grid-template-columns: 1fr; }
+      #problema .problema-lead { margin-bottom: 40px; }
+      .problem-card { padding: 24px 20px 20px; }
     }
 
     /* ================================================================
@@ -545,12 +548,12 @@
       margin-bottom: 20px;
     }
     #lenstrack h2 .lens-line1 {
-      font-size: 2.8rem;
+      font-size: clamp(22px, 5vw, 2.8rem);
       font-weight: 600;
       color: #fff;
     }
     #lenstrack h2 em {
-      font-size: 3.8rem;
+      font-size: clamp(28px, 7vw, 3.8rem);
       font-weight: 800;
       font-style: normal;
       color: var(--dc-light);
@@ -677,6 +680,8 @@
     @media (max-width: 480px) {
       .features-grid { grid-template-columns: 1fr; }
       .video-placeholder { padding: 52px 24px; }
+      .feature-card { padding: 24px 20px 20px; }
+      #lenstrack .lenstrack-lead { margin-bottom: 40px; }
     }
 
     /* ================================================================
@@ -988,6 +993,10 @@
 
       .timeline-wrap { padding: 36px 24px 40px; }
 
+      #jj .jj-lead { margin-bottom: 32px; }
+      .jj-esg-text { margin-top: 48px; }
+      .jj-esg-block { padding: 24px 20px; }
+
       /* Timeline vira vertical no mobile */
       .timeline-steps {
         flex-direction: column;
@@ -1103,6 +1112,10 @@
     @media (max-width: 520px) {
       .pricing-inline { flex-direction: column; gap: 32px; }
       .pricing-inline__item + .pricing-inline__item { border-left: none; border-top: 1px solid rgba(255,255,255,0.10); padding-top: 32px; }
+      #investimento h2 { text-align: left; }
+      #investimento .inv-lead { text-align: left; }
+      #investimento .container { align-items: flex-start; }
+      .inv-reassurance { flex-direction: column; gap: 16px; padding: 24px 20px; }
     }
 
     /* Bloco de reforço — garantia */
@@ -1330,6 +1343,19 @@
         gap: 12px;
       }
       .sig-tagline { text-align: left; }
+      .cta-email__address { font-size: 13px; word-break: break-all; }
+    }
+
+    @media (max-width: 480px) {
+      :root { --px: 20px; }
+      #dor { padding-inline: 20px; }
+      #problema { padding-inline: 20px; }
+      #lenstrack { padding-inline: 20px; }
+      #jj { padding-inline: 20px; }
+      #investimento { padding-inline: 20px; }
+      #contato { padding-inline: 20px; }
+      .timeline-wrap { padding: 28px 16px 32px; }
+      .acuvue-video-section { max-width: 100%; }
     }
 
   </style>
