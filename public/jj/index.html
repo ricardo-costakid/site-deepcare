@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DeepCare LensTrack — Plataforma de gestão de lentes de contato em parceria com Johnson &amp; Johnson">
+  <title>DeepCare × Johnson &amp; Johnson — LensTrack</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================================================================
+       TOKENS DE DESIGN
+       ================================================================ */
+    :root {
+      /* DeepCare */
+      --dc-green:  #5B8F7A;
+      --dc-dark:   #1A2620;
+      --dc-light:  #8BBFAE;
+
+      /* Johnson & Johnson */
+      --jj-red:    #D71600;
+      --jj-red-bg: rgba(215, 22, 0, 0.07);
+
+      /* Neutros */
+      --white:     #FFFFFF;
+      --gray-50:   #F8F9FA;
+      --text-1:    #111111;
+      --text-2:    #555555;
+      --border:    #E5E7EB;
+
+      /* Layout */
+      --font:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --hdr:    72px;
+      --max-w:  1160px;
+      --px:     clamp(20px, 5vw, 80px);
+
+      /* Forma */
+      --radius:    12px;
+      --radius-sm: 8px;
+      --radius-lg: 20px;
+
+      /* Sombra */
+      --shadow:    0 4px 20px rgba(0,0,0,.10);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,.14);
+    }
+
+    /* ================================================================
+       RESET & BASE
+       ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--hdr);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-1);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img, video, iframe { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ================================================================
+       REVEAL — animação de entrada via Intersection Observer
+       ================================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity  0.65s cubic-bezier(.22, .68, 0, 1.1),
+        transform 0.65s cubic-bezier(.22, .68, 0, 1.1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.18s; }
+    .delay-3 { transition-delay: 0.28s; }
+    .delay-4 { transition-delay: 0.38s; }
+    .delay-5 { transition-delay: 0.50s; }
+
+    .card-animate {
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .card-animate.is-visible {
+      opacity: 1;
+      transform: translateX(0) !important;
+    }
+
+    /* ================================================================
+       LAYOUT
+       ================================================================ */
+    .container {
+      max-width: var(--max-w);
+      margin-inline: auto;
+    }
+
+    /* Garante que âncoras não fiquem escondidas atrás do header fixo —
+       belt-and-suspenders para Teams WebView e browsers mais antigos */
+    section[id] {
+      scroll-margin-top: var(--hdr);
+    }
+
+    /* ================================================================
+       HEADER FIXO
+       ================================================================ */
+    .site-header {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      height: var(--hdr);
+      z-index: 1000;
+      background: rgba(26, 38, 32, 0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .hdr-inner {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: var(--px);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Logo DeepCare */
+    .site-logo {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.025em;
+    }
+    .logo-tag {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--dc-light);
+    }
+
+    /* Nav desktop */
+    .main-nav {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .main-nav::-webkit-scrollbar { display: none; }
+    .main-nav a {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.60);
+      padding: 6px 11px;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .main-nav a:hover,
+    .main-nav a.is-active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.09);
+    }
+    .main-nav a[href="#jj"] {
+      color: var(--jj-red);
+    }
+    .main-nav a[href="#jj"]:hover,
+    .main-nav a[href="#jj"].is-active {
+      color: var(--jj-red);
+      background: rgba(215, 22, 0, 0.18);
+    }
+
+    /* Badge J&J */
+    .jj-badge {
+      flex-shrink: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--jj-red);
+      padding: 5px 13px;
+      border: 1.5px solid rgba(215, 22, 0, 0.32);
+      border-radius: 6px;
+      letter-spacing: -0.01em;
+      transition: border-color 0.2s;
+    }
+    .jj-badge:hover { border-color: rgba(215, 22, 0, 0.60); }
+
+    /* Hamburger mobile */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 9px;
+      margin-left: auto;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .nav-burger span {
+      display: block;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.80);
+      border-radius: 2px;
+      transition: opacity 0.2s, transform 0.3s;
+    }
+
+    /* Nav drawer mobile */
+    .mobile-nav {
+      position: fixed;
+      top: var(--hdr);
+      inset-inline: 0;
+      z-index: 999;
+      background: var(--dc-dark);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      padding: 16px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transform: translateY(-110%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .mobile-nav.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-nav a {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 13px 16px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .mobile-nav a:hover { background: rgba(255,255,255,0.07); color: #fff; }
+
+    /* ================================================================
+       SEÇÃO 1 — A DOR DO MERCADO
+       ================================================================ */
+    #dor {
+      background-color: var(--dc-dark);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 95% 5%,  rgba(91,143,122,0.10) 0%, transparent 62%),
+        radial-gradient(ellipse 45% 38% at 5%  95%, rgba(91,143,122,0.06) 0%, transparent 60%);
+      padding-block: calc(var(--hdr) + clamp(32px, 4vw, 48px))
+                     clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dc-light);
+      margin-bottom: 24px;
+    }
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--dc-green);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    #dor h2 {
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 28px;
+      max-width: 860px;
+    }
+    #dor h2 .dor-line1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    #dor h2 em {
+      font-style: normal;
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: #8BBFAE;
+      white-space: nowrap;
+    }
+
+    #dor .dor-lead {
+      font-size: clamp(17px, 1.8vw, 19px);
+      line-height: 1.78;
+      color: rgba(255, 255, 255, 0.66);
+      max-width: 620px;
+      margin-bottom: 72px;
+    }
+
+    /* Grid de cards de dor */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .pain-card {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 36px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .pain-card:hover {
+      background: rgba(255, 255, 255, 0.065);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .pain-card__icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(91, 143, 122, 0.14);
+      border-radius: var(--radius-sm);
+      color: var(--dc-light);
+      flex-shrink: 0;
+    }
+    .pain-card__icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+
+    .pain-card__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .pain-card__body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.58);
+    }
+
+    /* ================================================================
+       ESTILOS COMPARTILHADOS — SEÇÕES FUTURAS
+       (prefixos definidos aqui para manter CSS organizado)
+       ================================================================ */
+
+    /* Título de seção padrão (fundo claro) */
+    .section-title {
+      font-size: clamp(30px, 4.5vw, 46px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--text-1);
+      margin-bottom: 20px;
+    }
+    .section-title--light { color: #fff; }
+
+    .section-body {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 640px;
+    }
+    .section-body--light { color: rgba(255,255,255,0.66); }
+
+    /* Eyebrow em seção clara */
+    .eyebrow-light { color: var(--dc-green); }
+    .eyebrow-light::before { background: var(--dc-green); }
+
+    /* Eyebrow em seção J&J */
+    .eyebrow-red { color: var(--jj-red); }
+    .eyebrow-red::before { background: var(--jj-red); }
+
+    /* ================================================================
+       RESPONSIVO
+       ================================================================ */
+    @media (max-width: 900px) {
+      .main-nav,
+      .jj-badge    { display: none; }
+      .nav-burger  { display: flex; }
+    }
+
+    @media (max-width: 660px) {
+      .pain-grid { grid-template-columns: 1fr; }
+
+      #dor h2 br { display: none; }
+    }
+
+    @media (min-width: 661px) and (max-width: 899px) {
+      .pain-grid { grid-template-columns: repeat(2, 1fr); }
+      .pain-card:last-child { grid-column: span 2; }
+    }
+
+    /* ================================================================
+       SEÇÃO 2 — O PROBLEMA NA CLÍNICA
+       ================================================================ */
+    #problema {
+      background: var(--gray-50);
+      padding-block: clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    #problema .section-eyebrow { color: var(--dc-green); }
+    #problema .section-eyebrow::before { background: var(--dc-green); }
+
+    #problema h2 {
+      line-height: 1.07;
+      letter-spacing: -0.025em;
+      max-width: 860px;
+      margin-bottom: 20px;
+    }
+    #problema h2 .prob-line1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #1A2620;
+    }
+    #problema h2 em {
+      font-style: normal;
+      font-size: 3.8rem;
+      font-weight: 800;
+      color: var(--jj-red);
+      white-space: nowrap;
+    }
+
+    #problema .problema-lead {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 640px;
+      margin-bottom: 64px;
+    }
+
+    /* Grid 4 colunas — problemas operacionais */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .problem-card {
+      background: rgba(215, 22, 0, 0.05);
+      border: 1px solid rgba(215, 22, 0, 0.14);
+      border-radius: var(--radius);
+      padding: 32px 24px 28px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .problem-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+      transform: translateY(-4px);
+    }
+
+    .problem-card__icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: var(--radius-sm);
+      color: #AAAAAA;
+      flex-shrink: 0;
+    }
+    .problem-card__icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+
+    .problem-card__title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.35;
+    }
+
+    .problem-card__body {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+
+    @media (max-width: 860px) {
+      .problem-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .problem-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ================================================================
+       SEÇÃO 3 — O LENSTRACK
+       ================================================================ */
+    #lenstrack {
+      background-color: var(--dc-dark);
+      background-image:
+        radial-gradient(ellipse 60% 50% at 10% 20%, rgba(91,143,122,0.09) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 40% at 92% 88%, rgba(91,143,122,0.06) 0%, transparent 55%);
+      padding-block: clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    #lenstrack .section-eyebrow { color: var(--dc-light); }
+    #lenstrack .section-eyebrow::before { background: var(--dc-green); }
+
+    #lenstrack h2 {
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.10;
+      letter-spacing: -0.028em;
+      color: #fff;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+    #lenstrack h2 .lens-line1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    #lenstrack h2 em {
+      font-size: 3.8rem;
+      font-weight: 800;
+      font-style: normal;
+      color: var(--dc-light);
+    }
+
+    #lenstrack .lenstrack-lead {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.64);
+      max-width: 620px;
+      margin-bottom: 64px;
+    }
+
+    /* Grid 3×2 — funcionalidades */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 2px solid transparent;
+      border-radius: var(--radius);
+      padding: 32px 26px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background 0.3s, border-color 0.3s, border-top-color 0.3s;
+    }
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      border-top-color: var(--dc-green);
+    }
+
+    .feature-card__icon {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(91, 143, 122, 0.14);
+      border-radius: var(--radius-sm);
+      color: var(--dc-light);
+      flex-shrink: 0;
+    }
+    .feature-card__icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+
+    .feature-card__title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .feature-card__body {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.54);
+    }
+
+    /* Placeholder de vídeo */
+    .video-placeholder {
+      border: 2px dashed rgba(91, 143, 122, 0.42);
+      border-radius: var(--radius-lg);
+      padding: 76px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: default;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .video-placeholder:hover {
+      border-color: rgba(91, 143, 122, 0.72);
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .video-placeholder__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .video-placeholder__play {
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(91, 143, 122, 0.14);
+      border-radius: 50%;
+      color: var(--dc-light);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .video-placeholder:hover .video-placeholder__play {
+      background: rgba(91, 143, 122, 0.26);
+      transform: scale(1.08);
+    }
+    .video-placeholder__play svg { width: 30px; height: 30px; stroke-width: 1.5; }
+
+    .video-placeholder__label {
+      font-size: 17px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.70);
+    }
+
+    .video-placeholder__sub {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.32);
+    }
+
+    @media (max-width: 860px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .video-placeholder { padding: 52px 24px; }
+    }
+
+    /* ================================================================
+       SEÇÃO 4 — A EXTENSÃO PARA J&J
+       ================================================================ */
+    #jj {
+      background: var(--white);
+      padding-block: clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    #jj .section-eyebrow { color: var(--jj-red); }
+    #jj .section-eyebrow::before { background: var(--jj-red); }
+
+    #jj h2 {
+      font-size: clamp(26px, 3.2vw, 40px);
+      font-weight: 800;
+      line-height: 1.13;
+      letter-spacing: -0.025em;
+      color: var(--text-1);
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+    #jj h2 em {
+      font-style: normal;
+      color: var(--jj-red);
+      font-size: 0.88em;
+    }
+
+    #jj .jj-lead {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 680px;
+      margin-bottom: 56px;
+    }
+
+    /* Blocos de entrega — ícone à esquerda, texto à direita */
+    .delivery-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 72px;
+    }
+
+    .delivery-block {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0 28px;
+      align-items: start;
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--jj-red);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      transition: box-shadow 0.3s ease, transform 0.25s ease;
+    }
+    .delivery-block:hover {
+      box-shadow: var(--shadow);
+      transform: translateX(5px);
+    }
+
+    .delivery-block__icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--jj-red-bg);
+      border-radius: var(--radius-sm);
+      color: var(--jj-red);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .delivery-block__icon svg { width: 22px; height: 22px; stroke-width: 1.75; }
+
+    .delivery-block__title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .delivery-block__body {
+      font-size: 15px;
+      line-height: 1.72;
+      color: var(--text-2);
+    }
+
+    .jj-esg-block {
+      background: var(--jj-red-bg);
+      border: 1px solid rgba(215, 22, 0, 0.15);
+      border-left: 4px solid var(--jj-red);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      margin-bottom: 56px;
+    }
+    .jj-esg-block__eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--jj-red);
+      margin-bottom: 14px;
+    }
+    .jj-esg-block__title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .jj-esg-block__body {
+      font-size: 15px;
+      line-height: 1.78;
+      color: var(--text-2);
+      margin-bottom: 20px;
+    }
+    .jj-esg-block__stamp {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--jj-red);
+    }
+
+    .jj-esg-text {
+      margin-top: 72px;
+      max-width: 800px;
+    }
+    .jj-esg-text__title {
+      font-size: clamp(26px, 3.2vw, 40px);
+      font-weight: 800;
+      line-height: 1.13;
+      letter-spacing: -0.025em;
+      color: var(--text-1);
+      margin-bottom: 28px;
+    }
+    .jj-esg-text__title em {
+      font-style: normal;
+      color: var(--jj-red);
+    }
+    .jj-esg-text__body {
+      font-size: clamp(15px, 1.5vw, 17px);
+      line-height: 1.78;
+      color: var(--text-2);
+      margin-bottom: 20px;
+    }
+    .jj-esg-text__stamp {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--jj-red);
+    }
+
+    /* ── Diagrama — Régua de Comunicação ─────────────────────────── */
+    .timeline-wrap {
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 48px 52px;
+      margin-bottom: 72px;
+    }
+
+    .timeline-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--jj-red);
+      margin-bottom: 40px;
+    }
+    .timeline-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--jj-red);
+      border-radius: 2px;
+    }
+
+    .timeline-steps {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    /* Linha conectora vermelha entre os marcos */
+    .timeline-steps::before {
+      content: '';
+      position: absolute;
+      top: 26px;                  /* metade da altura do step-dot (52px) */
+      left: calc(100% / 6);      /* centro da coluna 1 */
+      right: calc(100% / 6);     /* centro da coluna 3 */
+      height: 2px;
+      background: var(--jj-red);
+      opacity: 0.20;
+      z-index: 0;
+    }
+
+    .timeline-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+      padding: 0 16px;
+    }
+
+    .timeline-step > .step-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-dot {
+      width: 52px;
+      height: 52px;
+      background: var(--white);
+      border: 2px solid rgba(215, 22, 0, 0.28);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--jj-red);
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(215, 22, 0, 0.09);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .timeline-step:hover .step-dot {
+      border-color: rgba(215, 22, 0, 0.55);
+      box-shadow: 0 4px 18px rgba(215, 22, 0, 0.18);
+      transform: scale(1.07);
+    }
+    .step-dot svg { width: 22px; height: 22px; }
+
+    .step-day {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--jj-red);
+      letter-spacing: -0.025em;
+      line-height: 1;
+    }
+
+    .step-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.35;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+
+    /* ── Embed YouTube — vídeo ACUVUE ────────────────────────────── */
+    .acuvue-video-section {
+      max-width: 720px;
+      margin-inline: auto;
+    }
+
+    .acuvue-video-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-2);
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .acuvue-video-label::before,
+    .acuvue-video-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .acuvue-video-frame {
+      position: relative;
+      padding-bottom: 56.25%;  /* ratio 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+    }
+    .acuvue-video-frame iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* Responsive — Seção 4 */
+    @media (max-width: 640px) {
+      .delivery-block {
+        grid-template-columns: 1fr;
+        gap: 16px 0;
+        padding: 22px 20px;
+      }
+
+      .timeline-wrap { padding: 36px 24px 40px; }
+
+      /* Timeline vira vertical no mobile */
+      .timeline-steps {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+      }
+      .timeline-steps::before {
+        top: 26px;
+        bottom: 26px;
+        left: 25px;   /* centro do step-dot (52px / 2 - 1px) */
+        right: auto;
+        width: 2px;
+        height: auto;
+        opacity: 0.20;
+      }
+      .timeline-step {
+        flex-direction: row;
+        text-align: left;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 0;
+        flex: none;
+        width: 100%;
+      }
+      .timeline-step > .step-content { flex: 1; }
+    }
+
+    /* ================================================================
+       SEÇÃO 5 — INVESTIMENTO
+       ================================================================ */
+    #investimento {
+      background-color: var(--dc-dark);
+      background-image:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(91,143,122,0.08) 0%, transparent 55%);
+      padding-block: clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    /* Centraliza todo o conteúdo da seção */
+    #investimento .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #investimento .section-eyebrow { color: var(--dc-light); }
+    #investimento .section-eyebrow::before { background: var(--dc-green); }
+
+    #investimento h2 {
+      font-size: clamp(28px, 4.5vw, 50px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: #fff;
+      text-align: center;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+
+    #investimento .inv-lead {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.60);
+      max-width: 560px;
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .pricing-inline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto 48px;
+      width: 100%;
+      max-width: 680px;
+    }
+    .pricing-inline__item {
+      flex: 1;
+      text-align: center;
+      padding: 0 40px;
+    }
+    .pricing-inline__item + .pricing-inline__item {
+      border-left: 1px solid rgba(255,255,255,0.10);
+    }
+    .pricing-inline__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dc-light);
+      margin-bottom: 14px;
+    }
+    .pricing-inline__value {
+      font-size: clamp(38px, 5vw, 52px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .pricing-inline__value .currency {
+      font-size: 0.42em;
+      font-weight: 700;
+      color: var(--dc-light);
+      vertical-align: super;
+      margin-right: 2px;
+    }
+    .pricing-inline__period {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+    @media (max-width: 520px) {
+      .pricing-inline { flex-direction: column; gap: 32px; }
+      .pricing-inline__item + .pricing-inline__item { border-left: none; border-top: 1px solid rgba(255,255,255,0.10); padding-top: 32px; }
+    }
+
+    /* Bloco de reforço — garantia */
+    .inv-reassurance {
+      width: 100%;
+      max-width: 920px;
+      background: rgba(91, 143, 122, 0.07);
+      border: 1px solid rgba(91, 143, 122, 0.22);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      text-align: left;
+    }
+
+    .inv-reassurance__icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(91, 143, 122, 0.16);
+      border-radius: var(--radius-sm);
+      color: var(--dc-light);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .inv-reassurance__icon svg { width: 20px; height: 20px; stroke-width: 1.75; }
+
+    .inv-reassurance__text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.62);
+    }
+    .inv-reassurance__text strong {
+      display: block;
+      color: rgba(255, 255, 255, 0.90);
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    /* Responsive — Seção 5 */
+    @media (max-width: 680px) {
+      #investimento .container { align-items: flex-start; }
+      #investimento h2, #investimento .inv-lead { text-align: left; }
+
+      .inv-reassurance {
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px 20px;
+      }
+    }
+
+    /* ================================================================
+       SEÇÃO 6 — PRÓXIMOS PASSOS
+       ================================================================ */
+    #contato {
+      background: var(--white);
+      padding-block: clamp(40px, 5vw, 64px);
+      padding-inline: var(--px);
+    }
+
+    #contato .container {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      text-align: left;
+    }
+
+    #contato .section-eyebrow { color: var(--jj-red); }
+    #contato .section-eyebrow::before { background: var(--jj-red); }
+
+    #contato h2 {
+      font-size: clamp(30px, 5vw, 54px);
+      font-weight: 800;
+      line-height: 1.10;
+      letter-spacing: -0.028em;
+      color: var(--text-1);
+      max-width: 700px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    #contato h2 .contato-line1 {
+      font-size: clamp(26px, 3.2vw, 40px);
+      font-weight: 600;
+      color: var(--text-1);
+    }
+    #contato h2 em {
+      font-style: normal;
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 800;
+      color: var(--jj-red);
+    }
+
+    #contato .cta-lead {
+      font-size: clamp(16px, 1.6vw, 18px);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 680px;
+      text-align: left;
+      margin-bottom: 52px;
+    }
+
+    /* Grupo de CTAs */
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 72px;
+    }
+
+    /* Botão WhatsApp principal */
+    .cta-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #25D366;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 36px;
+      border-radius: 8px;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.30);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta-whatsapp:hover {
+      background: #1fb859;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.40);
+    }
+    .cta-whatsapp__icon { width: 22px; height: 22px; flex-shrink: 0; }
+
+    /* CTA e-mail secundário */
+    .cta-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-2);
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .cta-email:hover { color: var(--dc-green); }
+    .cta-email:hover .cta-email__address { text-decoration: underline; }
+    .cta-email svg { width: 17px; height: 17px; color: var(--dc-green); stroke-width: 1.75; flex-shrink: 0; }
+
+    /* Bloco de assinatura */
+    .signature-block {
+      width: 100%;
+      max-width: 920px;
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+    }
+
+    .signature-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .sig-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .sig-logo__name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--dc-green);
+      letter-spacing: -0.02em;
+    }
+    .sig-logo__tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--dc-light);
+    }
+
+    .sig-website {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: color 0.2s;
+    }
+    .sig-website:hover { color: var(--dc-green); }
+
+    .sig-tagline {
+      font-size: 12px;
+      color: var(--text-2);
+      text-align: center;
+    }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .site-footer {
+      background: var(--dc-dark);
+      padding: 24px var(--px);
+      text-align: center;
+    }
+    .site-footer p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 400;
+    }
+
+    /* Responsive — Seção 6 */
+    @media (max-width: 540px) {
+      #contato .container {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .cta-group { align-items: flex-start; }
+      .cta-whatsapp { width: 100%; justify-content: center; }
+
+      .signature-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .sig-tagline { text-align: left; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       HEADER FIXO
+       ================================================================ -->
+  <header class="site-header" role="banner">
+    <div class="hdr-inner">
+
+      <a class="site-logo" href="#" aria-label="DeepCare Analytics — Voltar ao topo">
+        <img src="./deepcare-logo-dark.svg" alt="DeepCare Analytics" style="height: 56px;">
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="#dor">A Dor</a>
+        <a href="#problema">O Problema</a>
+        <a href="#lenstrack">LensTrack</a>
+        <a href="#jj">Para a J&amp;J</a>
+        <a href="#investimento">Investimento</a>
+        <a href="#contato">Próximos Passos</a>
+      </nav>
+
+      <button class="nav-burger" id="navBurger" aria-label="Abrir menu de navegação" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="jj-badge" aria-label="Material em parceria com Johnson &amp; Johnson">
+        Johnson &amp; Johnson
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Nav drawer — mobile -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile" aria-hidden="true">
+    <a href="#dor"           onclick="closeMobileNav()">A Dor do Mercado</a>
+    <a href="#problema"      onclick="closeMobileNav()">O Problema na Clínica</a>
+    <a href="#lenstrack"     onclick="closeMobileNav()">LensTrack</a>
+    <a href="#jj"            onclick="closeMobileNav()">Para a J&amp;J</a>
+    <a href="#investimento"  onclick="closeMobileNav()">Investimento</a>
+    <a href="#contato"       onclick="closeMobileNav()">Próximos Passos</a>
+  </nav>
+
+  <main>
+
+    <!-- ================================================================
+         SEÇÃO 1 — A DOR DO MERCADO
+         ================================================================ -->
+    <section id="dor" aria-labelledby="dor-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">Contexto de mercado</p>
+
+        <h2 id="dor-title" class="reveal delay-1">
+          <span class="dor-line1">Muitos não pedem ajuda.</span><br>
+          <em>Simplesmente desistem.</em>
+        </h2>
+
+        <p class="dor-lead reveal delay-2">
+          O abandono não acontece por falta de suporte. Acontece quando o suporte espera o paciente pedir. A lente vai para a gaveta antes de qualquer reclamação.
+        </p>
+
+        <div class="pain-grid">
+
+          <article class="pain-card reveal delay-2">
+            <div class="pain-card__icon" aria-hidden="true">
+              <i data-lucide="phone-missed"></i>
+            </div>
+            <h3 class="pain-card__title">O suporte espera. O paciente não.</h3>
+            <p class="pain-card__body">
+              O paciente sai da clínica confiante. Em casa, na primeira tentativa sozinho, a dificuldade aparece — e ele desiste antes de pedir ajuda.
+            </p>
+          </article>
+
+          <article class="pain-card reveal delay-3">
+            <div class="pain-card__icon" aria-hidden="true">
+              <i data-lucide="timer-off"></i>
+            </div>
+            <h3 class="pain-card__title">A decisão de desistir é silenciosa.</h3>
+            <p class="pain-card__body">
+              Não há reclamação, não há sinal. O paciente some antes de qualquer contato — geralmente ainda na primeira semana.
+            </p>
+          </article>
+
+          <article class="pain-card reveal delay-4">
+            <div class="pain-card__icon" aria-hidden="true">
+              <i data-lucide="trending-down"></i>
+            </div>
+            <h3 class="pain-card__title">Receita que não volta.</h3>
+            <p class="pain-card__body">
+              Cada abandono é uma caixa de lente que nunca será reposta. A J&amp;J perde o cliente — e a clínica, a fidelização.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SEÇÃO 2 — O PROBLEMA NA CLÍNICA
+         ================================================================ -->
+    <section id="problema" aria-labelledby="problema-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">O problema na clínica</p>
+
+        <h2 id="problema-title" class="reveal delay-1">
+          <span class="prob-line1">A clínica não vê. Não intervém.</span><br>
+          <em>O paciente some.</em>
+        </h2>
+
+        <p class="problema-lead reveal delay-2">
+          Sem acompanhamento, ninguém sabe quem está em adaptação, quem desistiu, quem precisa de um contato agora. <strong>O paciente perde. A clínica perde. A J&amp;J perde.</strong>
+        </p>
+
+        <div class="problem-grid">
+
+          <article class="problem-card reveal delay-2">
+            <div class="problem-card__icon" aria-hidden="true">
+              <i data-lucide="clipboard-x"></i>
+            </div>
+            <h3 class="problem-card__title">Pedidos sem rastreamento</h3>
+            <p class="problem-card__body">
+              A lente foi solicitada? Está em adaptação? Já foi entregue?
+              Sem registro centralizado, ninguém sabe.
+            </p>
+          </article>
+
+          <article class="problem-card reveal delay-3">
+            <div class="problem-card__icon" aria-hidden="true">
+              <i data-lucide="message-square-x"></i>
+            </div>
+            <h3 class="problem-card__title">Comunicação manual</h3>
+            <p class="problem-card__body">
+              Acompanhar pacientes pelo WhatsApp individual é insustentável.
+              Mensagens não enviadas, lembretes esquecidos, paciente sem resposta.
+            </p>
+          </article>
+
+          <article class="problem-card reveal delay-4">
+            <div class="problem-card__icon" aria-hidden="true">
+              <i data-lucide="package-x"></i>
+            </div>
+            <h3 class="problem-card__title">Estoque invisível</h3>
+            <p class="problem-card__body">
+              Lentes em teste, devolvidas, créditos no fornecedor — ninguém sabe o que tem, o que deve ou o que ainda pode retirar. Quando o paciente pergunta, ninguém tem a resposta.
+            </p>
+          </article>
+
+          <article class="problem-card reveal delay-5">
+            <div class="problem-card__icon" aria-hidden="true">
+              <i data-lucide="bar-chart-2"></i>
+            </div>
+            <h3 class="problem-card__title">Faturamento no escuro</h3>
+            <p class="problem-card__body">
+              A venda da lente acontece. A comissão vai para um caderno ou planilha. A receita se perde no caminho. Ninguém sabe exatamente quanto a lente representa para o negócio.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SEÇÃO 3 — O LENSTRACK
+         ================================================================ -->
+    <section id="lenstrack" aria-labelledby="lenstrack-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">A solução</p>
+
+        <h2 id="lenstrack-title" class="reveal delay-1">
+          <span class="lens-line1">Uma plataforma.</span><br>
+          <em>Toda a operação de lentes sob controle.</em>
+        </h2>
+
+        <p class="lenstrack-lead reveal delay-2">
+          O LensTrack é a plataforma de gestão de lentes de contato da DeepCare.
+          Construída para clínicas oftalmológicas. Do pedido à entrega,
+          do teste à fidelização — tudo em um único painel.
+        </p>
+
+        <!-- Grid de 6 funcionalidades — 3 colunas desktop, 2 tablet, 1 mobile -->
+        <div class="features-grid">
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="kanban"></i>
+            </div>
+            <h3 class="feature-card__title">Kanban de Pedidos</h3>
+            <p class="feature-card__body">
+              Rastreamento por etapa: solicitado, em adaptação, aprovado, entregue.
+              Visibilidade total do fluxo em tempo real.
+            </p>
+          </article>
+
+          <article class="feature-card reveal delay-3">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="package"></i>
+            </div>
+            <h3 class="feature-card__title">Controle de Estoque</h3>
+            <p class="feature-card__body">
+              Lentes disponíveis, em teste e devolvidas — atualizadas em tempo real,
+              sem planilha e sem achismo.
+            </p>
+          </article>
+
+          <article class="feature-card reveal delay-4">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="message-circle"></i>
+            </div>
+            <h3 class="feature-card__title">Retenção via WhatsApp</h3>
+            <p class="feature-card__body">
+              Régua de comunicação automática disparada conforme o Kanban avança.
+              O paciente certo recebe a mensagem certa na hora certa.
+            </p>
+          </article>
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="dollar-sign"></i>
+            </div>
+            <h3 class="feature-card__title">Controle de Comissões</h3>
+            <p class="feature-card__body">
+              Comissões por venda de lente registradas e auditáveis. Fim do
+              cálculo manual e das disputas de final de mês.
+            </p>
+          </article>
+
+          <article class="feature-card reveal delay-3">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="bot"></i>
+            </div>
+            <h3 class="feature-card__title">IA Conversacional</h3>
+            <p class="feature-card__body">
+              Suporte e usabilidade via inteligência artificial integrada.
+              A equipe tem respostas rápidas; o paciente, atendimento preciso.
+            </p>
+          </article>
+
+          <article class="feature-card reveal delay-4">
+            <div class="feature-card__icon" aria-hidden="true">
+              <i data-lucide="handshake"></i>
+            </div>
+            <h3 class="feature-card__title">Módulo de Parcerias</h3>
+            <p class="feature-card__body">
+              Gestão de relacionamento com fornecedores diretamente na plataforma.
+              A base para o que construímos juntos com a J&amp;J.
+            </p>
+          </article>
+
+        </div>
+
+        <!-- VIDEO_LENSTRACK_PLACEHOLDER -->
+        <div class="video-placeholder reveal" role="img" aria-label="Espaço reservado para demonstração em vídeo do LensTrack">
+          <div class="video-placeholder__inner">
+            <div class="video-placeholder__play" aria-hidden="true">
+              <i data-lucide="play"></i>
+            </div>
+            <p class="video-placeholder__label">Demonstração do LensTrack em funcionamento</p>
+            <p class="video-placeholder__sub">Vídeo em breve</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SEÇÃO 4 — A EXTENSÃO PARA J&J
+         ================================================================ -->
+    <section id="jj" aria-labelledby="jj-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">Parceria J&amp;J</p>
+
+        <h2 id="jj-title" class="reveal delay-1">
+          O LensTrack parametrizado<br>para a J&amp;J —<br>
+          <em>do catálogo de lentes à jornada do paciente.</em>
+        </h2>
+
+        <p class="jj-lead reveal delay-2">
+          O LensTrack pode ser configurado com o catálogo completo de lentes e graduações ACUVUE.
+          A régua de comunicação automática com os pacientes passa a incluir os vídeos oficiais
+          da marca nos momentos certos da adaptação — enviados pelo WhatsApp da própria clínica,
+          quando o paciente mais precisa.
+        </p>
+
+        <!-- 3 blocos de entrega — ícone à esquerda + texto à direita -->
+        <div class="delivery-list">
+
+          <article class="delivery-block reveal delay-2">
+            <div class="delivery-block__icon" aria-hidden="true">
+              <i data-lucide="message-circle"></i>
+            </div>
+            <div>
+              <h3 class="delivery-block__title">Jornada do Paciente Automatizada</h3>
+              <p class="delivery-block__body">
+                Mensagens automáticas via WhatsApp com links dos vídeos oficiais ACUVUE
+                nos momentos certos da adaptação — sem intervenção manual da clínica.
+              </p>
+            </div>
+          </article>
+
+          <article class="delivery-block reveal delay-3">
+            <div class="delivery-block__icon" aria-hidden="true">
+              <i data-lucide="refresh-cw"></i>
+            </div>
+            <div>
+              <h3 class="delivery-block__title">Reposição Inteligente de Testes</h3>
+              <p class="delivery-block__body">
+                Quando a refração do paciente está registrada no sistema, a reposição de lentes
+                de teste e caixas pode ser automatizada — sem perda de venda por falta de estoque.
+              </p>
+            </div>
+          </article>
+
+          <article class="delivery-block reveal delay-4">
+            <div class="delivery-block__icon" aria-hidden="true">
+              <i data-lucide="cpu"></i>
+            </div>
+            <div>
+              <h3 class="delivery-block__title">IA com Catálogo J&amp;J</h3>
+              <p class="delivery-block__body">
+                A inteligência conversacional da plataforma é parametrizada com as lentes e
+                graduações ACUVUE — o sistema conhece o portfólio J&amp;J e orienta clínica
+                e paciente com precisão.
+              </p>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Bloco ESG -->
+        <div class="jj-esg-text reveal">
+          <p class="section-eyebrow" style="color: var(--jj-red);">Além da parceria comercial</p>
+          <h2 class="jj-esg-text__title">Um compromisso<br><em>com o setor.</em></h2>
+          <p class="jj-esg-text__body">
+            Como líder global em saúde ocular, a Johnson &amp; Johnson tem um papel que vai além do produto:
+            <strong>estruturar o ecossistema em que opera</strong>.<br><br>
+            As clínicas oftalmológicas brasileiras ainda gerenciam pedidos em planilhas, perdem pacientes
+            no silêncio da adaptação e operam sem visibilidade de dados. Isso prejudica o paciente,
+            fragiliza o setor e compromete a percepção de valor da categoria como um todo.<br><br>
+            Ao apoiar a adoção do LensTrack nas clínicas parceiras, a J&amp;J assume uma posição de
+            <strong>governança ativa</strong> — levando tecnologia, organização e inteligência de dados
+            a um canal que precisa evoluir. Uma iniciativa com impacto real no cuidado com o paciente
+            e na sustentabilidade do negócio das clínicas.
+          </p>
+          <p class="jj-esg-text__stamp">Isso é ESG aplicado ao canal de saúde.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SEÇÃO 5 — INVESTIMENTO
+         ================================================================ -->
+    <section id="investimento" aria-labelledby="inv-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">Investimento</p>
+
+        <h2 id="inv-title" class="reveal delay-1">
+          Simples e transparente — como deve ser.
+        </h2>
+
+        <p class="inv-lead reveal delay-2">
+          O valor cobre tudo o que é necessário para a solução funcionar de verdade na operação da clínica.
+        </p>
+
+        <!-- Preços -->
+        <div class="pricing-inline reveal delay-2">
+
+          <div class="pricing-inline__item">
+            <p class="pricing-inline__label">Setup único</p>
+            <p class="pricing-inline__value">
+              <span class="currency">R$</span>2.500
+            </p>
+            <p class="pricing-inline__period">por clínica</p>
+          </div>
+
+          <div class="pricing-inline__item">
+            <p class="pricing-inline__label">Mensalidade</p>
+            <p class="pricing-inline__value">
+              <span class="currency">R$</span>590
+            </p>
+            <p class="pricing-inline__period">por clínica / mês · 12 meses</p>
+          </div>
+
+        </div>
+
+        <!-- Bloco de reforço — narrativa do setup como garantia -->
+        <div class="inv-reassurance reveal">
+          <div class="inv-reassurance__icon" aria-hidden="true">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <p class="inv-reassurance__text">
+            <strong>O setup não é instalação — é a DeepCare entrando na operação da clínica.</strong>
+            Configuramos com os produtos reais, integramos o WhatsApp, treinamos a equipe.
+            A solução só vai para produção quando está funcionando de verdade.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SEÇÃO 6 — PRÓXIMOS PASSOS
+         ================================================================ -->
+    <section id="contato" aria-labelledby="contato-title">
+      <div class="container">
+
+        <p class="section-eyebrow reveal">Próximos Passos</p>
+
+        <h2 id="contato-title" class="reveal delay-1">
+          <span class="contato-line1">A DeepCare está pronta.</span><br>
+          <em>O próximo passo é seu.</em>
+        </h2>
+
+        <p class="cta-lead reveal delay-2">
+          Defina o número de clínicas para o piloto e agende o kickoff. A equipe da DeepCare entra em operação assim que o projeto for aprovado.
+        </p>
+
+        <!-- CTAs -->
+        <div class="cta-group reveal delay-3">
+
+          <!-- CTA: e-mail Marcelo -->
+          <a
+            class="cta-email"
+            href="mailto:marcelo@deepcareanalytics.com"
+            aria-label="Enviar e-mail para Marcelo">
+            <i data-lucide="mail"></i>
+            <span class="cta-email__address">marcelo@deepcareanalytics.com</span>
+          </a>
+
+          <!-- CTA: e-mail Ricardo -->
+          <a
+            class="cta-email"
+            href="mailto:ricardo@deepcareanalytics.com"
+            aria-label="Enviar e-mail para Ricardo">
+            <i data-lucide="mail"></i>
+            <span class="cta-email__address">ricardo@deepcareanalytics.com</span>
+          </a>
+
+        </div>
+
+        <!-- Assinatura -->
+        <div class="signature-block reveal">
+          <div class="signature-row">
+            <div class="sig-logo">
+              <span class="sig-logo__name">DeepCare</span>
+              <span class="sig-logo__tag">Analytics</span>
+            </div>
+            <a
+              class="sig-website"
+              href="https://deepcareanalytics.com"
+              target="_blank"
+              rel="noopener noreferrer">
+              deepcareanalytics.com
+            </a>
+          </div>
+          <p class="sig-tagline">
+            Desenvolvido pela DeepCare Analytics · AI First para negócios
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <p>© 2026 DeepCare Analytics. Todos os direitos reservados.</p>
+  </footer>
+
+
+  <!-- ================================================================
+       SCRIPTS
+       ================================================================ -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    /* ── Inicializa ícones Lucide ─────────────────────────────────── */
+    lucide.createIcons();
+
+    /* ── Reveal ao entrar na viewport ────────────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── Scroll spy: destaca item de nav ativo ───────────────────── */
+    const allSections = document.querySelectorAll('section[id]');
+    const navLinks    = document.querySelectorAll('.main-nav a');
+
+    function updateActiveNav() {
+      const scrollY = window.scrollY + Math.min(window.innerHeight * 0.4, 300);
+      let current = '';
+      allSections.forEach(section => {
+        if (section.offsetTop <= scrollY) {
+          current = section.id;
+        }
+      });
+      navLinks.forEach(l => l.classList.remove('is-active'));
+      const active = document.querySelector(`.main-nav a[href="#${current}"]`);
+      if (active) active.classList.add('is-active');
+    }
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+
+    /* ── Mobile nav ───────────────────────────────────────────────── */
+    const burger    = document.getElementById('navBurger');
+    const mobileNav = document.getElementById('mobileNav');
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('is-open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
+    burger.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.toggle('is-open');
+      mobileNav.setAttribute('aria-hidden', String(!isOpen));
+      burger.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    /* Fechar ao clicar fora do drawer */
+    document.addEventListener('click', e => {
+      if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+
+    /* ── Card staggered reveal — Seções 1, 2 e 3 ─────────────────── */
+    const animatedCards = document.querySelectorAll(
+      '#dor .pain-card, #problema .problem-card, #lenstrack .feature-card'
+    );
+
+    animatedCards.forEach((card, i) => {
+      card.classList.add('card-animate');
+      card.classList.remove('reveal');
+      card.style.transform = i % 2 === 0 ? 'translateX(-40px)' : 'translateX(40px)';
+      card.style.transitionDelay = `${(i % 4 + 1) * 100}ms`;
+    });
+
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    animatedCards.forEach(card => cardObserver.observe(card));
+  </script>
+
+</body>
+</html>
