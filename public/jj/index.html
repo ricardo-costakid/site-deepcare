@@ -72,6 +72,15 @@
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
 
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    * {
+      max-width: 100%;
+    }
+
     /* ================================================================
        REVEAL — animação de entrada via Intersection Observer
        ================================================================ */
@@ -1356,6 +1365,37 @@
       #contato { padding-inline: 20px; }
       .timeline-wrap { padding: 28px 16px 32px; }
       .acuvue-video-section { max-width: 100%; }
+
+      .pricing-inline {
+        flex-direction: column;
+        gap: 32px;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .pricing-inline__item {
+        padding: 0 20px;
+        width: 100%;
+      }
+
+      .pricing-inline__item + .pricing-inline__item {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.10);
+        padding-top: 32px;
+      }
+
+      #dor h2 em,
+      #problema h2 em,
+      #lenstrack h2 em,
+      #contato h2 em {
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      .inv-reassurance {
+        width: 100%;
+        max-width: 100%;
+      }
     }
 
   </style>
