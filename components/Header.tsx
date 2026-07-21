@@ -143,6 +143,13 @@ export default function Header() {
                 {label}
               </a>
             ))}
+            <Link
+              href="/entrar"
+              className="text-text-secondary hover:text-text-primary transition-colors py-1"
+              onClick={() => setMenuOpen(false)}
+            >
+              Entrar
+            </Link>
             <a
               href={WA_URL}
               target="_blank"
