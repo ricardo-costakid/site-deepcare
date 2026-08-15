@@ -598,6 +598,9 @@ Em `app/comunidade/page.tsx`, trocar `WEBHOOK_N8N_PLACEHOLDER` pela URL real do 
 Integração Evolution API para notificação WhatsApp ao Ricardo após cada lead.
 **Status:** aguardando configuração no Railway.
 
+### 3. Favicon e sidebar — assinatura AI Native
+deepcare-simbolo-dark.svg, deepcare-simbolo-light.svg (favicon) e deepcare-sidebar-dark.svg, deepcare-sidebar-light.svg ainda não foram avaliados quanto à assinatura "AI First" antiga. Verificar se precisam do mesmo tratamento antes de considerar a identidade visual do site totalmente migrada.
+
 ---
 
 ## Infraestrutura Configurada
@@ -696,3 +699,10 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 - Notificação Ricardo: nome, whatsapp, empresa, desafio, extra, solução
 - Resposta automática ao lead: mensagem personalizada com nome
 - Número do lead precisa de DDI 55 prefixado (implementado no N8N)
+
+### Atualização de identidade — Logos AI Native (15/08/2026)
+
+1. Substituídos deepcare-logo-clara.svg e deepcare-logo-dark.svg pela versão com assinatura "AI Native" (substitui "AI First", remanescente da fase horizontal anterior).
+2. Correção de espaçamento e alinhamento do travessão entre "Analytics" e "AI Native": font-size da tagline reduzido de 13 para 12, travessão reposicionado (x de 119.6 para 122, y de 39-50 para alinhar com a caixa-alta do texto), "AI Native" reancorado em x=182.
+3. Validado visualmente em produção local: Header, Footer e painel esquerdo de /comunidade.
+4. Dois commits: 1796153 (troca inicial) e 17d9a83 (correção de espaçamento).
