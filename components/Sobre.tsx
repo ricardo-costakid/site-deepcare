@@ -55,7 +55,7 @@ export default function Sobre() {
               A DeepCare nasceu para mudar isso.
             </p>
             <p className="text-[16px] text-text-secondary leading-relaxed">
-              Somos uma empresa AI First — inteligência artificial não é um recurso extra, é a base de tudo que construímos. Cada solução é projetada para gerar resultado mensurável: mais lucro, menos custo, mais controle.
+              Somos uma empresa AI Native — a inteligência artificial não é um recurso que usamos, é o próprio mecanismo que entrega o resultado. Tirar a IA da solução não a deixa mais lenta: ela deixa de existir. Cada solução é projetada para gerar resultado mensurável: mais lucro, menos custo, mais controle.
             </p>
             <p className="text-[16px] text-text-secondary leading-relaxed">
               Não vendemos tecnologia por tecnologia. Implementamos IA onde ela faz sentido — com ética, segurança e acompanhamento real.
