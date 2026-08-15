@@ -8,6 +8,6 @@
   <circle cx="24" cy="28" r="2.5" fill="#5B8F7A" opacity="0.45"/>
   <text x="62" y="30" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6" fill="#111111">DeepCare</text>
   <text x="62" y="50" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="13" font-weight="300" letter-spacing="0.5" fill="rgba(0,0,0,0.4)">Analytics</text>
-  <line x1="124" y1="41" x2="124" y2="53" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-  <text x="130" y="50" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="13" font-weight="300" letter-spacing="0.5" fill="#5B8F7A">AI First</text>
+  <line x1="119.6" y1="41" x2="119.6" y2="53" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+  <text x="179" y="50" text-anchor="end" font-family="-apple-system,'Helvetica Neue',Arial,sans-serif" font-size="13" font-weight="300" letter-spacing="0.5" fill="#5B8F7A">AI Native</text>
 </svg>
