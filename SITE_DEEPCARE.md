@@ -700,9 +700,10 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 - Resposta automática ao lead: mensagem personalizada com nome
 - Número do lead precisa de DDI 55 prefixado (implementado no N8N)
 
-### Atualização de identidade — Logos AI Native (15/08/2026)
+### Atualização de identidade — AI First → AI Native (15/08/2026)
 
 1. Substituídos deepcare-logo-clara.svg e deepcare-logo-dark.svg pela versão com assinatura "AI Native" (substitui "AI First", remanescente da fase horizontal anterior).
-2. Correção de espaçamento e alinhamento do travessão entre "Analytics" e "AI Native": font-size da tagline reduzido de 13 para 12, travessão reposicionado (x de 119.6 para 122, y de 39-50 para alinhar com a caixa-alta do texto), "AI Native" reancorado em x=182.
-3. Validado visualmente em produção local: Header, Footer e painel esquerdo de /comunidade.
-4. Dois commits: 1796153 (troca inicial) e 17d9a83 (correção de espaçamento).
+2. Correção de espaçamento e alinhamento do travessão entre "Analytics" e "AI Native" na logo: font-size da tagline reduzido de 13 para 12, travessão reposicionado (x de 119.6 para 122, y de 39-50 alinhado à caixa-alta), "AI Native" reancorado em x=182.
+3. Sobre.tsx: copy da seção "Sobre a DeepCare" atualizado de "Somos uma empresa AI First — inteligência artificial não é um recurso extra, é a base de tudo que construímos" para "Somos uma empresa AI Native — a inteligência artificial não é um recurso que usamos, é o próprio mecanismo que entrega o resultado. Tirar a IA da solução não a deixa mais lenta: ela deixa de existir", alinhado à definição do documento de visão estratégica.
+4. Validado visualmente em produção local (Header, Footer, painel /comunidade, seção Sobre) e em produção após deploy.
+5. Commits: 1796153, 17d9a83 (logos) e o commit da correção de copy do Sobre.tsx — todos com push concluído, já em produção.
