@@ -16,10 +16,12 @@ function escapeHtml(value: string): string {
     .replace(/>/g, '&gt;')
 }
 
+const BELL_EMOJI = String.fromCodePoint(0x1f514)
+
 function buildMessage(lead: LeadPayload): string {
   const { nome, whatsapp, empresa, desafio, extra, solucao } = lead
   return [
-    '<b>🔔 Novo lead — Comunidade DeepCare</b>',
+    `<b>${BELL_EMOJI} Novo lead — Comunidade DeepCare</b>`,
     '',
     `<b>Nome:</b> ${escapeHtml(nome)}`,
     `<b>WhatsApp:</b> ${escapeHtml(whatsapp)}`,
