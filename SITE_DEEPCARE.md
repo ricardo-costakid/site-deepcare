@@ -307,7 +307,10 @@ Scrollbar oculta via `.scrollbar-hide` em `globals.css` (`scrollbar-width: none`
   4. "Entendido. Qual a maior dificuldade que você enfrenta hoje no seu negócio?"
   5. "Obrigado por compartilhar isso. Tem mais alguma coisa que queira contar antes de finalizarmos?" *(campo opcional, permite envio vazio)*
 - **Tela final:** "Recebemos tudo! Em breve entro em contato com você pelo WhatsApp."
-- **Webhook N8N:** POST para `WEBHOOK_N8N_PLACEHOLDER` com payload `{nome, whatsapp, empresa, desafio, extra, solucao}` — `solucao` recebe o parâmetro da URL ou `'Não especificada'`; falha silenciosa (`.catch(() => {})`)
+- **Notificação de lead:** POST para rota interna `/api/notify-lead` (`app/api/notify-lead/route.ts`) com payload `{nome, whatsapp, empresa, desafio, extra, solucao}` — `solucao` recebe o parâmetro da URL ou `'Não especificada'`; falha silenciosa (`.catch(() => {})`)
+  - A rota monta a mensagem (HTML `parse_mode`) e envia via Telegram Bot API (`POST https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage`) para o chat configurado em `TELEGRAM_CHAT_ID`
+  - Variáveis `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID` são server-only (nunca expostas ao client), configuradas em `.env.local` e na Vercel (projeto site-deepcare)
+  - Substitui o webhook N8N (Railway, trial expirado, 20/08) — código do webhook antigo mantido comentado em `page.tsx` como fallback desativado, ver Infraestrutura
 
 ---
 
@@ -585,14 +588,14 @@ Palavras decorativas em seções escuras — `rgba(255,255,255,0.04)`, font-blac
 | DNS | Hostinger (nameservers próprios) |
 | deepcareanalytics.com | → redireciona 307 para www (Valid Configuration) |
 | www.deepcareanalytics.com | → Production (Valid Configuration) |
-| Variável de ambiente | `WEBHOOK_N8N_URL` (valor placeholder) |
+| Variáveis de ambiente | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (ativas); `WEBHOOK_N8N_URL` (legado, webhook desativado) |
 
 ---
 
 ## Pendências — Próximas Implementações
 
-### 1. Webhook N8N — substituir placeholder
-Em `app/comunidade/page.tsx`, trocar `WEBHOOK_N8N_PLACEHOLDER` pela URL real do webhook N8N.
+### 1. ~~Webhook N8N — substituir placeholder~~ ✅ resolvido (20/08)
+Superado: leads de `/comunidade` agora notificam via Telegram Bot API (`/api/notify-lead`), não mais via N8N. Ver Rota /comunidade e Infraestrutura Configurada.
 
 ### 2. Página /comunidade — Etapa 2
 Integração Evolution API para notificação WhatsApp ao Ricardo após cada lead.
@@ -609,8 +612,12 @@ deepcare-simbolo-dark.svg, deepcare-simbolo-light.svg (favicon) e deepcare-sideb
 |---|---|---|
 | Site principal | deepcareanalytics.com | ✅ Vercel (projeto site-deepcare) |
 | Painel de clientes | app.deepcareanalytics.com | ✅ Vercel (projeto deepcare-v2) |
+| Notificação leads /comunidade | Telegram Bot API (`@deepcare_leads_bot`), via rota interna `/api/notify-lead` | ✅ ativo (20/08) |
+| Webhook leads /comunidade (antigo) | n8n-production-23c9.up.railway.app/webhook/leads-comunidade | ⚠️ desativado — Railway trial expirado, substituído por Telegram Bot API em 20/08, ver histórico |
 
 Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/login ✅
+
+**Nota (20/08):** a reestruturação da Hero/LuxMockup (trabalho de 16-20/08 — `Hero.tsx`, `LuxMockup.tsx`, `Tese.tsx`, `Header.tsx`, `ComoFunciona.tsx`) está commitada e preservada na branch `feature/hero-redesign`, ainda **não mesclada em `main`** — incompleta, aguardando retomada.
 
 ---
 
@@ -637,7 +644,7 @@ Botão "Entrar" no Header.tsx aponta para https://app.deepcareanalytics.com/logi
 | Rodapé card | "Saiba mais →" + "WhatsApp" com border-t | CTA duplo sem poluir o corpo do card |
 | Parâmetro solucao | useSearchParams em /comunidade | Personaliza primeira mensagem do chat conforme origem (card ou direto) |
 | globals.css | CSS custom de cards removido (card-glow-wrapper, card-glow-inner, card-border-glow, border-spin) | Substituído por solução Framer Motion + Tailwind pura |
-| Webhook leads | N8N (placeholder) | Flexível, sem backend próprio |
+| Notificação leads /comunidade | Telegram Bot API via rota interna `/api/notify-lead` (20/08) | N8N/Railway desativado (trial expirado); Telegram é imediato e sem dependência de infra externa |
 | /saude blocos vídeo | Coluna única (header → vídeo → grid 2 cols) | Vídeos fullwidth são mais impactantes que layout ProductBlock 30/70 |
 | Pílula dados fictícios | Presente em todos os blocos exceto BID Intro | BID Intro mostra tela de login sem dados reais; demais blocos contêm KPIs ilustrativos |
 | CTAs secundários (ghost) | `text-[#DA7756]` sem borda/fundo (06-07) | Laranja #DA7756 cria contraste sem peso visual de botão; verde reservado para CTAs primários |
