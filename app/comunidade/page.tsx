@@ -7,7 +7,9 @@ import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
-const WEBHOOK_URL = 'https://n8n-production-23c9.up.railway.app/webhook/leads-comunidade'
+const NOTIFY_LEAD_URL = '/api/notify-lead'
+// Fallback desativado — webhook N8N (Railway, trial expirado). Ver histórico em SITE_DEEPCARE.md.
+// const WEBHOOK_URL = 'https://n8n-production-23c9.up.railway.app/webhook/leads-comunidade'
 
 type Message = {
   id: number
@@ -114,7 +116,7 @@ function ComunidadePageContent() {
     setShowInput(false)
 
     if (isLastStep) {
-      fetch(WEBHOOK_URL, {
+      fetch(NOTIFY_LEAD_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...newAnswers, solucao: solucao || 'Não especificada' }),
